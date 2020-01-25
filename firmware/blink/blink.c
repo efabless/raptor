@@ -7,18 +7,18 @@
 // Copy the flash worker function to SRAM so that the SPI can be
 // managed without having to read program instructions from it.
 
-void flashio(uint32_t *data, int len, uint8_t wrencmd)
-{
-	uint32_t func[&flashio_worker_end - &flashio_worker_begin];
-
-	uint32_t *src_ptr = &flashio_worker_begin;
-	uint32_t *dst_ptr = func;
-
-	while (src_ptr != &flashio_worker_end)
-		*(dst_ptr++) = *(src_ptr++);
-
-	((void(*)(uint32_t*, uint32_t, uint32_t))func)(data, len, wrencmd);
-}
+//void flashio(uint32_t *data, int len, uint8_t wrencmd)
+//{
+//	uint32_t func[&flashio_worker_end - &flashio_worker_begin];
+//
+//	uint32_t *src_ptr = &flashio_worker_begin;
+//	uint32_t *dst_ptr = func;
+//
+//	while (src_ptr != &flashio_worker_end)
+//		*(dst_ptr++) = *(src_ptr++);
+//
+//	((void(*)(uint32_t*, uint32_t, uint32_t))func)(data, len, wrencmd);
+//}
 
 //--------------------------------------------------------------
 // NOTE: Volatile write *only* works with command 01, making the
