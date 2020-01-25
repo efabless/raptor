@@ -10,8 +10,8 @@
 // know that because "sram" is a linker symbol from sections.lds.
 extern uint32_t sram;
 
-extern uint32_t flashio_worker_begin;
-extern uint32_t flashio_worker_end;
+//extern uint32_t flashio_worker_begin;
+//extern uint32_t flashio_worker_end;
 
 // Mermory map definitions
 
