@@ -31,7 +31,7 @@ $(OBJECTS): %.o : %.c
 %.hex : $(OBJECTS)
 	$(ARMGNU)-as $(AOPS) -mcpu=cortex-m0 -o ../sw/start.o ../sw/cm0_startup.s
 	$(COMPILE) $(GCCOPS) -o blink.o blink.c
-	$(ARMGNU)-ld $(LDOPS) -T $(LINKSCRIPT) ../sw/start.o ../sw/test_suite.o $(OBJECTS) -o blink.elf
+	$(ARMGNU)-ld $(LDOPS) -T $(LINKSCRIPT) ../sw/start.o blink.o $(OBJECTS) -o blink.elf
 	$(ARMGNU)-objdump -D blink.elf > blink.lst
 	$(ARMGNU)-objcopy blink.elf -O verilog blink.hex
 
