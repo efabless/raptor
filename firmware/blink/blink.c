@@ -29,13 +29,13 @@
 // (NOTE: Also sets quad mode flag, so run this before entering quad mode)
 //--------------------------------------------------------------
 
-void set_flash_latency(uint8_t value)
-{
-	reg_spictrl = (reg_spictrl & ~0x007f0000) | ((value & 15) << 16);
-
-	uint32_t buffer_wr[2] = {0x01000260, ((0x70 | value) << 24)};
-	flashio(buffer_wr, 5, 0x50);
-}
+//void set_flash_latency(uint8_t value)
+//{
+//	reg_spictrl = (reg_spictrl & ~0x007f0000) | ((value & 15) << 16);
+//
+//	uint32_t buffer_wr[2] = {0x01000260, ((0x70 | value) << 24)};
+//	flashio(buffer_wr, 5, 0x50);
+//}
 
 //--------------------------------------------------------------
 
@@ -105,29 +105,29 @@ void print_dec(uint32_t v)
 
 // ----------------------------------------------------------------------
 
-void cmd_read_flash_regs_print(uint32_t addr, const char *name)
-{
-    uint32_t buffer[2] = {0x65000000 | addr, 0x0};
-    flashio(buffer, 6, 0);
-
-    print("0x");
-    print_hex(addr, 6);
-    print(" ");
-    print(name);
-    print(" 0x");
-    print_hex(buffer[1], 2);
-    print("  ");
-}
+//void cmd_read_flash_regs_print(uint32_t addr, const char *name)
+//{
+//    uint32_t buffer[2] = {0x65000000 | addr, 0x0};
+//    flashio(buffer, 6, 0);
+//
+//    print("0x");
+//    print_hex(addr, 6);
+//    print(" ");
+//    print(name);
+//    print(" 0x");
+//    print_hex(buffer[1], 2);
+//    print("  ");
+//}
 
 // ----------------------------------------------------------------------
 
-void cmd_read_flash_regs()
-{
-    cmd_read_flash_regs_print(0x800000, "SR1V");
-    cmd_read_flash_regs_print(0x800002, "CR1V");
-    cmd_read_flash_regs_print(0x800003, "CR2V");
-    cmd_read_flash_regs_print(0x800004, "CR3V");
-}
+//void cmd_read_flash_regs()
+//{
+//    cmd_read_flash_regs_print(0x800000, "SR1V");
+//    cmd_read_flash_regs_print(0x800002, "CR1V");
+//    cmd_read_flash_regs_print(0x800003, "CR2V");
+//    cmd_read_flash_regs_print(0x800004, "CR3V");
+//}
     
 
 // ----------------------------------------------------------------------
@@ -157,7 +157,7 @@ void main()
 	/* the behavioral verilog for the SPI flash does not support	*/
 	/* the configuration register read/write functions.		*/
 
-	set_flash_latency(8);
+//	set_flash_latency(8);
 
 	// Start in standard (1x speed) mode
 
@@ -167,8 +167,8 @@ void main()
 	m = 1;
 
 	// Enable GPIO (all output, ena = 0)
-	reg_gpio_ena = 0x0000;
-	reg_gpio_data = 0x1111;
+	gpio_set_dir(0x0000);
+	gpio_write(0x1111);
 
 	// NOTE: Crystal on testboard running at 12.5MHz
 	// Internal clock is 8x crystal, or 100MHz
@@ -176,110 +176,20 @@ void main()
 	// So at this crystal rate, use clkdiv = 10417 for 9600 baud.
 
 	// Set UART clock to 9600 baud
-    #ifdef RAVEN2_BOARD
-        reg_uart_clkdiv = 8333;
-    #else
-        reg_uart_clkdiv = 10417;
-    #endif
+//    #ifdef RAVEN2_BOARD
+//        reg_uart_clkdiv = 8333;
+//    #else
+//        reg_uart_clkdiv = 10417;
+//    #endif
 
-	// Need boot-up time for the display;  give it 2 seconds
-	for (j = 0; j < 350000 * m; j++);
-
-	// This should appear on the LCD display 4x20 characters.
-        print("PicoRV32 RISC       ");
-	reg_gpio_data = 0x2222;
-	for (j = 0; j < 50000 * m; j++);
-//    print("Clifford Wolf       ");
-	reg_gpio_data = 0x4444;
-	for (j = 0; j < 50000 * m; j++);
-//    print("Raven PicoSoc       ");
-	reg_gpio_data = 0x8888;
-	for (j = 0; j < 50000 * m; j++);
-//    print("Tim Edwards/efabless");
-
-	// Follow this with an LED pattern
-	reg_gpio_ena = 0x0000;		// 1 = input, 0 = output
-
-	// Delay 1 second, print registers, delay another second
-	for (j = 0; j < 170000 * m; j++);
-//	cmd_read_flash_regs();
-	for (j = 0; j < 170000 * m; j++);
-
-	while (1) {
-	    // Increment the DAC every full cycle
-	    dacval += 5;
-	    dacval &= 1023;
-//	    reg_dac_data = dacval;
-
-	    // Update LEDs
-	    r = m >> 1;
-	    while (1) {
-	        reg_gpio_data = 0x0001;
-	        for (i = 0; i < 16; i++) {
-		    reg_gpio_data <<= 1;
-		    for (j = 0; j < 17000; j++);
-	        }
-	
-	        reg_gpio_data = 0x8000;
-	        for (i = 0; i < 16; i++) {
-		    reg_gpio_data >>= 1;
-		    for (j = 0; j < 17000; j++);
-		}
-		r >>= 1;
-		if (r == 0) break;
-	    }
-
-	    // Update LEDs.  Run longer in quad and ddr modes.
-	    r = m >> 1;
-	    while (1) {
-	    	reg_gpio_data = 0x0101;
-	    	for (i = 0; i < 16; i++) {
-		    reg_gpio_data <<= 1;
-		    if (reg_gpio_data == 0x0100) reg_gpio_data = 0x0101;
-		    for (j = 0; j < 17000; j++);
-	        }
-	        reg_gpio_data = 0x8080;
-	        for (i = 0; i < 16; i++) {
-		    reg_gpio_data >>= 1;
-		    if (reg_gpio_data == 0x0080) reg_gpio_data = 0x8080;
-		    for (j = 0; j < 17000; j++);
-	        }
-		r >>= 1;
-		if (r == 0) break;
-	    }
-
-//	    mode++;
-
-	    // Enable fast quad DDR access on the SPI flash (8 dummy cycles)
-	    // NOTE: QSPI modes only work if enabled in the flash's config register 
-            // (set config register 1 to value 2.  This is done in set_flash_latency())
-
-//	    if (mode == 5) {
-//		print("mode = DSPI spd = 2x");
-//		reg_spictrl = 0x80480000;	// DSPI (DDR bit only)
-//		m = 2;
-//	    }
-//	    else if (mode == 15) {
-//		print("mode = DSPI + CRM   ");
-//		reg_spictrl = 0x80580000;	// DSPI + CRM
-//		m = 2;
-//	    }
-//	    else if (mode == 20) {
-//		print("mode = Latency 4    ");
-//		set_flash_latency(4);
-//		reg_spictrl = 0x80540000;	// DSPI + CRM + latency
-//		m = 2;
-//	    }
-//	    else if (mode == 25) {
-//		print("mode = Single       ");
-//		set_flash_latency(8);
-//		reg_spictrl = 0x80080000;	// Standard 1x speed mode
-//		m = 1;
-//	    }
-//	    else if (mode == 30) {
-//		cmd_read_flash_regs();
-//		mode = 0;
-//	    }
-	}
+    while (1) {
+        for (j = 0; j < 350000 * m; j++);
+        gpio_write(0x2222);
+        for (j = 0; j < 50000 * m; j++);
+        gpio_write(0x4444);
+        for (j = 0; j < 50000 * m; j++);
+        gpio_write(0x8888);
+        for (j = 0; j < 50000 * m; j++);
+    }
 }
 
