@@ -189,27 +189,27 @@ void main()
         print("PicoRV32 RISC       ");
 	reg_gpio_data = 0x2222;
 	for (j = 0; j < 50000 * m; j++);
-        print("Clifford Wolf       ");
+//    print("Clifford Wolf       ");
 	reg_gpio_data = 0x4444;
 	for (j = 0; j < 50000 * m; j++);
-        print("Raven PicoSoc       ");
+//    print("Raven PicoSoc       ");
 	reg_gpio_data = 0x8888;
 	for (j = 0; j < 50000 * m; j++);
-        print("Tim Edwards/efabless");
+//    print("Tim Edwards/efabless");
 
 	// Follow this with an LED pattern
 	reg_gpio_ena = 0x0000;		// 1 = input, 0 = output
 
 	// Delay 1 second, print registers, delay another second
 	for (j = 0; j < 170000 * m; j++);
-	cmd_read_flash_regs();
+//	cmd_read_flash_regs();
 	for (j = 0; j < 170000 * m; j++);
 
 	while (1) {
 	    // Increment the DAC every full cycle
 	    dacval += 5;
 	    dacval &= 1023;
-	    reg_dac_data = dacval;
+//	    reg_dac_data = dacval;
 
 	    // Update LEDs
 	    r = m >> 1;
@@ -228,21 +228,6 @@ void main()
 		r >>= 1;
 		if (r == 0) break;
 	    }
-
-	    // Perform an ADC0 conversion every full cycle
-	    reg_adc0_convert = 1;
-	    for (i = 0; i < 100 * m; i++);
-	    reg_adc0_convert = 0;
-	    while (1) {
-		if (reg_adc0_done != 0) break;	/* Wait for EOC */
-	    }
-
-	    // Print ADC0 output in decimal
-	    print("ADC0 In=");
-	    print_dec(dacval);
-	    print("Out=");
-	    adcval = reg_adc0_data;
-	    print_dec(adcval);
 
 	    // Update LEDs.  Run longer in quad and ddr modes.
 	    r = m >> 1;
@@ -263,54 +248,38 @@ void main()
 		if (r == 0) break;
 	    }
 
-	    // Perform an ADC1 conversion every full cycle
-	    reg_adc1_convert = 1;
-	    for (i = 0; i < 100 * m; i++);
-	    reg_adc1_convert = 0;
-	    while (1) {
-		if (reg_adc1_done != 0) break;	/* Wait for EOC */
-	    }
-
-	    // Prepare binary string for printing
-	    print("ADC1: ");
-	    adcval = reg_adc1_data;
-	    print_dec(adcval);
-	    print("          ");
-
-	    // Bump up speed factor.
-
-	    mode++;
+//	    mode++;
 
 	    // Enable fast quad DDR access on the SPI flash (8 dummy cycles)
 	    // NOTE: QSPI modes only work if enabled in the flash's config register 
             // (set config register 1 to value 2.  This is done in set_flash_latency())
 
-	    if (mode == 5) {
-		print("mode = DSPI spd = 2x");
-		reg_spictrl = 0x80480000;	// DSPI (DDR bit only)
-		m = 2;
-	    }
-	    else if (mode == 15) {
-		print("mode = DSPI + CRM   ");
-		reg_spictrl = 0x80580000;	// DSPI + CRM
-		m = 2;
-	    }
-	    else if (mode == 20) {
-		print("mode = Latency 4    ");
-		set_flash_latency(4);
-		reg_spictrl = 0x80540000;	// DSPI + CRM + latency
-		m = 2;
-	    }
-	    else if (mode == 25) {
-		print("mode = Single       ");
-		set_flash_latency(8);
-		reg_spictrl = 0x80080000;	// Standard 1x speed mode
-		m = 1;
-	    }
-	    else if (mode == 30) {
-		cmd_read_flash_regs();
-		mode = 0;
-	    }
+//	    if (mode == 5) {
+//		print("mode = DSPI spd = 2x");
+//		reg_spictrl = 0x80480000;	// DSPI (DDR bit only)
+//		m = 2;
+//	    }
+//	    else if (mode == 15) {
+//		print("mode = DSPI + CRM   ");
+//		reg_spictrl = 0x80580000;	// DSPI + CRM
+//		m = 2;
+//	    }
+//	    else if (mode == 20) {
+//		print("mode = Latency 4    ");
+//		set_flash_latency(4);
+//		reg_spictrl = 0x80540000;	// DSPI + CRM + latency
+//		m = 2;
+//	    }
+//	    else if (mode == 25) {
+//		print("mode = Single       ");
+//		set_flash_latency(8);
+//		reg_spictrl = 0x80080000;	// Standard 1x speed mode
+//		m = 1;
+//	    }
+//	    else if (mode == 30) {
+//		cmd_read_flash_regs();
+//		mode = 0;
+//	    }
 	}
 }
 

@@ -6,6 +6,18 @@
 #include <stdint.h>
 #include <stdbool.h>
 
+#include "sw/dbgio_drv.h"
+#include "sw/adc_drv.h"
+#include "sw/dac_drv.h"
+#include "sw/bg_drv.h"
+#include "sw/gpio_drv.h"
+#include "sw/23lc512_drv.h"
+#include "sw/i2c_drv.h"
+#include "sw/tmr_drv.h"
+#include "sw/pwm_drv.h"
+#include "sw/cmp_drv.h"
+#include "sw/clkctrl_regs.h"
+
 // a pointer to this is a null pointer, but the compiler does not
 // know that because "sram" is a linker symbol from sections.lds.
 extern uint32_t sram;
