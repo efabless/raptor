@@ -118,8 +118,8 @@ proc ftdi::powerup {device} {
 
 # Open the device
 
-setid 24592 1027
-set raven [opendev B]
+setid 24577 1027
+set raven [opendev A]
 spi_bitbang $raven {{CSB 3} {SDO 2} {SDI 1} {SCK 0} {USR0 4} {USR1 5} {USR2 6} {USR3 7}}
 bitbang_word $raven 8
 spi_speed $raven 1.0
