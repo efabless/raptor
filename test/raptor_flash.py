@@ -10,7 +10,7 @@ spi.configure('ftdi://::/1')
 slave = spi.get_port(cs=0, freq=12E6, mode=0)  # Chip select is 0 -- corresponds to D3
 
 jedec_id = slave.exchange([0x9f], 3)
-print("JEDEC = " + binascii.hexlify(jedec_id))
+print("JEDEC = %s", binascii.hexlify(jedec_id))
 
 slave.write(0x06)
 slave.write(0x60)
