@@ -8,7 +8,7 @@ spi = SpiController(cs_count=1, turbo=True)
 spi.configure('ftdi://::/1')
 slave = spi.get_port(cs=0, freq=12E6, mode=0)  # Chip select is 0 -- corresponds to D3
 jedec_id = slave.exchange([0x9f], 3)
-print(jedec_id)
+print(jedec_id.decode())
 spi.terminate()
 
 # acbus_direction = 0x01 # Bit C0 is output for reset
