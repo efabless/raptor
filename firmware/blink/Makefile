@@ -21,6 +21,8 @@ all:  ${PATTERN:=.vcd}
 
 hex:  ${PATTERN:=.hex}
 
+bin:  ${PATTERN:=.bin}
+
 .PHONY: clean
 
 $(OBJECTS): %.o : %.c

@@ -502,8 +502,8 @@ proc ftdi::erase_flash {device} {
     spi_write $device 4 {}
 }
 
-setid 24577 1027
-set flash [opendev -invert A]
+setid 24596 1027
+catch {set flash [opendev -invert A]}
 spi_bitbang $flash {{CSB 3} {SDO 2} {SDI 1} {SCK 0} {USR0 4} {USR1 5} {USR2 6} {USR3 7}}
 bitbang_word $flash 8
 spi_speed $flash 1.0
