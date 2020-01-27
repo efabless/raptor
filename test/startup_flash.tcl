@@ -13,15 +13,15 @@ proc ftdi::flash_check {device} {
     set product_id [lindex $flash_id 1]
     set feature_id [lindex $flash_id 2]
 
-    if {$vendor_id != 1} {
+    if {$vendor_id != 239} {
         puts stderr "Error:  Received vendor ID of $vendor_id, expecting 1"
     }
 
-    if {$product_id != 96} {
+    if {$product_id != 64} {
 	puts stderr "Error:  Received product ID of $product_id, expecting 96"
     }
 
-    if {$feature_id != 24} {
+    if {$feature_id != 22} {
         puts stderr "Error:  Received feature ID of $feature_id, expecting 24"
     }
 
