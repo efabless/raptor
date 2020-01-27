@@ -1,12 +1,9 @@
 from pyftdi.ftdi import Ftdi
 
-dev = Ftdi.open_from_url('ftdi://ftdi:232h:2:5/1')
-mdev = Ftdi.open_mpsse_from_url('ftdi://ftdi:232h:2:5/1')
+Ftdi().open_mpsee_from_url('ftdi://ftdi:232h:2:6/1')
+print(Ftdi().ic_name())
+print(Ftdi().device_version())
+print(Ftdi().has_mpsse())
+print(Ftdi().is_mpsse())
 
-print(mdev.ic_name())
-print(mdev.device_version())
-print(mdev.has_mpsse())
-print(mdev.is_mpsse())
-
-dev.close()
-mdev.close()
+Ftdi().close()
