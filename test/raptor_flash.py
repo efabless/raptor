@@ -105,12 +105,11 @@ i = 0
 with open(file_path, mode='r') as f:
     while x != '':
         x = f.readline()
-        print(x)
         if x[0] == '@':
             addr = int(x[1:])
             print('setting address to {}'.format(addr))
         else:
-            values = bytearray.fromhex(x.split())
+            values = bytes.fromhex(x)
             buf += values
             print(values)
 
