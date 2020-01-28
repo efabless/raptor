@@ -112,7 +112,7 @@ with open(file_path, mode='r') as f:
             print(x)
             values = bytes.fromhex(x[0:47])
             buf += values
-            print(values)
+            print(binascii.hexlify(values))
 
 spi.terminate()
 
