@@ -112,7 +112,7 @@ with open(file_path, mode='r') as f:
     while x != '':
         if x[0] == '@':
             addr = int(x[1:])
-            print('setting address to {}'.format(addr))
+            print('setting address to {}'.format(addr, '02x'))
         else:
             # print(x)
             values = bytearray.fromhex(x[0:len(x)-1])
@@ -124,9 +124,9 @@ with open(file_path, mode='r') as f:
 
         if nbytes >= 256:
             total_bytes += nbytes
-            print('\n----------------------\n')
+            # print('\n----------------------\n')
             # print(binascii.hexlify(buf))
-            print("\ntotal_bytes = {}".format(total_bytes))
+            # print("\ntotal_bytes = {}".format(total_bytes))
 
             slave.write([CMD_WRITE_ENABLE])
             wcmd = bytearray((CMD_PROGRAM_PAGE,(addr >> 16) & 0xff, (addr >> 8) & 0xff, addr & 0xff))
@@ -137,7 +137,7 @@ with open(file_path, mode='r') as f:
             while (is_busy(slave)):
                 time.sleep(0.1)
 
-            print("flash page write successful")
+            print("addr 0x{}: flash page write successful".format(addr,'06x'))
 
             if nbytes > 256:
                 buf = buf[255:]
@@ -151,9 +151,9 @@ with open(file_path, mode='r') as f:
 
     if nbytes > 0:
         total_bytes += nbytes
-        print('\n----------------------\n')
-        print(binascii.hexlify(buf))
-        print("\nnbytes = {}".format(nbytes))
+        # print('\n----------------------\n')
+        # print(binascii.hexlify(buf))
+        # print("\nnbytes = {}".format(nbytes))
 
         slave.write([CMD_WRITE_ENABLE])
         wcmd = bytearray((CMD_PROGRAM_PAGE, (addr >> 16) & 0xff, (addr >> 8) & 0xff, addr & 0xff))
@@ -162,7 +162,7 @@ with open(file_path, mode='r') as f:
         while (is_busy(slave)):
             time.sleep(0.1)
 
-        print("flash page write successful")
+        print("addr 0x{}: flash page write successful".format(addr, '06x'))
 
 print("\ntotal_bytes = {}".format(total_bytes))
 
@@ -185,7 +185,7 @@ with open(file_path, mode='r') as f:
     while x != '':
         if x[0] == '@':
             addr = int(x[1:])
-            print('setting address to {}'.format(addr))
+            print('setting address to {}'.format(addr, '02x'))
         else:
             # print(x)
             values = bytearray.fromhex(x[0:len(x)-1])
@@ -197,17 +197,17 @@ with open(file_path, mode='r') as f:
 
         if nbytes >= 256:
             total_bytes += nbytes
-            print('\n----------------------\n')
+            # print('\n----------------------\n')
             # print(binascii.hexlify(buf))
-            print("\ntotal_bytes = {}".format(total_bytes))
+            # print("\ntotal_bytes = {}".format(total_bytes))
 
             read_cmd = bytearray((CMD_READ_LO_SPEED,(addr >> 16) & 0xff, (addr >> 8) & 0xff, addr & 0xff))
             print(binascii.hexlify(read_cmd))
             buf2 = slave.exchange(read_cmd, nbytes)
             if buf == buf2:
-                print("read compare successful")
+                print("addr 0x{}: read compare successful".format(addr, '06x'))
             else:
-                print("*** read compare FAILED ***")
+                print("addr 0x{}: *** read compare FAILED ***".format(addr, '06x'))
                 print(binascii.hexlify(buf))
                 print("<----->")
                 print(binascii.hexlify(buf2))
@@ -224,17 +224,17 @@ with open(file_path, mode='r') as f:
 
     if nbytes > 0:
         total_bytes += nbytes
-        print('\n----------------------\n')
-        print(binascii.hexlify(buf))
-        print("\nnbytes = {}".format(nbytes))
+        # print('\n----------------------\n')
+        # print(binascii.hexlify(buf))
+        # print("\nnbytes = {}".format(nbytes))
 
         read_cmd = bytearray((CMD_READ_LO_SPEED, (addr >> 16) & 0xff, (addr >> 8) & 0xff, addr & 0xff))
         print(binascii.hexlify(read_cmd))
         buf2 = slave.exchange(read_cmd, nbytes)
         if buf == buf2:
-            print("read compare successful")
+            print("addr 0x{}: read compare successful".format(addr, '06x'))
         else:
-            print("*** read compare FAILED ***")
+            print("addr 0x{}: *** read compare FAILED ***".format(addr, '06x'))
             print(binascii.hexlify(buf))
             print("<----->")
             print(binascii.hexlify(buf2))
