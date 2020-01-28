@@ -1,5 +1,6 @@
 from pyftdi.ftdi import Ftdi
 import time
+import sys
 from pyftdi.spi import SpiController
 from array import array as Array
 import binascii
@@ -61,6 +62,10 @@ def is_busy(device):
     return get_status(device) & SR_WIP
 
 
+if len(sys.argv) < 2:
+    print("Usage: raptor_flash.py <file>")
+    sys.exit()
+
 spi = SpiController(cs_count=1, turbo=True)
 # spi.configure(vendor=0x0403, product=0x6014, interface=1)
 spi.configure('ftdi://::/1')
@@ -69,19 +74,24 @@ slave = spi.get_port(cs=0, freq=12E6, mode=0)  # Chip select is 0 -- corresponds
 slave.write([CMD_RESET_CHIP])
 
 jedec_id = slave.exchange([CMD_JEDEC_DATA], 3)
-print("JEDEC = 0x{}".format(jedec_id, '06x'))
+print("JEDEC = 0x{}".format(binascii.hexlify(jedec_id)))
+
+if int.from_bytes(jedec_id[0]) != 0xef:
+    print("Winbond SRAM not found")
+    sys.exit()
 
 print("status = 0x{}".format(get_status(slave), '02x'))
 
+print("Erasing chip...")
 slave.write([CMD_WRITE_ENABLE])
 slave.write([CMD_ERASE_CHIP])
-
-print("status = 0x{}".format(get_status(slave), '02x'))
 
 while (is_busy(slave)):
     time.sleep(1)
 
+print("done")
 print("status = 0x{}".format(get_status(slave), '02x'))
+
 
 spi.terminate()
 
