@@ -98,11 +98,11 @@ while (is_busy(slave)):
 print("done")
 print("status = 0x{}".format(get_status(slave), '02x'))
 
-with open(file_path, mode='rb') as f:
-    x = f.read(1)
+with open(file_path, mode='r') as f:
+    x = f.readline()
     print(x)
-    while x != b'':
-        x = f.read(1)
+    while x != '':
+        x = f.readline()
         print(x)
 
 spi.terminate()
