@@ -14,7 +14,8 @@ OBJECTS = $(patsubst %.c,%.o,$(SOURCES))
 STARTUP := $(SRC_PREFIX)/cm0_startup.s
 STARTUP_OBJECT := $(SRC_PREFIX)/start.o
 
-LINKSCRIPT := $(SRC_PREFIX)/memmap_qspi.ld
+# LINKSCRIPT := $(SRC_PREFIX)/memmap_qspi.ld
+LINKSCRIPT := memmap_qspi.ld
 # LINKSCRIPT := sections.lds
 
 PATTERN = blink
