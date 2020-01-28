@@ -54,7 +54,7 @@ TIMINGS = {'page': (0.0015, 0.003),  # 1.5/3 ms
 
 
 def get_status(device):
-    return int.from_bytes(device.exchange([CMD_READ_STATUS],1))
+    return int.from_bytes(device.exchange([CMD_READ_STATUS],1), byteorder='big')
 
 
 def is_busy(device):
