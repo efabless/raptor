@@ -103,8 +103,8 @@ x = 'junk'
 i = 0
 
 with open(file_path, mode='r') as f:
+    x = f.readline()
     while x != '':
-        x = f.readline()
         if x[0] == '@':
             addr = int(x[1:])
             print('setting address to {}'.format(addr))
@@ -113,6 +113,7 @@ with open(file_path, mode='r') as f:
             values = bytes.fromhex(x[0:len(x)-1])
             buf += values
             print(binascii.hexlify(values))
+        x = f.readline()
 
 spi.terminate()
 
