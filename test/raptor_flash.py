@@ -110,7 +110,7 @@ with open(file_path, mode='r') as f:
             print('setting address to {}'.format(addr))
         else:
             print(x)
-            values = bytes.fromhex(x[0:47])
+            values = bytes.fromhex(x[0:len(x)-1])
             buf += values
             print(binascii.hexlify(values))
 
