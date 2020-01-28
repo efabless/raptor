@@ -103,6 +103,7 @@ x = 'junk'
 i = 0
 addr = 0
 nbytes = 0
+total_bytes = 0
 
 with open(file_path, mode='r') as f:
     x = f.readline()
@@ -117,9 +118,21 @@ with open(file_path, mode='r') as f:
             nbytes += len(values)
             print(binascii.hexlify(values))
         x = f.readline()
-print('\n----------------------\n')
-print(binascii.hexlify(buf))
-print("\nnbytes = {}".format(nbytes))
+
+        if nbytes >= 256:
+            total_bytes += nbytes
+            print('\n----------------------\n')
+            print(binascii.hexlify(buf))
+            print("\ntotal_bytes = {}".format(total_bytes))
+            buf = bytearray()
+            nbytes = 0
+
+    if nbytes > 0:
+        total_bytes += nbytes
+        print('\n----------------------\n')
+        print(binascii.hexlify(buf))
+        print("\nnbytes = {}".format(nbytes))
+        print("\ntotal_bytes = {}".format(total_bytes))
 
 spi.terminate()
 
