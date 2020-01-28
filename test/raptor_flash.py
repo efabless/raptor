@@ -31,6 +31,7 @@ CMD_ERASE_HSECTOR = 0x52
 CMD_ERASE_SECTOR = 0xD8
 # CMD_ERASE_CHIP = 0xC7
 CMD_ERASE_CHIP = 0x60
+CMD_RESET_CHIP = 0x99
 
 JEDEC_ID = 0xEF
 DEVICES = {0x30: 'W25X', 0x40: 'W25Q'}
@@ -58,7 +59,7 @@ slave = spi.get_port(cs=0, freq=12E6, mode=0)  # Chip select is 0 -- corresponds
 jedec_id = slave.exchange([0x9f], 3)
 print("JEDEC = {}".format(binascii.hexlify(jedec_id)))
 
-status = slave.exchange(bytes(CMD_READ_STATUS),1)
+status = slave.exchange([CMD_READ_STATUS],1)
 print("status = {}".format(binascii.hexlify(status)))
 
 slave.write(bytes(CMD_WRITE_ENABLE))
