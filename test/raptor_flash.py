@@ -103,8 +103,6 @@ print("done")
 print("status = 0x{}".format(get_status(slave), '02x'))
 
 buf = bytearray()
-x = 'junk'
-i = 0
 addr = 0
 nbytes = 0
 total_bytes = 0
@@ -169,6 +167,12 @@ print("\ntotal_bytes = {}".format(total_bytes))
 print("************************************")
 print("verifying...")
 print("************************************")
+
+buf = bytearray()
+addr = 0
+nbytes = 0
+total_bytes = 0
+
 while (is_busy(slave)):
     time.sleep(0.5)
 
