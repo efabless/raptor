@@ -79,12 +79,11 @@ slave = spi.get_port(cs=0, freq=12E6, mode=0)  # Chip select is 0 -- corresponds
 
 slave.write([CMD_RESET_CHIP])
 
-jedec_id = slave.exchange([CMD_JEDEC_DATA], 3)
-print("JEDEC = {}".format(binascii.hexlify(jedec_id)))
+jedec = slave.exchange([CMD_JEDEC_DATA], 3)
+print("JEDEC = {}".format(binascii.hexlify(jedec)))
 
-if jedec_id[0:1] != bytes.fromhex('ef'):
+if jedec[0:1] != bytes.fromhex('ef'):
     print("Winbond SRAM not found")
-    print(jedec_id[0:1])
     sys.exit()
 
 print("status = 0x{}".format(get_status(slave), '02x'))
@@ -99,6 +98,12 @@ while (is_busy(slave)):
 print("done")
 print("status = 0x{}".format(get_status(slave), '02x'))
 
+with open(file_path, mode='rb') as f:
+    x = f.read(1)
+    print(x)
+    while x != b'':
+        x = f.read(1)
+        print(x)
 
 spi.terminate()
 
