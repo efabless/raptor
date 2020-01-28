@@ -1,7 +1,7 @@
 ARMGNU := arm-none-eabi
 
-# GCCOPS := -Wall  -nostdlib -nostartfiles -ffreestanding -mcpu=cortex-m0 -Wno-unused-value
-GCCOPS := -Wall  -nostdlib -nostartfiles -ffreestanding -mthumb -mcpu=cortex-m0 -Wno-unused-value
+GCCOPS := -Wall  -nostdlib -nostartfiles -ffreestanding -mcpu=cortex-m0 -Wno-unused-value
+# GCCOPS := -Wall  -nostdlib -nostartfiles -ffreestanding -mthumb -mcpu=cortex-m0 -Wno-unused-value
 AOPS := --warn #--fatal-warnings
 
 COMPILE := $(ARMGNU)-gcc $(GCCOPS) -O0 -c
