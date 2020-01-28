@@ -131,7 +131,8 @@ with open(file_path, mode='r') as f:
             slave.write([CMD_WRITE_ENABLE])
             wcmd = bytearray((CMD_PROGRAM_PAGE,(addr >> 16) & 0xff, (addr >> 8) & 0xff, addr & 0xff))
             print(binascii.hexlify(wcmd))
-            wcmd.extend(buf[0:255])
+            # wcmd.extend(buf[0:255])
+            wcmd.extend(buf)
             slave.exchange(wcmd)
             while (is_busy(slave)):
                 time.sleep(0.1)
