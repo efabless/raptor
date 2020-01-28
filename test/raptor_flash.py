@@ -58,7 +58,7 @@ def get_status(device):
 
 
 def is_busy(device):
-    return int(get_status(device)) & SR_WIP
+    return int.from_bytes(get_status(device)) & SR_WIP
 
 
 spi = SpiController(cs_count=1, turbo=True)
