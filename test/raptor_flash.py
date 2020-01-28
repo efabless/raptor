@@ -82,7 +82,7 @@ slave.write([CMD_RESET_CHIP])
 jedec_id = slave.exchange([CMD_JEDEC_DATA], 3)
 print("JEDEC = 0x{}".format(binascii.hexlify(jedec_id)))
 
-if jedec_id[0] != ['0xef']:
+if jedec_id[2] != b'ef':
     print("Winbond SRAM not found")
     sys.exit()
 
