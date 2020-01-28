@@ -201,7 +201,7 @@ with open(file_path, mode='r') as f:
 
             read_cmd = bytearray((CMD_READ_LO_SPEED,(addr >> 16) & 0xff, (addr >> 8) & 0xff, addr & 0xff))
             print(binascii.hexlify(read_cmd))
-            buf2 = slave.exchange(read_cmd, nbytes)
+            buf2 = slave.exchange(read_cmd, nbytes+1)
             if buf == buf2:
                 print("read compare successful")
             else:
