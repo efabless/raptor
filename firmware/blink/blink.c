@@ -55,7 +55,9 @@ void main()
 	// Enable GPIO (all output, ena = 0)
 	gpio_set_dir(0x0000);
 
-	gpio_write(0xFFFF);
+    while (1) {
+	    gpio_write(0xFFFF);
+    }
 
 //    while (1) {
 //    	gpio_write(0x1);
