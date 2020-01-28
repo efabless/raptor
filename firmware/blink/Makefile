@@ -46,9 +46,6 @@ $(OBJECTS): %.o : %.c
 	$(ARMGNU)-objdump -D blink.elf > blink.lst
 	$(ARMGNU)-objcopy blink.elf -O binary blink.bin
 
-flash : %.hex
-    python3 ../../test/raptor_flash.py blink.hex
-
 clean :
 	rm -rf Dumps
 	rm -f $(OBJECTS)
