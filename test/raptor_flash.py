@@ -98,12 +98,21 @@ while (is_busy(slave)):
 print("done")
 print("status = 0x{}".format(get_status(slave), '02x'))
 
+buf = bytearray(256)
+x = 'junk'
+i = 0
+
 with open(file_path, mode='r') as f:
-    x = f.readline()
-    print(x)
     while x != '':
         x = f.readline()
         print(x)
+        if x[0] == '@':
+            addr = int(x[1:])
+            print('setting address to {}'.format(addr))
+        else:
+            values = bytearray.fromhex(x.split())
+            buf += values
+            print(values)
 
 spi.terminate()
 
