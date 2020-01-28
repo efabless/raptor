@@ -35,6 +35,10 @@ CMD_ERASE_CHIP = 0x60
 CMD_RESET_CHIP = 0x99
 CMD_JEDEC_DATA = 0x9f
 
+CMD_READ_LO_SPEED = 0x03  # Read @ low speed
+CMD_READ_HI_SPEED = 0x0B  # Read @ high speed
+ADDRESS_WIDTH = 3
+
 JEDEC_ID = 0xEF
 DEVICES = {0x30: 'W25X', 0x40: 'W25Q'}
 SIZES = {0x11: 1 << 17, 0x12: 1 << 18, 0x13: 1 << 19, 0x14: 1 << 20,
@@ -159,6 +163,70 @@ with open(file_path, mode='r') as f:
             time.sleep(0.1)
 
         print("flash page write successful")
+
+print("\ntotal_bytes = {}".format(total_bytes))
+
+print("************************************")
+print("verifying...")
+print("************************************")
+
+with open(file_path, mode='r') as f:
+    x = f.readline()
+    while x != '':
+        if x[0] == '@':
+            addr = int(x[1:])
+            print('setting address to {}'.format(addr))
+        else:
+            # print(x)
+            values = bytearray.fromhex(x[0:len(x)-1])
+            buf[nbytes:nbytes] = values
+            nbytes += len(values)
+            # print(binascii.hexlify(values))
+
+        x = f.readline()
+
+        if nbytes >= 256:
+            total_bytes += nbytes
+            print('\n----------------------\n')
+            # print(binascii.hexlify(buf))
+            print("\ntotal_bytes = {}".format(total_bytes))
+
+            read_cmd = bytearray((CMD_READ_LO_SPEED,(addr >> 16) & 0xff, (addr >> 8) & 0xff, addr & 0xff))
+            print(binascii.hexlify(read_cmd))
+            buf2 = slave.exchange(read_cmd, nbytes)
+            if buf == buf2:
+                print("read compare successful")
+            else:
+                print("*** read compare FAILED ***")
+                print(binascii.hexlify(buf))
+                print("<----->")
+                print(binascii.hexlify(buf2))
+
+            if nbytes > 256:
+                buf = buf[255:]
+                addr += 256
+                nbytes -= 256
+            else:
+                buf = bytearray()
+                addr += 256
+                nbytes =0
+
+    if nbytes > 0:
+        total_bytes += nbytes
+        print('\n----------------------\n')
+        print(binascii.hexlify(buf))
+        print("\nnbytes = {}".format(nbytes))
+
+        read_cmd = bytearray((CMD_READ_LO_SPEED, (addr >> 16) & 0xff, (addr >> 8) & 0xff, addr & 0xff))
+        print(binascii.hexlify(read_cmd))
+        buf2 = slave.exchange(read_cmd, nbytes)
+        if buf == buf2:
+            print("read compare successful")
+        else:
+            print("*** read compare FAILED ***")
+            print(binascii.hexlify(buf))
+            print("<----->")
+            print(binascii.hexlify(buf2))
 
 print("\ntotal_bytes = {}".format(total_bytes))
 
