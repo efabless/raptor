@@ -32,6 +32,7 @@ CMD_ERASE_SECTOR = 0xD8
 # CMD_ERASE_CHIP = 0xC7
 CMD_ERASE_CHIP = 0x60
 CMD_RESET_CHIP = 0x99
+CMD_JEDEC_DATA = 0x9f
 
 JEDEC_ID = 0xEF
 DEVICES = {0x30: 'W25X', 0x40: 'W25Q'}
@@ -56,16 +57,18 @@ spi = SpiController(cs_count=1, turbo=True)
 spi.configure('ftdi://::/1')
 slave = spi.get_port(cs=0, freq=12E6, mode=0)  # Chip select is 0 -- corresponds to D3
 
-jedec_id = slave.exchange([0x9f], 3)
+slave.write([CMD_RESET_CHIP])
+
+jedec_id = slave.exchange([CMD_JEDEC_DATA], 3)
 print("JEDEC = {}".format(binascii.hexlify(jedec_id)))
 
 status = slave.exchange([CMD_READ_STATUS],1)
 print("status = {}".format(binascii.hexlify(status)))
 
-slave.write(bytes(CMD_WRITE_ENABLE))
-slave.write(bytes(CMD_ERASE_CHIP))
+slave.write([CMD_WRITE_ENABLE])
+slave.write([CMD_ERASE_CHIP])
 
-status = slave.exchange(bytes(CMD_READ_STATUS),1)
+status = slave.exchange([CMD_READ_STATUS],1)
 print("status = {}".format(binascii.hexlify(status)))
 
 spi.terminate()
