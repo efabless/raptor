@@ -90,7 +90,7 @@ print("status = 0x{}".format(get_status(slave), '02x'))
 
 print("Erasing chip...")
 slave.write([CMD_WRITE_ENABLE])
-slave.write([CMD_ERASE_CHIP])
+# slave.write([CMD_ERASE_CHIP])
 
 while (is_busy(slave)):
     time.sleep(1)
@@ -118,7 +118,7 @@ with open(file_path, mode='r') as f:
             print(binascii.hexlify(values))
         x = f.readline()
 print('\n----------------------\n')
-print(binascii.hexlify(values))
+print(binascii.hexlify(buf))
 print("\nnbytes = {}".format(nbytes))
 
 spi.terminate()
