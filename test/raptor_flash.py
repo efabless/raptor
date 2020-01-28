@@ -1,6 +1,6 @@
 from pyftdi.ftdi import Ftdi
 import time
-import sys
+import sys, os
 from pyftdi.spi import SpiController
 from array import array as Array
 import binascii
@@ -64,6 +64,12 @@ def is_busy(device):
 
 if len(sys.argv) < 2:
     print("Usage: raptor_flash.py <file>")
+    sys.exit()
+
+file_path = sys.argv[1]
+
+if not os.path.isfile(file_path):
+    print("File not found.")
     sys.exit()
 
 spi = SpiController(cs_count=1, turbo=True)
