@@ -101,6 +101,8 @@ print("status = 0x{}".format(get_status(slave), '02x'))
 buf = bytearray(256)
 x = 'junk'
 i = 0
+addr = 0
+nbytes = 0
 
 with open(file_path, mode='r') as f:
     x = f.readline()
@@ -109,11 +111,13 @@ with open(file_path, mode='r') as f:
             addr = int(x[1:])
             print('setting address to {}'.format(addr))
         else:
-            print(x)
+            # print(x)
             values = bytes.fromhex(x[0:len(x)-1])
             buf += values
             print(binascii.hexlify(values))
         x = f.readline()
+
+print(binascii.hexlify(values))
 
 spi.terminate()
 
