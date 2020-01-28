@@ -52,6 +52,15 @@ TIMINGS = {'page': (0.0015, 0.003),  # 1.5/3 ms
 #             SerialFlash.FEAT_SUBSECTERASE |
 #             SerialFlash.FEAT_CHIPERASE)
 
+
+def get_status(device):
+    return device.exchange([CMD_READ_STATUS],1)
+
+
+def is_busy(device):
+    return get_status(device) & SR_WIP
+
+
 spi = SpiController(cs_count=1, turbo=True)
 # spi.configure(vendor=0x0403, product=0x6014, interface=1)
 spi.configure('ftdi://::/1')
@@ -62,13 +71,19 @@ slave.write([CMD_RESET_CHIP])
 jedec_id = slave.exchange([CMD_JEDEC_DATA], 3)
 print("JEDEC = {}".format(binascii.hexlify(jedec_id)))
 
-status = slave.exchange([CMD_READ_STATUS],1)
+status = get_status(slave)
 print("status = {}".format(binascii.hexlify(status)))
 
 slave.write([CMD_WRITE_ENABLE])
 slave.write([CMD_ERASE_CHIP])
 
-status = slave.exchange([CMD_READ_STATUS],1)
+status = get_status(slave)
+print("status = {}".format(binascii.hexlify(status)))
+
+while (is_busy(slave)):
+    time.sleep(1)
+
+status = get_status(slave)
 print("status = {}".format(binascii.hexlify(status)))
 
 spi.terminate()
