@@ -116,7 +116,7 @@ with open(file_path, mode='r') as f:
             buf += values
             print(binascii.hexlify(values))
         x = f.readline()
-
+print('\n----------------------\n')
 print(binascii.hexlify(values))
 
 spi.terminate()
