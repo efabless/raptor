@@ -90,10 +90,10 @@ print("status = 0x{}".format(get_status(slave), '02x'))
 
 print("Erasing chip...")
 slave.write([CMD_WRITE_ENABLE])
-# slave.write([CMD_ERASE_CHIP])
+slave.write([CMD_ERASE_CHIP])
 
 while (is_busy(slave)):
-    time.sleep(1)
+    time.sleep(0.5)
 
 print("done")
 print("status = 0x{}".format(get_status(slave), '02x'))
@@ -116,7 +116,8 @@ with open(file_path, mode='r') as f:
             values = bytearray.fromhex(x[0:len(x)-1])
             buf[nbytes:nbytes] = values
             nbytes += len(values)
-            print(binascii.hexlify(values))
+            # print(binascii.hexlify(values))
+
         x = f.readline()
 
         if nbytes >= 256:
@@ -124,15 +125,41 @@ with open(file_path, mode='r') as f:
             print('\n----------------------\n')
             print(binascii.hexlify(buf))
             print("\ntotal_bytes = {}".format(total_bytes))
-            buf = bytearray()
-            nbytes = 0
+
+            slave.write([CMD_WRITE_ENABLE])
+            wcmd = bytearray((CMD_PROGRAM_PAGE,(addr >> 16) & 0xff, (addr >> 8) & 0xff, addr & 0xff))
+            wcmd.extend(buf[0:255])
+            slave.exchange(wcmd)
+            while (is_busy(slave)):
+                time.sleep(0.1)
+
+            print("flash page write successful")
+
+            if nbytes > 256:
+                buf = buf[255:]
+                addr += 256
+                nbytes -= 256
+            else:
+                buf = bytearray()
+                addr += 256
+                nbytes =0
 
     if nbytes > 0:
         total_bytes += nbytes
         print('\n----------------------\n')
         print(binascii.hexlify(buf))
         print("\nnbytes = {}".format(nbytes))
-        print("\ntotal_bytes = {}".format(total_bytes))
+
+        slave.write([CMD_WRITE_ENABLE])
+        wcmd = bytearray((CMD_PROGRAM_PAGE, (addr >> 16) & 0xff, (addr >> 8) & 0xff, addr & 0xff))
+        wcmd.extend(buf)
+        slave.exchange(wcmd)
+        while (is_busy(slave)):
+            time.sleep(0.1)
+
+        print("flash page write successful")
+
+print("\ntotal_bytes = {}".format(total_bytes))
 
 spi.terminate()
 
