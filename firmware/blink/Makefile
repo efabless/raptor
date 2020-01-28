@@ -14,8 +14,8 @@ OBJECTS = $(patsubst %.c,%.o,$(SOURCES))
 STARTUP := $(SRC_PREFIX)/cm0_startup.s
 STARTUP_OBJECT := $(SRC_PREFIX)/start.o
 
-# LINKSCRIPT := $(SRC_PREFIX)/memmap_qspi.ld
-LINKSCRIPT := sections.lds
+LINKSCRIPT := $(SRC_PREFIX)/memmap_qspi.ld
+# LINKSCRIPT := sections.lds
 
 PATTERN = blink
 
@@ -45,6 +45,9 @@ $(OBJECTS): %.o : %.c
 	$(ARMGNU)-ld $(LDOPS) -T $(LINKSCRIPT) ../sw/start.o blink.o $(OBJECTS) -o blink.elf
 	$(ARMGNU)-objdump -D blink.elf > blink.lst
 	$(ARMGNU)-objcopy blink.elf -O binary blink.bin
+
+flash: %.hex
+    python3 ../../test/raptor_flash.py blink.hex
 
 clean :
 	rm -rf Dumps
