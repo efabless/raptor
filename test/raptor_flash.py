@@ -54,11 +54,11 @@ TIMINGS = {'page': (0.0015, 0.003),  # 1.5/3 ms
 
 
 def get_status(device):
-    return device.exchange([CMD_READ_STATUS],1)
+    return int.from_bytes(device.exchange([CMD_READ_STATUS],1))
 
 
 def is_busy(device):
-    return int.from_bytes(get_status(device)) & SR_WIP
+    return get_status(device) & SR_WIP
 
 
 spi = SpiController(cs_count=1, turbo=True)
@@ -69,22 +69,19 @@ slave = spi.get_port(cs=0, freq=12E6, mode=0)  # Chip select is 0 -- corresponds
 slave.write([CMD_RESET_CHIP])
 
 jedec_id = slave.exchange([CMD_JEDEC_DATA], 3)
-print("JEDEC = {}".format(binascii.hexlify(jedec_id)))
+print("JEDEC = 0x{}".format(jedec_id, '06x'))
 
-status = get_status(slave)
-print("status = {}".format(binascii.hexlify(status)))
+print("status = 0x{}".format(get_status(slave), '02x'))
 
 slave.write([CMD_WRITE_ENABLE])
 slave.write([CMD_ERASE_CHIP])
 
-status = get_status(slave)
-print("status = {}".format(binascii.hexlify(status)))
+print("status = 0x{}".format(get_status(slave), '02x'))
 
 while (is_busy(slave)):
     time.sleep(1)
 
-status = get_status(slave)
-print("status = {}".format(binascii.hexlify(status)))
+print("status = 0x{}".format(get_status(slave), '02x'))
 
 spi.terminate()
 
