@@ -130,7 +130,7 @@ with open(file_path, mode='r') as f:
 
             slave.write([CMD_WRITE_ENABLE])
             wcmd = bytearray((CMD_PROGRAM_PAGE,(addr >> 16) & 0xff, (addr >> 8) & 0xff, addr & 0xff))
-            print(binascii.hexlify(wcmd))
+            # print(binascii.hexlify(wcmd))
             # wcmd.extend(buf[0:255])
             wcmd.extend(buf)
             slave.exchange(wcmd)
@@ -202,7 +202,7 @@ with open(file_path, mode='r') as f:
             # print("\ntotal_bytes = {}".format(total_bytes))
 
             read_cmd = bytearray((CMD_READ_LO_SPEED,(addr >> 16) & 0xff, (addr >> 8) & 0xff, addr & 0xff))
-            print(binascii.hexlify(read_cmd))
+            # print(binascii.hexlify(read_cmd))
             buf2 = slave.exchange(read_cmd, nbytes)
             if buf == buf2:
                 print("addr 0x{}: read compare successful".format(addr, '06x'))
@@ -229,7 +229,7 @@ with open(file_path, mode='r') as f:
         # print("\nnbytes = {}".format(nbytes))
 
         read_cmd = bytearray((CMD_READ_LO_SPEED, (addr >> 16) & 0xff, (addr >> 8) & 0xff, addr & 0xff))
-        print(binascii.hexlify(read_cmd))
+        # print(binascii.hexlify(read_cmd))
         buf2 = slave.exchange(read_cmd, nbytes)
         if buf == buf2:
             print("addr 0x{}: read compare successful".format(addr, '06x'))
