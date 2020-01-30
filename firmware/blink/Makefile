@@ -26,7 +26,7 @@ hex:  ${PATTERN:=.hex}
 
 bin:  ${PATTERN:=.bin}
 
-.PHONY: clean
+.PHONY: clean flash hex all bin
 
 $(OBJECTS): %.o : %.c
 	@echo ">> Compiling $<"
@@ -57,3 +57,6 @@ clean :
 	rm -f *.vvp
 	rm -f *.vcd
 	rm -f *.out
+
+flash: blink.hex
+	python3 ../../test/raptor_flash.py blink.hex
