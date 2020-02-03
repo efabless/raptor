@@ -43,15 +43,6 @@ void main()
 {
 	uint32_t i, j, m, r, mode;
 
-    //	set_flash_latency(8)
-
-	// Start in standard (1x speed) mode
-
-	// Set m for speed multiplier:
-	// 1 standard (1x), 2 for DSPI (2x)
-	mode = 1;
-	m = 1;
-
 	// Enable GPIO (all output, ena = 0)
 	gpio_set_dir(0x0000);
     gpio_write(0x000f);
@@ -60,7 +51,6 @@ void main()
 
 	while (1) {
         gpio_write(0x0000);
-        reg_gpio_data = 0x0000;
         for (j = 0; j < 70000; j++);
         gpio_write(0x0001);
         for (j = 0; j < 70000; j++);
