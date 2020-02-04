@@ -90,7 +90,7 @@ if jedec[0:1] != bytes.fromhex('ef'):
     print("Winbond SRAM not found")
     sys.exit()
 
-print("status = 0x{}".format(get_status(slave), '02x'))
+print("status = 0x{}".format(hex(get_status(slave))))
 
 print("Erasing chip...")
 slave.write([CMD_WRITE_ENABLE])
@@ -100,7 +100,7 @@ while (is_busy(slave)):
     time.sleep(0.5)
 
 print("done")
-print("status = 0x{}".format(get_status(slave), '02x'))
+print("status = 0x{}".format(hex(get_status(slave))))
 
 buf = bytearray()
 addr = 0
@@ -112,7 +112,7 @@ with open(file_path, mode='r') as f:
     while x != '':
         if x[0] == '@':
             addr = int(x[1:])
-            print('setting address to {}'.format(addr, '02x'))
+            print('setting address to {}'.format(hex(addr)))
         else:
             # print(x)
             values = bytearray.fromhex(x[0:len(x)-1])
@@ -137,7 +137,7 @@ with open(file_path, mode='r') as f:
             while (is_busy(slave)):
                 time.sleep(0.1)
 
-            print("addr 0x{}: flash page write successful".format(addr,'06x'))
+            print("addr 0x{}: flash page write successful".format(hex(addr)))
 
             if nbytes > 256:
                 buf = buf[255:]
@@ -162,7 +162,7 @@ with open(file_path, mode='r') as f:
         while (is_busy(slave)):
             time.sleep(0.1)
 
-        print("addr 0x{}: flash page write successful".format(addr, '06x'))
+        print("addr 0x{}: flash page write successful".format(hex(addr)))
 
 print("\ntotal_bytes = {}".format(total_bytes))
 
@@ -178,14 +178,14 @@ total_bytes = 0
 while (is_busy(slave)):
     time.sleep(0.5)
 
-print("status = 0x{}".format(get_status(slave), '02x'))
+print("status = 0x{}".format(hex(get_status(slave))))
 
 with open(file_path, mode='r') as f:
     x = f.readline()
     while x != '':
         if x[0] == '@':
             addr = int(x[1:])
-            print('setting address to {}'.format(addr, '02x'))
+            print('setting address to {}'.format(hex(addr)))
         else:
             # print(x)
             values = bytearray.fromhex(x[0:len(x)-1])
@@ -205,9 +205,9 @@ with open(file_path, mode='r') as f:
             # print(binascii.hexlify(read_cmd))
             buf2 = slave.exchange(read_cmd, nbytes)
             if buf == buf2:
-                print("addr 0x{}: read compare successful".format(addr, '06x'))
+                print("addr 0x{}: read compare successful".format(hex(addr)))
             else:
-                print("addr 0x{}: *** read compare FAILED ***".format(addr, '06x'))
+                print("addr 0x{}: *** read compare FAILED ***".format(hex(addr)))
                 print(binascii.hexlify(buf))
                 print("<----->")
                 print(binascii.hexlify(buf2))
@@ -232,9 +232,9 @@ with open(file_path, mode='r') as f:
         # print(binascii.hexlify(read_cmd))
         buf2 = slave.exchange(read_cmd, nbytes)
         if buf == buf2:
-            print("addr 0x{}: read compare successful".format(addr, '06x'))
+            print("addr 0x{}: read compare successful".format(hex(addr)))
         else:
-            print("addr 0x{}: *** read compare FAILED ***".format(addr, '06x'))
+            print("addr 0x{}: *** read compare FAILED ***".format(hex(addr)))
             print(binascii.hexlify(buf))
             print("<----->")
             print(binascii.hexlify(buf2))
