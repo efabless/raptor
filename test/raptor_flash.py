@@ -169,6 +169,9 @@ with open(file_path, mode='r') as f:
 
 print("\ntotal_bytes = {}".format(total_bytes))
 
+print("locking registers...")
+slave.write([CMD_WRSR, 0x00, 0x38])
+
 print("************************************")
 print("verifying...")
 print("************************************")
