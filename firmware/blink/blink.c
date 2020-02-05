@@ -49,8 +49,8 @@ void main()
 //	CLKCTRL_PLLCR =
 //	CLKCTRL_PLLTR =
 
-    (unsigned int *) GPIO_DIR_REG = 0x0000;
-    (unsigned int *) GPIO_DATA_REG = 0x000f;
+    *GPIO_DIR = 0x0000;
+    *GPIO_DATA = 0x000f;
 
 	// Enable GPIO (all output, ena = 0)
 //	gpio_set_dir(0x0000);
