@@ -31,9 +31,9 @@ hang:   b .
 .thumb_func
 .global _start
 _start:
-    ldr     r1, =0x2000100
-    ldr     r2, =0x8000000
-    ldr     r3, =0x8000004
+    ldr     r1, =0x20001000
+    ldr     r2, =0x80000000
+    ldr     r3, =0x80000004
     
     ldr     r0, =0
     str     r0, [r3]
