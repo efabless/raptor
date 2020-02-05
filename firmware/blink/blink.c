@@ -1,5 +1,4 @@
 #include "../raptor.h"
-#include "../sw/gpio_regs.h"
 
 // --------------------------------------------------------
 // Firmware routines
