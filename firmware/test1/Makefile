@@ -13,8 +13,10 @@ $(OBJECTS): %.o : %.c
 #.SILENT:
 
 test3.hex : test3.c
+    arm-none-eabi-as -mcpu=cortex-m0 -o ../sw/start.o ../sw/cm0_startup.s
 	arm-none-eabi-gcc -Wall  -nostdlib -nostartfiles -ffreestanding -mcpu=cortex-m0 -Wno-unused-value test3.c -o test3.o
-    arm-none-eabi-objcopy  test3.o -O verilog test3.hex
+	arm-none-eabi-ld -T memmap_qspi.ld ../sw/start.o test3.o -o test3.elf
+    arm-none-eabi-objcopy  test3.elf -O verilog test3.hex
 
 test1.hex : test1.s
 	arm-none-eabi-as -mcpu=cortex-m0 test1.s -o test1.o
