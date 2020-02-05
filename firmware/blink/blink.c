@@ -1,5 +1,5 @@
-//#include "../raptor.h"
-#include "../sw/gpio_regs.h"
+#include "../raptor.h"
+//#include "../sw/gpio_regs.h"
 
 // --------------------------------------------------------
 // Firmware routines
@@ -50,8 +50,8 @@ void main()
 //	CLKCTRL_PLLCR =
 //	CLKCTRL_PLLTR =
 
-    *GPIO_DIR = (unsigned int) 0x0000;
-    *GPIO_DATA = (unsigned int) 0x000f;
+    *(0x80000004) = (unsigned int) 0x0000;
+    *(0x80000000) = (unsigned int) 0x000f;
 
 	// Enable GPIO (all output, ena = 0)
 //	gpio_set_dir(0x0000);
@@ -59,7 +59,7 @@ void main()
 
     for (j = 0; j < 170000; j++);
 
-	while (1) {
+    while (1) {
 //        gpio_write(0x0000);
 //        for (j = 0; j < 70000; j++);
 //        gpio_write(0x0001);
@@ -76,7 +76,7 @@ void main()
 //        for (j = 0; j < 70000; j++);
 //        gpio_write(0x0001);
 //        for (j = 0; j < 70000; j++);
-	}
+    }
 
 }
 
