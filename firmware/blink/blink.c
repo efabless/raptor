@@ -45,16 +45,16 @@ void main()
 
 	uint32_t i, j, m, r, mode;
 
-//	CLKCTRL_CLKCR_REG =
-//	CLKCTRL_PLLCR_REG =
-//	CLKCTRL_PLLTR_REG =
+//	CLKCTRL_CLKCR =
+//	CLKCTRL_PLLCR =
+//	CLKCTRL_PLLTR =
 
-    *GPIO_DIR_REG = 0x0000;
-    *GPIO_DATA_REG = 0x000f;
+    (unsigned int *) GPIO_DIR_REG = 0x0000;
+    (unsigned int *) GPIO_DATA_REG = 0x000f;
 
 	// Enable GPIO (all output, ena = 0)
-	gpio_set_dir(0x0000);
-    gpio_write(0x000f);
+//	gpio_set_dir(0x0000);
+//    gpio_write(0x000f);
 
     for (j = 0; j < 170000; j++);
 
