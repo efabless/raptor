@@ -88,6 +88,7 @@
     //str    r0, [r1]
     ldr     r0, =0x0
     // Initialise core registers to avoid problems with X in simulation
+    ldr sp, =0x20003000
     mov r4, r0
     mov r5, r0
     mov r6, r0
