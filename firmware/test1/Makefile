@@ -19,7 +19,7 @@ test3.hex : test3.c
     arm-none-eabi-objcopy  test3.elf -O verilog test3.hex
 
 test1.hex : test1.s
-	arm-none-eabi-as -mcpu=cortex-m0 test1.s -o test1.o
+    arm-none-eabi-as -mcpu=cortex-m0 test1.s -o test1.o
     arm-none-eabi-objcopy  test1.o -O verilog test1.hex
 
 clean :
