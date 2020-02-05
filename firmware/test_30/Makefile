@@ -35,8 +35,8 @@ $(OBJECTS): %.o : %.c
 #.SILENT:
 %.hex : $(OBJECTS)
 	$(ARMGNU)-as $(AOPS) -mcpu=cortex-m0 -o ../sw/start.o ../sw/cm0_startup.s
-	$(COMPILE) $(GCCOPS) -o main.o main.c
-	$(ARMGNU)-ld $(LDOPS) -T $(LINKSCRIPT) ../sw/start.o main.o $(OBJECTS) -o main.elf
+	$(COMPILE) $(GCCOPS) -o test_suite.o test_suite.c
+	$(ARMGNU)-ld $(LDOPS) -T $(LINKSCRIPT) ../sw/start.o test_suite.o $(OBJECTS) -o main.elf
 	$(ARMGNU)-objdump -D main.elf > main.lst
 	$(ARMGNU)-objcopy main.elf -O verilog main.hex
 
