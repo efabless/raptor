@@ -92,6 +92,7 @@ if jedec[0] != int('ef', 16) and jedec[0] != int('01', 16) and jedec[0] != int('
 
 if jedec[0] == int('bf', 16):
     SR_WIP = 0b10000000
+    CMD_ERASE_CHIP = 0xC7
 
 print("status reg_1 = {}".format(hex(get_status(slave))))
 status = slave.exchange([0x35],1)
