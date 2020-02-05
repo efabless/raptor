@@ -85,9 +85,8 @@ slave.write([CMD_RESET_CHIP])
 
 jedec = slave.exchange([CMD_JEDEC_DATA], 3)
 print("JEDEC = {}".format(binascii.hexlify(jedec)))
-print(jedec)
 
-if (jedec[0] != bytes.fromhex('ef')) or (jedec[0] != bytes.fromhex('01')):
+if (jedec[0] != bytes.fromhex('ef')) or (jedec[0] != bytes('01')):
     print("Winbond or Cypress SRAM not found")
     sys.exit()
 
