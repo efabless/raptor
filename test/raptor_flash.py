@@ -170,6 +170,9 @@ with open(file_path, mode='r') as f:
 print("\ntotal_bytes = {}".format(total_bytes))
 
 print("locking registers...")
+slave.write([CMD_WRITE_ENABLE])
+while (is_busy(slave)):
+    time.sleep(0.5)
 slave.write([CMD_WRSR, 0x01, 0x00, 0x38])
 
 print("************************************")
