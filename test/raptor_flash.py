@@ -91,8 +91,8 @@ if jedec[0] != int('ef', 16) and jedec[0] != int('01', 16):
     sys.exit()
 
 print("status reg_1 = {}".format(hex(get_status(slave))))
-status = slave.exchange([CMD_READ_STATUS], 2)
-print("status reg_2 = {}".format(hex(status[1])))
+status = slave.exchange([0x35])
+print("status reg_2 = {}".format(hex(status)))
 # print("status = {}".format(hex(from_bytes(slave.exchange([CMD_READ_STATUS], 2)[1], byteorder='big'))))
 
 print("Erasing chip...")
@@ -171,9 +171,13 @@ print("\ntotal_bytes = {}".format(total_bytes))
 
 print("locking registers...")
 slave.write([CMD_EWSR])
-while (is_busy(slave)):
-    time.sleep(0.5)
-slave.write([CMD_WRSR, 0x02, 0x01])
+# while (is_busy(slave)):
+#     time.sleep(0.5)
+slave.write([0x31, 0x01])
+
+print("status reg_1 = {}".format(hex(get_status(slave))))
+status = slave.exchange([0x35])
+print("status reg_2 = {}".format(hex(status)))
 
 print("************************************")
 print("verifying...")
