@@ -92,7 +92,7 @@ if jedec[0] != int('ef', 16) and jedec[0] != int('01', 16):
 
 print("status reg_1 = {}".format(hex(get_status(slave))))
 status = slave.exchange([0x35])
-print("status reg_2 = {}".format(hex(int.from_bytes(status))))
+print("status reg_2 = {}".format(hex(int.from_bytes(status, byteorder='big'))))
 # print("status = {}".format(hex(from_bytes(slave.exchange([CMD_READ_STATUS], 2)[1], byteorder='big'))))
 
 print("Erasing chip...")
@@ -177,7 +177,7 @@ slave.write([0x31, 0x01])
 
 print("status reg_1 = {}".format(hex(get_status(slave))))
 status = slave.exchange([0x35])
-print("status reg_2 = {}".format(hex(int.from_bytes(status))))
+print("status reg_2 = {}".format(hex(int.from_bytes(status, byteorder='big'))))
 
 
 print("************************************")
