@@ -86,12 +86,12 @@ slave.write([CMD_RESET_CHIP])
 jedec = slave.exchange([CMD_JEDEC_DATA], 3)
 print("JEDEC = {}".format(binascii.hexlify(jedec)))
 
-if jedec[0:1] != bytes.fromhex('ef'):
-    print("Winbond SRAM not found")
+if jedec[0:1] != bytes.fromhex('ef') or jedec[0:1] != bytes.fromhex('01'):
+    print("Winbond or Cypress SRAM not found")
     sys.exit()
 
 print("status = {}".format(hex(get_status(slave))))
-print("status = {}".format(hex(int.from_bytes(slave.exchange([CMD_READ_STATUS], 2)[1], byteorder='big'))))
+# print("status = {}".format(hex(from_bytes(slave.exchange([CMD_READ_STATUS], 2)[1], byteorder='big'))))
 
 print("Erasing chip...")
 slave.write([CMD_WRITE_ENABLE])
