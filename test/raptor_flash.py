@@ -90,6 +90,9 @@ if jedec[0] != int('ef', 16) and jedec[0] != int('01', 16) and jedec[0] != int('
     print("Winbond, Microchip or Cypress SRAM not found")
     sys.exit()
 
+if jedec[0] == int('bf', 16):
+    SR_WIP = 0b10000000
+
 print("status reg_1 = {}".format(hex(get_status(slave))))
 status = slave.exchange([0x35],1)
 print("status reg_2 = {}".format(hex(int.from_bytes(status, byteorder='big'))))
