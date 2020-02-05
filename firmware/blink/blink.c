@@ -1,4 +1,4 @@
-#include "../raptor.h"
+//#include "../raptor.h"
 #include "../sw/gpio_regs.h"
 
 // --------------------------------------------------------
@@ -43,14 +43,15 @@
 void main()
 {
 
-	uint32_t i, j, m, r, mode;
+//	uint32_t i, j, m, r, mode;
+	uint32_t j;
 
 //	CLKCTRL_CLKCR =
 //	CLKCTRL_PLLCR =
 //	CLKCTRL_PLLTR =
 
-    *GPIO_DIR = 0x0000;
-    *GPIO_DATA = 0x000f;
+    *GPIO_DIR = (unsigned int) 0x0000;
+    *GPIO_DATA = (unsigned int) 0x000f;
 
 	// Enable GPIO (all output, ena = 0)
 //	gpio_set_dir(0x0000);
@@ -59,22 +60,22 @@ void main()
     for (j = 0; j < 170000; j++);
 
 	while (1) {
-        gpio_write(0x0000);
-        for (j = 0; j < 70000; j++);
-        gpio_write(0x0001);
-        for (j = 0; j < 70000; j++);
-        gpio_write(0x0002);
-        for (j = 0; j < 70000; j++);
-        gpio_write(0x0004);
-        for (j = 0; j < 70000; j++);
-        gpio_write(0x0008);
-        for (j = 0; j < 70000; j++);
-        gpio_write(0x0004);
-        for (j = 0; j < 70000; j++);
-        gpio_write(0x0002);
-        for (j = 0; j < 70000; j++);
-        gpio_write(0x0001);
-        for (j = 0; j < 70000; j++);
+//        gpio_write(0x0000);
+//        for (j = 0; j < 70000; j++);
+//        gpio_write(0x0001);
+//        for (j = 0; j < 70000; j++);
+//        gpio_write(0x0002);
+//        for (j = 0; j < 70000; j++);
+//        gpio_write(0x0004);
+//        for (j = 0; j < 70000; j++);
+//        gpio_write(0x0008);
+//        for (j = 0; j < 70000; j++);
+//        gpio_write(0x0004);
+//        for (j = 0; j < 70000; j++);
+//        gpio_write(0x0002);
+//        for (j = 0; j < 70000; j++);
+//        gpio_write(0x0001);
+//        for (j = 0; j < 70000; j++);
 	}
 
 }
