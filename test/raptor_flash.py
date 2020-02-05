@@ -91,7 +91,7 @@ if jedec[0] != int('ef', 16) and jedec[0] != int('01', 16):
     sys.exit()
 
 print("status reg_1 = {}".format(hex(get_status(slave))))
-status = slave.exchange([0x35])
+status = slave.exchange([0x35],1)
 print("status reg_2 = {}".format(hex(int.from_bytes(status, byteorder='big'))))
 # print("status = {}".format(hex(from_bytes(slave.exchange([CMD_READ_STATUS], 2)[1], byteorder='big'))))
 
@@ -176,7 +176,7 @@ slave.write([CMD_EWSR])
 slave.write([0x31, 0x01])
 
 print("status reg_1 = {}".format(hex(get_status(slave))))
-status = slave.exchange([0x35])
+status = slave.exchange([0x35],1)
 print("status reg_2 = {}".format(hex(int.from_bytes(status, byteorder='big'))))
 
 

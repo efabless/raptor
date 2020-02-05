@@ -1,4 +1,6 @@
-hex:  test1.hex
+PATTERN = test1 test3
+
+hex:  test1.hex test3.hex
 
 bin:  ${PATTERN:=.bin}
 
@@ -9,8 +11,13 @@ $(OBJECTS): %.o : %.c
 	$(COMPILE) -o $@ $<
 
 #.SILENT:
+
+test3.hex : test3.c
+	arm-none-eabi-gcc -Wall  -nostdlib -nostartfiles -ffreestanding -mcpu=cortex-m0 -Wno-unused-value test3.c -o test3.o
+    arm-none-eabi-objcopy  test3.o -O verilog test3.hex
+
 test1.hex : test1.s
-	arm-none-eabi-as test1.s -o test1.o
+	arm-none-eabi-as -mcpu=cortex-m0 test1.s -o test1.o
     arm-none-eabi-objcopy  test1.o -O verilog test1.hex
 
 clean :
@@ -24,5 +31,8 @@ clean :
 	rm -f *.vcd
 	rm -f *.out
 
-flash: test1.hex
+flash1: test1.hex
 	python3 ../../test/raptor_flash.py test1.hex
+
+flash3: test3.hex
+	python3 ../../test/raptor_flash.py test3.hex
