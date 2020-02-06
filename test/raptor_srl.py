@@ -86,9 +86,14 @@ print("status reg_2 = {}".format(hex(int.from_bytes(status, byteorder='big'))))
 # print("status = {}".format(hex(from_bytes(slave.exchange([CMD_READ_STATUS], 2)[1], byteorder='big'))))
 
 print("locking registers...")
-slave.write([CMD_EWSR])
+# slave.write([CMD_EWSR])
+slave.write([CMD_WRITE_ENABLE])
+
+slave.write([0xaa])
+slave.write([0x55])
 # while (is_busy(slave)):
 #     time.sleep(0.5)
+
 slave.write([0x31, 0x01])
 
 print("status reg_1 = {}".format(hex(get_status(slave))))
