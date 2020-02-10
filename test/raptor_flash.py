@@ -62,6 +62,16 @@ def get_status(device):
     return int.from_bytes(device.exchange([CMD_READ_STATUS],1), byteorder='big')
 
 
+def report_status(jedec):
+    if jedec[0] == int('bf', 16):
+        print("changing cmd values...")
+        print("status reg_1 = {}".format(hex(get_status(slave))))
+    else:
+        print("status reg_1 = {}".format(hex(get_status(slave))))
+        status = slave.exchange([0x35], 1)
+        print("status reg_2 = {}".format(hex(int.from_bytes(status, byteorder='big'))))
+        # print("status = {}".format(hex(from_bytes(slave.exchange([CMD_READ_STATUS], 2)[1], byteorder='big'))))
+
 def is_busy(device):
     return get_status(device) & SR_WIP
 
@@ -91,14 +101,10 @@ if jedec[0] != int('ef', 16) and jedec[0] != int('01', 16) and jedec[0] != int('
     sys.exit()
 
 if jedec[0] == int('bf', 16):
-    # SR_WIP = 0b10000000
-    SR_WIP = 0b00000000
+    SR_WIP = 0b10000000
     CMD_ERASE_CHIP = 0xC7
 
-print("status reg_1 = {}".format(hex(get_status(slave))))
-status = slave.exchange([0x35],1)
-print("status reg_2 = {}".format(hex(int.from_bytes(status, byteorder='big'))))
-# print("status = {}".format(hex(from_bytes(slave.exchange([CMD_READ_STATUS], 2)[1], byteorder='big'))))
+report_status(jedec)
 
 print("Erasing chip...")
 slave.write([CMD_WRITE_ENABLE])
@@ -174,16 +180,14 @@ with open(file_path, mode='r') as f:
 
 print("\ntotal_bytes = {}".format(total_bytes))
 
-print("locking registers...")
-slave.write([CMD_EWSR])
-# while (is_busy(slave)):
-#     time.sleep(0.5)
-slave.write([0x31, 0x01])
+if jedec[0] != int('bf', 16):
+    print("locking registers...")
+    slave.write([CMD_EWSR])
+    # while (is_busy(slave)):
+    #     time.sleep(0.5)
+    slave.write([0x31, 0x01])
 
-print("status reg_1 = {}".format(hex(get_status(slave))))
-status = slave.exchange([0x35],1)
-print("status reg_2 = {}".format(hex(int.from_bytes(status, byteorder='big'))))
-
+report_status(jedec)
 
 print("************************************")
 print("verifying...")
@@ -197,7 +201,7 @@ total_bytes = 0
 while (is_busy(slave)):
     time.sleep(0.5)
 
-print("status = {}".format(hex(get_status(slave))))
+report_status(jedec)
 
 with open(file_path, mode='r') as f:
     x = f.readline()
