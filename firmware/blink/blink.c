@@ -28,7 +28,7 @@ void main()
     *GPIO_DIR = 0;
     *GPIO_DATA = 0x000f;
 
-//    for (j = 0; j < 170000; j++);
+    for (j = 0; j < 70000; j++);
 
     while (1) {
 //        gpio_write(0x0000);
