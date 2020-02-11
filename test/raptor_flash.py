@@ -182,9 +182,9 @@ print("\ntotal_bytes = {}".format(total_bytes))
 
 if jedec[0] != int('bf', 16):
     print("locking registers...")
-    slave.write([CMD_EWSR])
-    # while (is_busy(slave)):
-    #     time.sleep(0.5)
+    slave.write([0xaa])
+    slave.write([0x55])
+    slave.write([0x06])
     slave.write([0x31, 0x01])
 
 report_status(jedec)
