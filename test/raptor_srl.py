@@ -12,6 +12,8 @@ SR_BP0 = 0b00000100  # bit protect #0
 SR_BP1 = 0b00001000  # bit protect #1
 SR_BP2 = 0b00010000  # bit protect #2
 SR_BP3 = 0b00100000  # bit protect #3
+
+SR_SRL = 0b00000001  # bit for SRL in reg #2
 SR_TBP = SR_BP3      # top-bottom protect bit
 SR_SP = 0b01000000
 SR_BPL = 0b10000000
@@ -67,42 +69,42 @@ def is_busy(device):
 
 
 spi = SpiController(cs_count=1, turbo=True)
-# spi.configure(vendor=0x0403, product=0x6014, interface=1)
 spi.configure('ftdi://::/1')
 slave = spi.get_port(cs=0, freq=12E6, mode=0)  # Chip select is 0 -- corresponds to D3
 
-# slave.write([CMD_RESET_CHIP])
+slave.write([CMD_RESET_CHIP])
 
 jedec = slave.exchange([CMD_JEDEC_DATA], 3)
 print("JEDEC = {}".format(binascii.hexlify(jedec)))
 
-if jedec[0] != int('ef', 16) and jedec[0] != int('01', 16):
-    print("Winbond or Cypress SRAM not found")
+if jedec[0] != int('ef', 16):
+    print("Winbond Flash not found")
     sys.exit()
 
 print("status reg_1 = {}".format(hex(get_status(slave))))
 status = slave.exchange([0x35],1)
 print("status reg_2 = {}".format(hex(int.from_bytes(status, byteorder='big'))))
-# print("status = {}".format(hex(from_bytes(slave.exchange([CMD_READ_STATUS], 2)[1], byteorder='big'))))
+
+if int.from_bytes(status, byteorder='big') & SR_SRL:
+    print("SRL bit is set")
+    sys.exit()
 
 print("locking registers...")
-# slave.write([CMD_EWSR])
 slave.write([0xaa])
 slave.write([0x55])
 slave.write([CMD_WRITE_ENABLE])
 
-# slave.write([0x55, 0xaa])
-# slave.write([0xaa, 0x55])
-# slave.write([0xaa])
-# slave.write([0x55])
-# while (is_busy(slave)):
-#     time.sleep(0.5)
-
 slave.write([0x31, 0x01])
+
+while (is_busy(slave)):
+    time.sleep(0.5)
 
 print("status reg_1 = {}".format(hex(get_status(slave))))
 status = slave.exchange([0x35],1)
 print("status reg_2 = {}".format(hex(int.from_bytes(status, byteorder='big'))))
+
+if int.from_bytes(status, byteorder='big') & SR_SRL:
+    print("SRL bit is set")
 
 spi.terminate()
 
