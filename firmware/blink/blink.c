@@ -13,7 +13,8 @@ unsigned int volatile * const GPIO_DIR =
 void main()
 {
 
-	uint32_t j;
+//	uint32_t j;
+	int j;
 
 //	CLKCTRL_CLKCR =
 //	CLKCTRL_PLLCR =
