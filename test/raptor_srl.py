@@ -87,9 +87,11 @@ print("status reg_2 = {}".format(hex(int.from_bytes(status, byteorder='big'))))
 
 print("locking registers...")
 # slave.write([CMD_EWSR])
+slave.write([0xaa])
+slave.write([0x55])
 slave.write([CMD_WRITE_ENABLE])
 
-slave.write([0x55, 0xaa])
+# slave.write([0x55, 0xaa])
 # slave.write([0xaa, 0x55])
 # slave.write([0xaa])
 # slave.write([0x55])
