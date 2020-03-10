@@ -63,15 +63,15 @@ void main()
 //	reg_uart_clkdiv = 6667;
 //	reg_uart_clkdiv = 6600;
 
-	reg_gpio_enb = 0x0000;
-	reg_gpio_data = 0x0001;
-
-    for (i = 1; i < 5; i++) {
-        for (j = 0; j < 34000; j++); // 2 sec
-	    reg_gpio_data = (0x0001 << i);
-    }
-
-    reg_gpio_data = 0x000f;
+//	reg_gpio_enb = 0x0000;
+//	reg_gpio_data = 0x0001;
+//
+//    for (i = 1; i < 5; i++) {
+//        for (j = 0; j < 34000; j++); // 2 sec
+//	    reg_gpio_data = (0x0001 << i);
+//    }
+//
+//    reg_gpio_data = 0x000f;
 
 	// This should appear on the LCD display 4x20 characters.
 //    print("Starting...\n");
@@ -79,9 +79,9 @@ void main()
 //    print("Press ENTER to continue..\n");
 //    while (getchar() != '\r') {}
 
-    reg_gpio_data = 0x000a;
+//    reg_gpio_data = 0x000a;
 //    cmd_echo();
-    reg_gpio_data = 0x0000;
+//    reg_gpio_data = 0x0000;
 
 //    print("\n\n");
 
