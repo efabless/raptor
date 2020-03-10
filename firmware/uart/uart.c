@@ -25,13 +25,13 @@ void main()
     for (j = 0; j < 70000; j++);
 
     for (i = 1; i < 5; i++) {
-        for (j = 0; j < 34000; j++); // 2 sec
+        for (j = 0; j < 34000; j++) {} // 2 sec
 	    reg_gpio_data = (0x0001 << i);
     }
 
     reg_gpio_data = 0x000f;
 
-    for (j = 0; j < 70000; j++);
+//    for (j = 0; j < 70000; j++);
 
 //    while (1) {
 //        *GPIO_DATA = 0x0000;
