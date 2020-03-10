@@ -31,8 +31,8 @@ extern uint32_t sram;
 //#define reg_uart_clkdiv (*(volatile uint32_t*)0x02000004)
 //#define reg_uart_data (*(volatile uint32_t*)0x02000008)
 //
-//#define reg_gpio_data (*(volatile uint32_t*)0x03000000)
-//#define reg_gpio_ena (*(volatile uint32_t*)0x03000004)
+#define reg_gpio_data (*(volatile uint32_t*)0x80000000)
+#define reg_gpio_ena (*(volatile uint32_t*)0x80000004)
 //#define reg_gpio_pu (*(volatile uint32_t*)0x03000008)
 //#define reg_gpio_pd (*(volatile uint32_t*)0x0300000c)
 //
