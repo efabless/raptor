@@ -4,11 +4,11 @@
 #define     GPIO_DATA_REG           	0x00000000
 #define     GPIO_DIR_REG            	0x00000004
 
-unsigned int volatile * const GPIO_DATA =
-    (unsigned int *) (GPIO_BASE_ADDR + GPIO_DATA_REG);
+unsigned uint32_t volatile * const GPIO_DATA =
+    ( uint32_t *) (GPIO_BASE_ADDR + GPIO_DATA_REG);
 
-unsigned int volatile * const GPIO_DIR =
-    (unsigned int *) (GPIO_BASE_ADDR + GPIO_DIR_REG);
+unsigned uint32_t volatile * const GPIO_DIR =
+    ( uint32_t *) (GPIO_BASE_ADDR + GPIO_DIR_REG);
 
 void main()
 {
