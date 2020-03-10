@@ -13,8 +13,8 @@ unsigned int volatile * const GPIO_DIR =
 void main()
 {
 
-//	uint32_t j;
-	int i, j;
+	uint32_t i, j;
+//	int i, j;
 
 // Enable GPIO (all output, ena = 0)
 //	gpio_set_dir(0x0000);
