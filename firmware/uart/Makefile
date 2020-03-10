@@ -26,12 +26,12 @@ hex:  ${PATTERN:=.hex}
 
 .PHONY: clean flash hex all bin
 
-$(OBJECTS): %.o : %.c
+$(OBJECTS): %.o : %.c ../raptor.h
 	@echo ">> Compiling $<"
 	$(COMPILE) -o $@ $<
 
 #.SILENT:
-%.hex : $(OBJECTS)
+%.hex : $(OBJECTS) %.c ../raptor.h
 	$(ARMGNU)-as $(AOPS) -mcpu=cortex-m0 -o ../sw/start.o ../sw/cm0_startup.s
 	$(COMPILE) $(GCCOPS) -o uart.o uart.c
 # 	$(ARMGNU)-ld $(LDOPS) -T $(LINKSCRIPT) ../sw/start.o blink.o $(OBJECTS) -o blink.elf
