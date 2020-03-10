@@ -19,18 +19,24 @@ void main()
 // Enable GPIO (all output, ena = 0)
 //	gpio_set_dir(0x0000);
 //    gpio_write(0x000f);
-    reg_gpio_ena = 0;
-    reg_gpio_data = 0x000f;
+//    reg_gpio_ena = 0;
+//    reg_gpio_data = 0x000f;
+    *GPIO_DIR = 0;
+    *GPIO_DATA = 0x000f;
+
 
     for (j = 0; j < 70000; j++);
 
     for (i = 1; i < 5; i++) {
+//	    reg_gpio_data = i;
+	    *GPIO_DATA = i;
         for (j = 0; j < 34000; j++) {} // 2 sec
 //	    reg_gpio_data = (0x0001 << i);
-	    reg_gpio_data = i;
     }
 
-    reg_gpio_data = 0x000f;
+//    reg_gpio_data = 0x000f;
+    *GPIO_DATA = 0x000f;
+
 
 //    for (j = 0; j < 70000; j++);
 
