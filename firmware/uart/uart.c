@@ -26,7 +26,8 @@ void main()
 
     for (i = 1; i < 5; i++) {
         for (j = 0; j < 34000; j++) {} // 2 sec
-	    reg_gpio_data = (0x0001 << i);
+//	    reg_gpio_data = (0x0001 << i);
+	    reg_gpio_data = 0x0001;
     }
 
     reg_gpio_data = 0x000f;
