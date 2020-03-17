@@ -1,0 +1,4 @@
+(sym_lib_table
+  (lib (name raptor-eagle-import)(type Legacy)(uri ${KIPRJMOD}/raptor-eagle-import.lib)(options "")(descr ""))
+  (lib (name raptor-rescue)(type Legacy)(uri ${KIPRJMOD}/raptor-rescue.lib)(options "")(descr ""))
+)

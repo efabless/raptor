@@ -1,0 +1,37 @@
+EESchema-LIBRARY Version 2.3
+#encoding utf-8
+#(c) SnapEDA 2016 (snapeda.com)
+#This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License (CC BY-SA) with Design Exception 1.0
+#
+# 219-3LPSTR
+#
+DEF 219-3LPSTR SW 0 40 Y N 1 L N
+F0 "SW" -191 221 50 H V L BNN
+F1 "219-3LPSTR" -201 -251 50 H V L BNN
+F2 "SW_219-3LPSTR" 0 0 50 H I L BNN
+F3 "Manufacturer Recommendation" 0 0 50 H I L BNN
+F4 "CTS" 0 0 50 H I L BNN
+DRAW
+P 2 0 0 10 -125 100 -50 100 N
+P 2 0 0 10 50 100 125 100 N
+P 2 0 0 10 -50 100 50 150 N
+P 2 0 0 10 -130 200 130 200 N
+P 2 0 0 10 130 200 130 -150 N
+P 2 0 0 10 130 -150 -130 -150 N
+P 2 0 0 10 -130 -150 -130 200 N
+P 2 0 0 10 -125 0 -50 0 N
+P 2 0 0 10 50 0 125 0 N
+P 2 0 0 10 -50 0 50 50 N
+P 2 0 0 10 -125 -100 -50 -100 N
+P 2 0 0 10 50 -100 125 -100 N
+P 2 0 0 10 -50 -100 50 -50 N
+X 1 1 -300 100 200 R 40 40 0 0 P 
+X 1_1 1_1 300 100 200 L 40 40 0 0 P 
+X 2 2 -300 0 200 R 40 40 0 0 P 
+X 2_1 2_1 300 0 200 L 40 40 0 0 P 
+X 3 3 -300 -100 200 R 40 40 0 0 P 
+X 3_1 3_1 300 -100 200 L 40 40 0 0 P 
+ENDDRAW
+ENDDEF
+#
+# End Library
