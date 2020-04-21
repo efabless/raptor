@@ -12,10 +12,12 @@ $(OBJECTS): %.o : %.c
 
 #.SILENT:
 
-test3.hex : test3.c
+test3.hex : test3.c test_gpio.c
 	arm-none-eabi-as -mcpu=cortex-m0 -o ../sw/start.o ../sw/cm0_startup.s
-	arm-none-eabi-gcc -Wall  -nostdlib -nostartfiles -ffreestanding -mcpu=cortex-m0 -Wno-unused-value test3.c -o test3.o
-	arm-none-eabi-ld -T memmap_qspi.ld ../sw/start.o test3.o -o test3.elf
+	arm-none-eabi-gcc -Bstatic -Wall -nostdlib -nostartfiles -ffreestanding -mcpu=cortex-m0 -Wno-unused-value -mlong-calls -ffunction-sections -mthumb -o test_gpio.o test_gpio.c
+# 	arm-none-eabi-gcc -Bstatic -Wall -nostdlib -nostartfiles -ffreestanding -mcpu=cortex-m0 -Wno-unused-value -mlong-calls -ffunction-sections -mthumb -o test3.o test3.c
+# 	arm-none-eabi-ld -T memmap_qspi.ld -o test3.elf ../sw/start.o test_gpio.o test3.o
+	arm-none-eabi-gcc -T memmap_qspi.ld -Bstatic -Wall -nostdlib -nostartfiles -ffreestanding -mcpu=cortex-m0 -Wno-unused-value -mlong-calls -ffunction-sections -mthumb -o test3.elf test3.c test_gpio.o ../sw/start.o
 	arm-none-eabi-objcopy  test3.elf -O verilog test3.hex
 
 test1.hex : test1.s
@@ -32,6 +34,7 @@ clean :
 	rm -f *.vvp
 	rm -f *.vcd
 	rm -f *.out
+	rm -f *.o
 
 flash1: test1.hex
 	python3 ../../test/raptor_flash.py test1.hex

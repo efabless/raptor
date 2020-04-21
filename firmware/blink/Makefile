@@ -20,7 +20,7 @@ LINKSCRIPT := memmap_qspi.ld
 
 PATTERN = blink
 
-all:  ${PATTERN:=.vcd}
+all:  ${PATTERN:=.hex}
 
 hex:  ${PATTERN:=.hex}
 
@@ -33,20 +33,13 @@ $(OBJECTS): %.o : %.c
 	$(COMPILE) -o $@ $<
 
 #.SILENT:
-%.hex : $(OBJECTS)
-	$(ARMGNU)-as $(AOPS) -mcpu=cortex-m0 -o ../sw/start.o ../sw/cm0_startup.s
+%.hex : $(OBJECTS) blink.c ../raptor.h
+	$(ARMGNU)-as $(AOPS) -mcpu=cortex-m0 -o $(STARTUP_OBJECT) $(STARTUP)
 	$(COMPILE) $(GCCOPS) -o blink.o blink.c
-# 	$(ARMGNU)-ld $(LDOPS) -T $(LINKSCRIPT) ../sw/start.o blink.o $(OBJECTS) -o blink.elf
-	$(ARMGNU)-ld $(LDOPS) -T $(LINKSCRIPT) ../sw/start.o blink.o -o blink.elf
+	$(ARMGNU)-ld $(LDOPS) -T $(LINKSCRIPT) $(STARTUP_OBJECT) blink.o $(OBJECTS) -o blink.elf
+# 	$(ARMGNU)-ld $(LDOPS) -T $(LINKSCRIPT) $(STARTUP_OBJECT) ../sw/gpio_drv.o blink.o -o blink.elf
 	$(ARMGNU)-objdump -D blink.elf > blink.lst
 	$(ARMGNU)-objcopy blink.elf -O verilog blink.hex
-
-%.bin : $(OBJECTS)
-	$(ARMGNU)-as $(AOPS) -mcpu=cortex-m0 -o ../sw/start.o ../sw/cm0_startup.s
-	$(COMPILE) $(GCCOPS) -o blink.o blink.c
-	$(ARMGNU)-ld $(LDOPS) -T $(LINKSCRIPT) ../sw/start.o blink.o $(OBJECTS) -o blink.elf
-	$(ARMGNU)-objdump -D blink.elf > blink.lst
-	$(ARMGNU)-objcopy blink.elf -O binary blink.bin
 
 clean :
 	rm -rf Dumps

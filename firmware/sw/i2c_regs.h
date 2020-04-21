@@ -1,3 +1,6 @@
+#ifndef I2C_REGS_H
+#define I2C_REGS_H
+
 #include "base_addr.h"
 
 #define     I2C_PRE_LO_REG      0x0
@@ -31,3 +34,5 @@ unsigned int volatile * const I2C_TX = (unsigned int *) (I2C_BASE_ADDR_0 + I2C_T
 unsigned int volatile * const I2C_RX = (unsigned int *) (I2C_BASE_ADDR_0 + I2C_RX_REG);
 unsigned int volatile * const I2C_CMD = (unsigned int *) (I2C_BASE_ADDR_0 + I2C_CMD_REG);
 unsigned int volatile * const I2C_STAT = (unsigned int *) (I2C_BASE_ADDR_0 + I2C_STAT_REG);
+
+#endif

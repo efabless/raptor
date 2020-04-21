@@ -1,3 +1,6 @@
+#ifndef GPIO_REGS_H
+#define GPIO_REGS_H
+
 #include "base_addr.h"
 
 #define     GPIO_DATA_REG           0x00000000
@@ -14,3 +17,5 @@ unsigned int volatile * const GPIO_DATA =
 
 unsigned int volatile * const GPIO_DIR =
     (unsigned int *) (GPIO_BASE_ADDR + GPIO_DIR_REG);
+
+#endif
