@@ -14,10 +14,10 @@ $(OBJECTS): %.o : %.c
 
 test3.hex : test3.c test_gpio.c
 	arm-none-eabi-as -mcpu=cortex-m0 -o ../sw/start.o ../sw/cm0_startup.s
-	arm-none-eabi-gcc -Bstatic -Wall -nostdlib -nostartfiles -ffreestanding -mcpu=cortex-m0 -Wno-unused-value -mlong-calls -ffunction-sections -mthumb -o test_gpio.o test_gpio.c
-# 	arm-none-eabi-gcc -Bstatic -Wall -nostdlib -nostartfiles -ffreestanding -mcpu=cortex-m0 -Wno-unused-value -mlong-calls -ffunction-sections -mthumb -o test3.o test3.c
+	arm-none-eabi-gcc -Wall -nostdlib -nostartfiles -ffreestanding -mcpu=cortex-m0 -o test_gpio.o test_gpio.c
+# 	arm-none-eabi-gcc -Wall -nostdlib -nostartfiles -ffreestanding -mcpu=cortex-m0 -o test3.o test3.c
 # 	arm-none-eabi-ld -T memmap_qspi.ld -o test3.elf ../sw/start.o test_gpio.o test3.o
-	arm-none-eabi-gcc -T memmap_qspi.ld -Bstatic -Wall -nostdlib -nostartfiles -ffreestanding -mcpu=cortex-m0 -Wno-unused-value -mlong-calls -ffunction-sections -mthumb -o test3.elf test3.c test_gpio.o ../sw/start.o
+	arm-none-eabi-gcc -T memmap_qspi.ld -Wall -nostdlib -nostartfiles -ffreestanding -mcpu=cortex-m0 -o test3.elf test3.c test_gpio.o ../sw/start.o
 	arm-none-eabi-objcopy  test3.elf -O verilog test3.hex
 
 test1.hex : test1.s

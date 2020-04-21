@@ -1,14 +1,14 @@
 #include "../raptor.h"
 
-#define     GPIO_BASE_ADDR      		0x80000000
-#define     GPIO_DATA_REG           	0x00000000
-#define     GPIO_DIR_REG            	0x00000004
-
-uint32_t volatile * const GPIO_DATA =
-    ( uint32_t *) (GPIO_BASE_ADDR + GPIO_DATA_REG);
-
-uint32_t volatile * const GPIO_DIR =
-    ( uint32_t *) (GPIO_BASE_ADDR + GPIO_DIR_REG);
+//#define     GPIO_BASE_ADDR      		0x80000000
+//#define     GPIO_DATA_REG           	0x00000000
+//#define     GPIO_DIR_REG            	0x00000004
+//
+//uint32_t volatile * const GPIO_DATA =
+//    ( uint32_t *) (GPIO_BASE_ADDR + GPIO_DATA_REG);
+//
+//uint32_t volatile * const GPIO_DIR =
+//    ( uint32_t *) (GPIO_BASE_ADDR + GPIO_DIR_REG);
 
 void main()
 {
@@ -17,31 +17,34 @@ void main()
 //	int i, j;
 
 // Enable GPIO (all output, ena = 0)
-//	gpio_set_dir(0x0000);
-//    gpio_write(0x000f);
+	gpio_set_dir(0x0000);
+    gpio_write(0x000f);
 
 //    reg_gpio_ena = 0;
 //    reg_gpio_data = 0x000f;
-    *GPIO_DIR = 0;
-    *GPIO_DATA = 0x000f;
+//    *GPIO_DIR = 0;
+//    *GPIO_DATA = 0x000f;
 
 
     for (j = 0; j < 70000; j++);
 
     for (i = 0; i < 4; i++) {
-//	    reg_gpio_data = i;
+	    gpio_write(i);
 //	    *GPIO_DATA = (0x0001 << i);
-	    *GPIO_DATA = i+1;
+	    gpio_write(0x0001 << i);
+//	    *GPIO_DATA = i+1;
+	    gpio_write( i+1);
         for (j = 0; j < 34000; j++) {} // 2 sec
-        *GPIO_DATA = 0x0008;
+//        *GPIO_DATA = 0x0008;
+        gpio_write(0x0008);
         for (j = 0; j < 34000; j++) {} // 2 sec
-        *GPIO_DATA = 0x0001;
+        gpio_write(0x0001);
         for (j = 0; j < 34000; j++) {} // 2 sec
-//	    reg_gpio_data = (0x0001 << i);
+	    gpio_write(0x0001 << i);
     }
 
 //    reg_gpio_data = 0x000f;
-    *GPIO_DATA = 0x0008;
+    gpio_write(0x0008);
 
 
 //    for (j = 0; j < 70000; j++);

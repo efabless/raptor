@@ -1,6 +1,6 @@
 ARMGNU := arm-none-eabi
 
-GCCOPS := -Wall  -nostdlib -nostartfiles -ffreestanding -mcpu=cortex-m0 -Wno-unused-value
+GCCOPS := -Wall  -nostdlib -nostartfiles -ffreestanding -mcpu=cortex-m0
 # GCCOPS := -Wall  -nostdlib -nostartfiles -ffreestanding -mthumb -mcpu=cortex-m0 -Wno-unused-value
 AOPS := --warn #--fatal-warnings
 
@@ -34,8 +34,9 @@ $(OBJECTS): %.o : %.c ../raptor.h
 %.hex : $(OBJECTS) %.c ../raptor.h
 	$(ARMGNU)-as $(AOPS) -mcpu=cortex-m0 -o ../sw/start.o ../sw/cm0_startup.s
 	$(COMPILE) $(GCCOPS) -o uart.o uart.c
-# 	$(ARMGNU)-ld $(LDOPS) -T $(LINKSCRIPT) ../sw/start.o blink.o $(OBJECTS) -o blink.elf
-	$(ARMGNU)-ld $(LDOPS) -T $(LINKSCRIPT) ../sw/start.o uart.o -o uart.elf
+# 	$(COMPILE) $(GCCOPS) -o uart.elf uart.c ../sw/start.o $(OBJECTS)
+	$(ARMGNU)-ld $(LDOPS) -T $(LINKSCRIPT) ../sw/start.o uart.o $(OBJECTS) -o uart.elf
+# 	$(ARMGNU)-ld $(LDOPS) -T $(LINKSCRIPT) ../sw/start.o uart.o -o uart.elf
 	$(ARMGNU)-objdump -D uart.elf > uart.lst
 	$(ARMGNU)-objcopy uart.elf -O verilog uart.hex
 
@@ -55,3 +56,18 @@ client: client.c
 
 flash: uart.hex
 	python3 ../../test/raptor_flash.py uart.hex
+
+# ARMGNU := arm-none-eabi
+# GCCOPS := -Wall -nostdlib -nostartfiles -ffreestanding -mcpu=cortex-m0
+# STARTUP := cm0_startup.s
+# STARTUP_OBJECT := start.o
+# LINKSCRIPT := memmap_qspi.ld
+# AOPS := --warn #--fatal-warnings
+# $(STARTUP_OBJECT): $(STARTUP)
+#         $(ARMGNU)-as $(AOPS)-mcpu=cortex-m0 -o $@ $<
+# main.o: main.c
+#         $(ARMGNU)-gcc $(GCCOPS) -O0 -c  -o $@ $<
+# main.hex: main.o $(STARTUP_OBJECT)
+#         $(ARMGNU)-ld  -T $(LINKSCRIPT) $(STARTUP_OBJECT) main.o -o main.elf
+#         $(ARMGNU)-objdump -D main.elf > main.lst
+#         $(ARMGNU)-objcopy main.elf -O verilog main.hex
