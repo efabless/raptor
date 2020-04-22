@@ -69,6 +69,6 @@ SECTIONS {
     {
         *(.stack*)
     } >RAM
-    __StackTop = ORIGIN(ram) + LENGTH(ram);
+    __StackTop = ORIGIN(RAM) + LENGTH(RAM);
     __StackLimit = __StackTop - SIZEOF(.stack_dummy);
 }

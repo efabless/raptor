@@ -98,7 +98,6 @@
     mov r9, r0
 
     // copy data section
-    .thumb
     ldr r0, =_sidata
     ldr r1, =_sdata
     ldr r2, =_edata
