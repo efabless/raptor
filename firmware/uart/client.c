@@ -138,7 +138,7 @@ int main()
 
     do {
         while (!kbhit()) {
-            if (n = read(fd, buf, sizeof(buf) - 1))
+            if ((n = read(fd, buf, sizeof(buf) - 1)))
             {
                 buf[n] = '\0';
                 i = 0;

@@ -4,11 +4,16 @@ MEMORY
     RAM (xrw)       : ORIGIN = 0x20000000, LENGTH = 16K
 }
 
+ENTRY(Reset_Handler)
+
 SECTIONS {
     /* The program code and other data goes into FLASH */
     .text :
     {
         . = ALIGN(4);
+        *(.isr_vector*)
+        . = ALIGN(4);
+        . = 0x100;
         *(.text)           /* .text sections (code) */
         *(.text*)          /* .text* sections (code) */
         *(.rodata)         /* .rodata sections (constants, strings, etc.) */
@@ -17,7 +22,7 @@ SECTIONS {
         *(.srodata*)       /* .rodata* sections (constants, strings, etc.) */
         . = ALIGN(4);
         _etext = .;        /* define a global symbol at end of code */
-        _sidata = _etext;  /* This is used by the startup in order to initialize the .data secion */
+        _sidata = _etext;  /* This is used by the startup in order to initialize the .data section */
     } >FLASH
 
 
@@ -60,4 +65,10 @@ SECTIONS {
         . = ALIGN(4);
         _heap_start = .;    /* define a global symbol at heap start */
     } >RAM
+    .stack_dummy (COPY):
+    {
+        *(.stack*)
+    } >RAM
+    __StackTop = ORIGIN(ram) + LENGTH(ram);
+    __StackLimit = __StackTop - SIZEOF(.stack_dummy);
 }

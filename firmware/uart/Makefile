@@ -1,6 +1,6 @@
 ARMGNU := arm-none-eabi
 
-GCCOPS := -Wall  -nostdlib -nostartfiles -ffreestanding -mcpu=cortex-m0
+GCCOPS := -Bstatic -Wall -nostdlib -nostartfiles -ffreestanding -mcpu=cortex-m0
 # GCCOPS := -Wall  -nostdlib -nostartfiles -ffreestanding -mthumb -mcpu=cortex-m0 -Wno-unused-value
 AOPS := --warn #--fatal-warnings
 
@@ -33,10 +33,10 @@ $(OBJECTS): %.o : %.c ../raptor.h
 #.SILENT:
 %.hex : $(OBJECTS) %.c ../raptor.h
 	$(ARMGNU)-as $(AOPS) -mcpu=cortex-m0 -o ../sw/start.o ../sw/cm0_startup.s
-	$(COMPILE) $(GCCOPS) -o uart.o uart.c
-# 	$(COMPILE) $(GCCOPS) -o uart.elf uart.c ../sw/start.o $(OBJECTS)
-	$(ARMGNU)-ld $(LDOPS) -T $(LINKSCRIPT) ../sw/start.o uart.o $(OBJECTS) -o uart.elf
-# 	$(ARMGNU)-ld $(LDOPS) -T $(LINKSCRIPT) ../sw/start.o uart.o -o uart.elf
+# 	$(COMPILE) -o uart.o uart.c
+	$(ARMGNU)-gcc -T memmap_qspi.ld -Bstatic -Wall -nostdlib -nostartfiles -ffreestanding -mcpu=cortex-m0 -o uart.elf uart.c ../sw/start.o ../sw/gpio_drv.o
+# 	$(COMPILE) $(GCCOPS) -T memmap_qspi.ld -o uart.elf uart.c ../sw/start.o $(OBJECTS)
+# 	$(ARMGNU)-ld $(LDOPS) -T $(LINKSCRIPT) ../sw/start.o uart.o $(OBJECTS) -o uart.elf
 	$(ARMGNU)-objdump -D uart.elf > uart.lst
 	$(ARMGNU)-objcopy uart.elf -O verilog uart.hex
 

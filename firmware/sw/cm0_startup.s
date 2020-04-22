@@ -97,6 +97,22 @@
     mov r8, r0
     mov r9, r0
 
+    // copy data section
+    .thumb
+    ldr r0, =_sidata
+    ldr r1, =_sdata
+    ldr r2, =_edata
+    cmp r1, r2
+    bge end_init
+    loop_init:
+    ldr r3, [r0]
+    str r3, [r1]
+    adds r0, #1
+    adds r1, #1
+    cmp r1, r2
+    blt loop_init
+    end_init:
+
     bl      main
 
     .pool

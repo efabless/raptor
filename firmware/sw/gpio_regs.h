@@ -12,10 +12,4 @@
     #define GPIO_BASE_ADDR AHB_GPIO_BASE_ADDR_0
 #endif
 
-unsigned int volatile * const GPIO_DATA =
-    (unsigned int *) (GPIO_BASE_ADDR + GPIO_DATA_REG);
-
-unsigned int volatile * const GPIO_DIR =
-    (unsigned int *) (GPIO_BASE_ADDR + GPIO_DIR_REG);
-
 #endif

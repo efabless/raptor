@@ -1,4 +1,10 @@
-#include "gpio_regs.h"
+#include "gpio_drv.h"
+
+unsigned int volatile * const GPIO_DATA =
+    (unsigned int *) (GPIO_BASE_ADDR + GPIO_DATA_REG);
+
+unsigned int volatile * const GPIO_DIR =
+    (unsigned int *) (GPIO_BASE_ADDR + GPIO_DIR_REG);
 
 void gpio_set_dir(unsigned int dir){
     *GPIO_DIR = dir;

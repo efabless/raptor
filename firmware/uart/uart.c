@@ -1,20 +1,11 @@
-#include "../raptor.h"
-
-//#define     GPIO_BASE_ADDR      		0x80000000
-//#define     GPIO_DATA_REG           	0x00000000
-//#define     GPIO_DIR_REG            	0x00000004
-//
-//uint32_t volatile * const GPIO_DATA =
-//    ( uint32_t *) (GPIO_BASE_ADDR + GPIO_DATA_REG);
-//
-//uint32_t volatile * const GPIO_DIR =
-//    ( uint32_t *) (GPIO_BASE_ADDR + GPIO_DIR_REG);
+//#include "../raptor.h"
+#include "../sw/gpio_drv.h"
 
 void main()
 {
 
-	uint32_t i, j;
-//	int i, j;
+//	uint32_t i, j;
+	int i, j;
 
 // Enable GPIO (all output, ena = 0)
 	gpio_set_dir(0x0000);
@@ -24,7 +15,6 @@ void main()
 //    reg_gpio_data = 0x000f;
 //    *GPIO_DIR = 0;
 //    *GPIO_DATA = 0x000f;
-
 
     for (j = 0; j < 70000; j++);
 
@@ -44,7 +34,7 @@ void main()
     }
 
 //    reg_gpio_data = 0x000f;
-    gpio_write(0x0008);
+    gpio_write(0x000f);
 
 
 //    for (j = 0; j < 70000; j++);
