@@ -1,6 +1,7 @@
 ARMGNU := arm-none-eabi
 
-GCCOPS := -Wall  -nostdlib -nostartfiles -ffreestanding -mcpu=cortex-m0 -Wno-unused-value
+# GCCOPS := -Wall -nostdlib -nostartfiles -ffreestanding -mcpu=cortex-m0 -Wno-unused-value
+GCCOPS := -g -Wall -nostdlib -nostartfiles -ffreestanding -mcpu=cortex-m0 -Wno-unused-value
 # GCCOPS := -Wall  -nostdlib -nostartfiles -ffreestanding -mthumb -mcpu=cortex-m0 -Wno-unused-value
 AOPS := --warn -mthumb #--fatal-warnings
 
@@ -37,10 +38,11 @@ $(OBJECTS): %.o : %.c
 	$(ARMGNU)-as $(AOPS) -mcpu=cortex-m0 -o $(STARTUP_OBJECT) $(STARTUP)
 	$(COMPILE) $(GCCOPS) -o blink.o blink.c
 # 	$(ARMGNU)-ld $(LDOPS) -T $(LINKSCRIPT) $(STARTUP_OBJECT) blink.o -o blink.elf
-	$(ARMGNU)-ld $(LDOPS) -T $(LINKSCRIPT) $(STARTUP_OBJECT) blink.o $(OBJECTS) -o blink.elf
-# 	$(ARMGNU)-ld $(LDOPS) -T $(LINKSCRIPT) $(STARTUP_OBJECT) ../sw/gpio_drv.o blink.o -o blink.elf
+# 	$(ARMGNU)-ld $(LDOPS) -T $(LINKSCRIPT) $(STARTUP_OBJECT) blink.o $(OBJECTS) -o blink.elf
+	$(ARMGNU)-ld $(LDOPS) -T $(LINKSCRIPT) $(STARTUP_OBJECT) ../sw/gpio_drv.o blink.o -o blink.elf
 	$(ARMGNU)-objdump -D blink.elf > blink.lst
 	$(ARMGNU)-objcopy blink.elf -O verilog blink.hex
+	$(ARMGNU)-objcopy blink.elf
 
 clean :
 	rm -rf Dumps

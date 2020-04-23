@@ -13,19 +13,24 @@
 
 
 void led(int x) {
-    gpio_write(x);
+//    gpio_write(x);
+    reg_gpio_data = x;
 //    *GPIO_DATA = x;
-
     for (int j = 0; j < 70000; j++);
+    reg_gpio_data = 0x0f;
 }
 
 void main()
 {
 	// Enable GPIO (all output, ena = 0)
-	gpio_set_dir(0x0000);
+//	gpio_set_dir(0x0000);
+	reg_gpio_dir = 0x0000;
+	reg_gpio_data = 0x000a;
 //    *GPIO_DIR = 0;
 
-    led(0x000f);
+    for (int j = 0; j < 70000; j++);
+
+//    led(0x000f);
 
     while (1) {
         led(0x0000);

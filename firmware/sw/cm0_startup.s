@@ -5,8 +5,8 @@
     .section .stack
     .align 3
     .equ    Stack_Size, 0x400
-    .globl    __StackTop
-    .globl    __StackLimit
+    .global    __StackTop
+    .global    __StackLimit
 
     __StackLimit:
     .space    Stack_Size
@@ -19,8 +19,8 @@
     .align 3
 
     .equ    Heap_Size, 0
-    .globl    __HeapBase
-    .globl    __HeapLimit
+    .global    __HeapBase
+    .global    __HeapLimit
     __HeapBase:
     .if    Heap_Size
     .space    Heap_Size
@@ -34,7 +34,7 @@
 
     .section .isr_vector
     .align 2
-    .globl __isr_vector
+    .global __isr_vector
     __isr_vector:
     .long   __StackTop                  /* Top of Stack                  */
     .long   Reset_Handler               /* Reset Handler                 */
@@ -80,7 +80,7 @@
     .thumb
     .thumb_func
     .align 2
-    .globl    Reset_Handler
+    .global    Reset_Handler
     .type    Reset_Handler, %function
     Reset_Handler:
     //ldr    r1, =0xE000E100
@@ -102,14 +102,14 @@
     ldr r1, =_sdata
     ldr r2, =_edata
     cmp r1, r2
-    bge end_init
+    bhs end_init
     loop_init:
     ldr r3, [r0]
     str r3, [r1]
     adds r0, #1
     adds r1, #1
     cmp r1, r2
-    blt loop_init
+    blo loop_init
     end_init:
 
     bl      main
