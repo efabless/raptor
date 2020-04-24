@@ -1,18 +1,19 @@
 .syntax unified
     .arch armv6-m
+    .code 16
 
 
     .section .stack
     .align 3
-    .equ    Stack_Size, 0x400
+    .equ    Stack_Size, 0x1000
     .global    __StackTop
     .global    __StackLimit
 
-    __StackLimit:
-    .space    Stack_Size
-    .size __StackLimit, . - __StackLimit
-    __StackTop:
-    .size __StackTop, . - __StackTop
+//    __StackLimit:
+//    .space    Stack_Size
+//    .size __StackLimit, . - __StackLimit
+//    __StackTop:
+//    .size __StackTop, . - __StackTop
 
 
     .section .heap
@@ -38,20 +39,20 @@
     __isr_vector:
     .long   __StackTop                  /* Top of Stack                  */
     .long   Reset_Handler               /* Reset Handler                 */
-    .long   0                           /* NMI Handler                   */
-    .long   0                           /* Hard Fault Handler            */
+    .long   NMI_Handler                           /* NMI Handler                   */
+    .long   HardFault_Handler          /* Hard Fault Handler            */
+    .long   MemManage_Handler          /* Reserved                      */
+    .long   BusFault_Handler           /* Reserved                      */
+    .long   UsageFault_Handler         /* Reserved                      */
     .long   0                           /* Reserved                      */
     .long   0                           /* Reserved                      */
     .long   0                           /* Reserved                      */
     .long   0                           /* Reserved                      */
+    .long   SVC_Handler                /* SVCall Handler                */
+    .long   DebugMon_Handler           /* Debug Monitor Handler         */
     .long   0                           /* Reserved                      */
-    .long   0                           /* Reserved                      */
-    .long   0                           /* Reserved                      */
-    .long   0                           /* SVCall Handler                */
-    .long   0                           /* Debug Monitor Handler         */
-    .long   0                           /* Reserved                      */
-    .long   0                           /* PendSV Handler                */
-    .long   0                           /* SysTick Handler               */
+    .long   PendSV_Handler              /* PendSV Handler                */
+    .long   SysTick_Handler            /* SysTick Handler               */
 
     /* External Interrupts */
     .long   UART_Handler
@@ -90,6 +91,9 @@
     // Initialise core registers to avoid problems with X in simulation
     ldr r1, =0x20001000
     mov sp, r1
+    mov r1, r0
+    mov r2, r0
+
     mov r4, r0
     mov r5, r0
     mov r6, r0
@@ -97,22 +101,43 @@
     mov r8, r0
     mov r9, r0
 
-    // copy data section
-    ldr r0, =_sidata
-    ldr r1, =_sdata
-    ldr r2, =_edata
-    cmp r1, r2
-    bhs end_init
-    loop_init:
-    ldr r3, [r0]
-    str r3, [r1]
-    adds r0, #1
-    adds r1, #1
-    cmp r1, r2
-    blo loop_init
-    end_init:
+    // ldr r1, =0x80000004
+    // str r0, [r1]
+    // ldr r1, =0x80000000
+    // ldr r0, =#1
+    // str r0, [r1]
 
-    bl      main
+    // copy data section
+    // ldr r0, =_sidata
+    // ldr r1, =_sdata
+    // ldr r2, =_edata
+    // cmp r1, r2
+    // bhs end_init
+    // loop_init:
+    // ldr r3, [r0]
+    // str r3, [r1]
+    // adds r0, #1
+    //adds r1, #1
+    //cmp r1, r2
+    //blo loop_init
+    //end_init:
+
+    b   main
+    b   .
+
+
+    .thumb
+    .thumb_func
+    .align 2
+    .global    Hard_Fault_Handler
+    .type    Hard_Fault_Handler, %function
+    Hard_Fault_Handler:
+        ldr r1, =0x80000004
+        str r0, [r1]
+        ldr r1, =0x80000000
+        ldr r0, =#9
+        str r0, [r1]
+        b .
 
     .pool
     .size Reset_Handler, . - Reset_Handler
@@ -126,7 +151,12 @@
     .weak    \handler_name
     .type    \handler_name, %function
     \handler_name :
-    b    .
+        ldr r1, =0x80000004
+        str r0, [r1]
+        ldr r1, =0x80000000
+        ldr r0, =#9
+        str r0, [r1]
+        b .
     .size    \handler_name, . - \handler_name
     .endm
 

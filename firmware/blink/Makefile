@@ -3,7 +3,7 @@ ARMGNU := arm-none-eabi
 # GCCOPS := -Wall -nostdlib -nostartfiles -ffreestanding -mcpu=cortex-m0 -Wno-unused-value
 GCCOPS := -g -Wall -nostdlib -nostartfiles -ffreestanding -mcpu=cortex-m0 -Wno-unused-value
 # GCCOPS := -Wall  -nostdlib -nostartfiles -ffreestanding -mthumb -mcpu=cortex-m0 -Wno-unused-value
-AOPS := --warn -mthumb #--fatal-warnings
+AOPS := --warn -mcpu=cortex-m0 #--fatal-warnings
 
 COMPILE := $(ARMGNU)-gcc $(GCCOPS) -O0 -c
 
@@ -17,6 +17,7 @@ STARTUP_OBJECT := $(SRC_PREFIX)/start.o
 
 # LINKSCRIPT := $(SRC_PREFIX)/memmap_qspi.ld
 # LINKSCRIPT := memmap_qspi.ld
+# LINKSCRIPT := link.ld
 LINKSCRIPT := sections.lds
 
 PATTERN = blink
@@ -36,11 +37,13 @@ $(OBJECTS): %.o : %.c
 #.SILENT:
 %.hex : $(OBJECTS) blink.c ../raptor.h
 	$(ARMGNU)-as $(AOPS) -mcpu=cortex-m0 -o $(STARTUP_OBJECT) $(STARTUP)
+# 	$(COMPILE) $(GCCOPS) -o start.o start.c
 	$(COMPILE) $(GCCOPS) -o blink.o blink.c
-# 	$(ARMGNU)-ld $(LDOPS) -T $(LINKSCRIPT) $(STARTUP_OBJECT) blink.o -o blink.elf
+# 	arm-none-eabi-gcc $(LDOPS) -T $(LINKSCRIPT) start.o blink.o -o blink.elf
+	$(ARMGNU)-ld $(LDOPS) -T $(LINKSCRIPT) $(STARTUP_OBJECT) blink.o -o blink.elf
 # 	$(ARMGNU)-ld $(LDOPS) -T $(LINKSCRIPT) $(STARTUP_OBJECT) blink.o $(OBJECTS) -o blink.elf
-	$(ARMGNU)-ld $(LDOPS) -T $(LINKSCRIPT) $(STARTUP_OBJECT) ../sw/gpio_drv.o blink.o -o blink.elf
-	$(ARMGNU)-objdump -D blink.elf > blink.lst
+# 	$(ARMGNU)-ld $(LDOPS) -T $(LINKSCRIPT) $(STARTUP_OBJECT) ../sw/gpio_drv.o blink.o -o blink.elf
+	$(ARMGNU)-objdump -d -S blink.elf > blink.lst
 	$(ARMGNU)-objcopy blink.elf -O verilog blink.hex
 	$(ARMGNU)-objcopy blink.elf
 

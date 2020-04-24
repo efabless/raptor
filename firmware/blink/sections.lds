@@ -16,13 +16,15 @@ SECTIONS {
         . = 0x100;
         *(.text)           /* .text sections (code) */
         *(.text*)          /* .text* sections (code) */
+        . = ALIGN(256);
+        /* _sidata = .; */
         *(.rodata)         /* .rodata sections (constants, strings, etc.) */
         *(.rodata*)        /* .rodata* sections (constants, strings, etc.) */
         *(.srodata)        /* .rodata sections (constants, strings, etc.) */
         *(.srodata*)       /* .rodata* sections (constants, strings, etc.) */
         . = ALIGN(4);
         _etext = .;        /* define a global symbol at end of code */
-        _sidata = _etext;  /* This is used by the startup in order to initialize the .data section */
+        _sidata = _etext; /* This is used by the startup in order to initialize the .data section */
     } >FLASH
 
 
@@ -30,7 +32,7 @@ SECTIONS {
     The program executes knowing that the data is in the RAM
     but the loader puts the initial values in the FLASH (inidata).
     It is one task of the startup to copy the initial values from FLASH to RAM. */
-    .data : AT ( _sidata )
+    .data : AT ( _etext )
     {
         . = ALIGN(4);
         _sdata = .;        /* create a global symbol at data start; used by startup code in order to initialise the .data section in RAM */
@@ -69,6 +71,7 @@ SECTIONS {
     {
         *(.stack*)
     } >RAM
-    __StackTop = ORIGIN(RAM) + LENGTH(RAM);
+    /* __StackTop = ORIGIN(RAM) + LENGTH(RAM); */
+    __StackTop = ORIGIN(RAM) + 0x1000;
     __StackLimit = __StackTop - SIZEOF(.stack_dummy);
 }
