@@ -17,7 +17,6 @@ SECTIONS {
         *(.text)           /* .text sections (code) */
         *(.text*)          /* .text* sections (code) */
         . = ALIGN(256);
-        /* _sidata = .; */
         *(.rodata)         /* .rodata sections (constants, strings, etc.) */
         *(.rodata*)        /* .rodata* sections (constants, strings, etc.) */
         *(.srodata)        /* .rodata sections (constants, strings, etc.) */

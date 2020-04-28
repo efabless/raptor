@@ -6,7 +6,7 @@ GCCOPS := -g -Wall -nostdlib -nostartfiles -ffreestanding -mcpu=cortex-m0 -mthum
 # GCCOPS := -Wall  -nostdlib -nostartfiles -ffreestanding -mthumb -mcpu=cortex-m0 -Wno-unused-value
 AOPS := --warn -Wa -mcpu=cortex-m0 #--fatal-warnings
 
-COMPILE := $(ARMGNU)-gcc $(GCCOPS) -O1 -c
+COMPILE := $(ARMGNU)-gcc $(GCCOPS) -O2 -c
 
 SRC_PREFIX := ../sw
 
@@ -16,7 +16,10 @@ OBJECTS = $(patsubst %.c,%.o,$(SOURCES))
 STARTUP := $(SRC_PREFIX)/cm0_startup.s
 STARTUP_OBJECT := $(SRC_PREFIX)/start.o
 
-LINKSCRIPT := $(SRC_PREFIX)/sections.ld
+# LINKSCRIPT := $(SRC_PREFIX)/memmap_qspi.ld
+# LINKSCRIPT := memmap_qspi.ld
+# LINKSCRIPT := link.ld
+LINKSCRIPT := sections.lds
 
 PATTERN = blink
 

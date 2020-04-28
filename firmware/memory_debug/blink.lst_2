@@ -1,0 +1,810 @@
+
+blink.elf:     file format elf32-littlearm
+
+
+Disassembly of section .text:
+
+00000000 <__isr_vector>:
+   0:	20001000 	.word	0x20001000
+   4:	00000101 	.word	0x00000101
+   8:	0000013d 	.word	0x0000013d
+   c:	00000149 	.word	0x00000149
+  10:	00000155 	.word	0x00000155
+  14:	00000161 	.word	0x00000161
+  18:	0000016d 	.word	0x0000016d
+	...
+  2c:	00000179 	.word	0x00000179
+  30:	00000185 	.word	0x00000185
+  34:	00000000 	.word	0x00000000
+  38:	00000191 	.word	0x00000191
+  3c:	0000019d 	.word	0x0000019d
+  40:	00000329 	.word	0x00000329
+	...
+
+00000100 <Reset_Handler>:
+ 100:	4809      	ldr	r0, [pc, #36]	; (128 <Hard_Fault_Handler+0xc>)
+ 102:	490a      	ldr	r1, [pc, #40]	; (12c <Hard_Fault_Handler+0x10>)
+ 104:	468d      	mov	sp, r1
+ 106:	4601      	mov	r1, r0
+ 108:	4602      	mov	r2, r0
+ 10a:	4604      	mov	r4, r0
+ 10c:	4605      	mov	r5, r0
+ 10e:	4606      	mov	r6, r0
+ 110:	4607      	mov	r7, r0
+ 112:	4680      	mov	r8, r0
+ 114:	4681      	mov	r9, r0
+ 116:	e1b5      	b.n	484 <main>
+ 118:	e7fe      	b.n	118 <Reset_Handler+0x18>
+ 11a:	46c0      	nop			; (mov r8, r8)
+
+0000011c <Hard_Fault_Handler>:
+ 11c:	4904      	ldr	r1, [pc, #16]	; (130 <Hard_Fault_Handler+0x14>)
+ 11e:	6008      	str	r0, [r1, #0]
+ 120:	4904      	ldr	r1, [pc, #16]	; (134 <Hard_Fault_Handler+0x18>)
+ 122:	4805      	ldr	r0, [pc, #20]	; (138 <Hard_Fault_Handler+0x1c>)
+ 124:	6008      	str	r0, [r1, #0]
+ 126:	e7fe      	b.n	126 <Hard_Fault_Handler+0xa>
+ 128:	00000000 	.word	0x00000000
+ 12c:	20001000 	.word	0x20001000
+ 130:	80000004 	.word	0x80000004
+ 134:	80000000 	.word	0x80000000
+ 138:	00000009 	.word	0x00000009
+
+0000013c <NMI_Handler>:
+ 13c:	497d      	ldr	r1, [pc, #500]	; (334 <UART_Handler+0xc>)
+ 13e:	6008      	str	r0, [r1, #0]
+ 140:	497d      	ldr	r1, [pc, #500]	; (338 <UART_Handler+0x10>)
+ 142:	487e      	ldr	r0, [pc, #504]	; (33c <UART_Handler+0x14>)
+ 144:	6008      	str	r0, [r1, #0]
+ 146:	e7fe      	b.n	146 <NMI_Handler+0xa>
+
+00000148 <HardFault_Handler>:
+ 148:	497a      	ldr	r1, [pc, #488]	; (334 <UART_Handler+0xc>)
+ 14a:	6008      	str	r0, [r1, #0]
+ 14c:	497a      	ldr	r1, [pc, #488]	; (338 <UART_Handler+0x10>)
+ 14e:	487b      	ldr	r0, [pc, #492]	; (33c <UART_Handler+0x14>)
+ 150:	6008      	str	r0, [r1, #0]
+ 152:	e7fe      	b.n	152 <HardFault_Handler+0xa>
+
+00000154 <MemManage_Handler>:
+ 154:	4977      	ldr	r1, [pc, #476]	; (334 <UART_Handler+0xc>)
+ 156:	6008      	str	r0, [r1, #0]
+ 158:	4977      	ldr	r1, [pc, #476]	; (338 <UART_Handler+0x10>)
+ 15a:	4878      	ldr	r0, [pc, #480]	; (33c <UART_Handler+0x14>)
+ 15c:	6008      	str	r0, [r1, #0]
+ 15e:	e7fe      	b.n	15e <MemManage_Handler+0xa>
+
+00000160 <BusFault_Handler>:
+ 160:	4974      	ldr	r1, [pc, #464]	; (334 <UART_Handler+0xc>)
+ 162:	6008      	str	r0, [r1, #0]
+ 164:	4974      	ldr	r1, [pc, #464]	; (338 <UART_Handler+0x10>)
+ 166:	4875      	ldr	r0, [pc, #468]	; (33c <UART_Handler+0x14>)
+ 168:	6008      	str	r0, [r1, #0]
+ 16a:	e7fe      	b.n	16a <BusFault_Handler+0xa>
+
+0000016c <UsageFault_Handler>:
+ 16c:	4971      	ldr	r1, [pc, #452]	; (334 <UART_Handler+0xc>)
+ 16e:	6008      	str	r0, [r1, #0]
+ 170:	4971      	ldr	r1, [pc, #452]	; (338 <UART_Handler+0x10>)
+ 172:	4872      	ldr	r0, [pc, #456]	; (33c <UART_Handler+0x14>)
+ 174:	6008      	str	r0, [r1, #0]
+ 176:	e7fe      	b.n	176 <UsageFault_Handler+0xa>
+
+00000178 <SVC_Handler>:
+ 178:	496e      	ldr	r1, [pc, #440]	; (334 <UART_Handler+0xc>)
+ 17a:	6008      	str	r0, [r1, #0]
+ 17c:	496e      	ldr	r1, [pc, #440]	; (338 <UART_Handler+0x10>)
+ 17e:	486f      	ldr	r0, [pc, #444]	; (33c <UART_Handler+0x14>)
+ 180:	6008      	str	r0, [r1, #0]
+ 182:	e7fe      	b.n	182 <SVC_Handler+0xa>
+
+00000184 <DebugMon_Handler>:
+ 184:	496b      	ldr	r1, [pc, #428]	; (334 <UART_Handler+0xc>)
+ 186:	6008      	str	r0, [r1, #0]
+ 188:	496b      	ldr	r1, [pc, #428]	; (338 <UART_Handler+0x10>)
+ 18a:	486c      	ldr	r0, [pc, #432]	; (33c <UART_Handler+0x14>)
+ 18c:	6008      	str	r0, [r1, #0]
+ 18e:	e7fe      	b.n	18e <DebugMon_Handler+0xa>
+
+00000190 <PendSV_Handler>:
+ 190:	4968      	ldr	r1, [pc, #416]	; (334 <UART_Handler+0xc>)
+ 192:	6008      	str	r0, [r1, #0]
+ 194:	4968      	ldr	r1, [pc, #416]	; (338 <UART_Handler+0x10>)
+ 196:	4869      	ldr	r0, [pc, #420]	; (33c <UART_Handler+0x14>)
+ 198:	6008      	str	r0, [r1, #0]
+ 19a:	e7fe      	b.n	19a <PendSV_Handler+0xa>
+
+0000019c <SysTick_Handler>:
+ 19c:	4965      	ldr	r1, [pc, #404]	; (334 <UART_Handler+0xc>)
+ 19e:	6008      	str	r0, [r1, #0]
+ 1a0:	4965      	ldr	r1, [pc, #404]	; (338 <UART_Handler+0x10>)
+ 1a2:	4866      	ldr	r0, [pc, #408]	; (33c <UART_Handler+0x14>)
+ 1a4:	6008      	str	r0, [r1, #0]
+ 1a6:	e7fe      	b.n	1a6 <SysTick_Handler+0xa>
+
+000001a8 <UARTRX0_Handler>:
+ 1a8:	4962      	ldr	r1, [pc, #392]	; (334 <UART_Handler+0xc>)
+ 1aa:	6008      	str	r0, [r1, #0]
+ 1ac:	4962      	ldr	r1, [pc, #392]	; (338 <UART_Handler+0x10>)
+ 1ae:	4863      	ldr	r0, [pc, #396]	; (33c <UART_Handler+0x14>)
+ 1b0:	6008      	str	r0, [r1, #0]
+ 1b2:	e7fe      	b.n	1b2 <UARTRX0_Handler+0xa>
+
+000001b4 <UARTTX0_Handler>:
+ 1b4:	495f      	ldr	r1, [pc, #380]	; (334 <UART_Handler+0xc>)
+ 1b6:	6008      	str	r0, [r1, #0]
+ 1b8:	495f      	ldr	r1, [pc, #380]	; (338 <UART_Handler+0x10>)
+ 1ba:	4860      	ldr	r0, [pc, #384]	; (33c <UART_Handler+0x14>)
+ 1bc:	6008      	str	r0, [r1, #0]
+ 1be:	e7fe      	b.n	1be <UARTTX0_Handler+0xa>
+
+000001c0 <UARTRX1_Handler>:
+ 1c0:	495c      	ldr	r1, [pc, #368]	; (334 <UART_Handler+0xc>)
+ 1c2:	6008      	str	r0, [r1, #0]
+ 1c4:	495c      	ldr	r1, [pc, #368]	; (338 <UART_Handler+0x10>)
+ 1c6:	485d      	ldr	r0, [pc, #372]	; (33c <UART_Handler+0x14>)
+ 1c8:	6008      	str	r0, [r1, #0]
+ 1ca:	e7fe      	b.n	1ca <UARTRX1_Handler+0xa>
+
+000001cc <UARTTX1_Handler>:
+ 1cc:	4959      	ldr	r1, [pc, #356]	; (334 <UART_Handler+0xc>)
+ 1ce:	6008      	str	r0, [r1, #0]
+ 1d0:	4959      	ldr	r1, [pc, #356]	; (338 <UART_Handler+0x10>)
+ 1d2:	485a      	ldr	r0, [pc, #360]	; (33c <UART_Handler+0x14>)
+ 1d4:	6008      	str	r0, [r1, #0]
+ 1d6:	e7fe      	b.n	1d6 <UARTTX1_Handler+0xa>
+
+000001d8 <UARTRX2_Handler>:
+ 1d8:	4956      	ldr	r1, [pc, #344]	; (334 <UART_Handler+0xc>)
+ 1da:	6008      	str	r0, [r1, #0]
+ 1dc:	4956      	ldr	r1, [pc, #344]	; (338 <UART_Handler+0x10>)
+ 1de:	4857      	ldr	r0, [pc, #348]	; (33c <UART_Handler+0x14>)
+ 1e0:	6008      	str	r0, [r1, #0]
+ 1e2:	e7fe      	b.n	1e2 <UARTRX2_Handler+0xa>
+
+000001e4 <UARTTX2_Handler>:
+ 1e4:	4953      	ldr	r1, [pc, #332]	; (334 <UART_Handler+0xc>)
+ 1e6:	6008      	str	r0, [r1, #0]
+ 1e8:	4953      	ldr	r1, [pc, #332]	; (338 <UART_Handler+0x10>)
+ 1ea:	4854      	ldr	r0, [pc, #336]	; (33c <UART_Handler+0x14>)
+ 1ec:	6008      	str	r0, [r1, #0]
+ 1ee:	e7fe      	b.n	1ee <UARTTX2_Handler+0xa>
+
+000001f0 <PORT0_COMB_Handler>:
+ 1f0:	4950      	ldr	r1, [pc, #320]	; (334 <UART_Handler+0xc>)
+ 1f2:	6008      	str	r0, [r1, #0]
+ 1f4:	4950      	ldr	r1, [pc, #320]	; (338 <UART_Handler+0x10>)
+ 1f6:	4851      	ldr	r0, [pc, #324]	; (33c <UART_Handler+0x14>)
+ 1f8:	6008      	str	r0, [r1, #0]
+ 1fa:	e7fe      	b.n	1fa <PORT0_COMB_Handler+0xa>
+
+000001fc <PORT1_COMB_Handler>:
+ 1fc:	494d      	ldr	r1, [pc, #308]	; (334 <UART_Handler+0xc>)
+ 1fe:	6008      	str	r0, [r1, #0]
+ 200:	494d      	ldr	r1, [pc, #308]	; (338 <UART_Handler+0x10>)
+ 202:	484e      	ldr	r0, [pc, #312]	; (33c <UART_Handler+0x14>)
+ 204:	6008      	str	r0, [r1, #0]
+ 206:	e7fe      	b.n	206 <PORT1_COMB_Handler+0xa>
+
+00000208 <TIMER0_Handler>:
+ 208:	494a      	ldr	r1, [pc, #296]	; (334 <UART_Handler+0xc>)
+ 20a:	6008      	str	r0, [r1, #0]
+ 20c:	494a      	ldr	r1, [pc, #296]	; (338 <UART_Handler+0x10>)
+ 20e:	484b      	ldr	r0, [pc, #300]	; (33c <UART_Handler+0x14>)
+ 210:	6008      	str	r0, [r1, #0]
+ 212:	e7fe      	b.n	212 <TIMER0_Handler+0xa>
+
+00000214 <TIMER1_Handler>:
+ 214:	4947      	ldr	r1, [pc, #284]	; (334 <UART_Handler+0xc>)
+ 216:	6008      	str	r0, [r1, #0]
+ 218:	4947      	ldr	r1, [pc, #284]	; (338 <UART_Handler+0x10>)
+ 21a:	4848      	ldr	r0, [pc, #288]	; (33c <UART_Handler+0x14>)
+ 21c:	6008      	str	r0, [r1, #0]
+ 21e:	e7fe      	b.n	21e <TIMER1_Handler+0xa>
+
+00000220 <DUALTIMER_HANDLER>:
+ 220:	4944      	ldr	r1, [pc, #272]	; (334 <UART_Handler+0xc>)
+ 222:	6008      	str	r0, [r1, #0]
+ 224:	4944      	ldr	r1, [pc, #272]	; (338 <UART_Handler+0x10>)
+ 226:	4845      	ldr	r0, [pc, #276]	; (33c <UART_Handler+0x14>)
+ 228:	6008      	str	r0, [r1, #0]
+ 22a:	e7fe      	b.n	22a <DUALTIMER_HANDLER+0xa>
+
+0000022c <SPI_ALL_Handler>:
+ 22c:	4941      	ldr	r1, [pc, #260]	; (334 <UART_Handler+0xc>)
+ 22e:	6008      	str	r0, [r1, #0]
+ 230:	4941      	ldr	r1, [pc, #260]	; (338 <UART_Handler+0x10>)
+ 232:	4842      	ldr	r0, [pc, #264]	; (33c <UART_Handler+0x14>)
+ 234:	6008      	str	r0, [r1, #0]
+ 236:	e7fe      	b.n	236 <SPI_ALL_Handler+0xa>
+
+00000238 <UARTOVF_Handler>:
+ 238:	493e      	ldr	r1, [pc, #248]	; (334 <UART_Handler+0xc>)
+ 23a:	6008      	str	r0, [r1, #0]
+ 23c:	493e      	ldr	r1, [pc, #248]	; (338 <UART_Handler+0x10>)
+ 23e:	483f      	ldr	r0, [pc, #252]	; (33c <UART_Handler+0x14>)
+ 240:	6008      	str	r0, [r1, #0]
+ 242:	e7fe      	b.n	242 <UARTOVF_Handler+0xa>
+
+00000244 <ETHERNET_Handler>:
+ 244:	493b      	ldr	r1, [pc, #236]	; (334 <UART_Handler+0xc>)
+ 246:	6008      	str	r0, [r1, #0]
+ 248:	493b      	ldr	r1, [pc, #236]	; (338 <UART_Handler+0x10>)
+ 24a:	483c      	ldr	r0, [pc, #240]	; (33c <UART_Handler+0x14>)
+ 24c:	6008      	str	r0, [r1, #0]
+ 24e:	e7fe      	b.n	24e <ETHERNET_Handler+0xa>
+
+00000250 <I2S_Handler>:
+ 250:	4938      	ldr	r1, [pc, #224]	; (334 <UART_Handler+0xc>)
+ 252:	6008      	str	r0, [r1, #0]
+ 254:	4938      	ldr	r1, [pc, #224]	; (338 <UART_Handler+0x10>)
+ 256:	4839      	ldr	r0, [pc, #228]	; (33c <UART_Handler+0x14>)
+ 258:	6008      	str	r0, [r1, #0]
+ 25a:	e7fe      	b.n	25a <I2S_Handler+0xa>
+
+0000025c <DMA_Handler>:
+ 25c:	4935      	ldr	r1, [pc, #212]	; (334 <UART_Handler+0xc>)
+ 25e:	6008      	str	r0, [r1, #0]
+ 260:	4935      	ldr	r1, [pc, #212]	; (338 <UART_Handler+0x10>)
+ 262:	4836      	ldr	r0, [pc, #216]	; (33c <UART_Handler+0x14>)
+ 264:	6008      	str	r0, [r1, #0]
+ 266:	e7fe      	b.n	266 <DMA_Handler+0xa>
+
+00000268 <PORT0_0_Handler>:
+ 268:	4932      	ldr	r1, [pc, #200]	; (334 <UART_Handler+0xc>)
+ 26a:	6008      	str	r0, [r1, #0]
+ 26c:	4932      	ldr	r1, [pc, #200]	; (338 <UART_Handler+0x10>)
+ 26e:	4833      	ldr	r0, [pc, #204]	; (33c <UART_Handler+0x14>)
+ 270:	6008      	str	r0, [r1, #0]
+ 272:	e7fe      	b.n	272 <PORT0_0_Handler+0xa>
+
+00000274 <PORT0_1_Handler>:
+ 274:	492f      	ldr	r1, [pc, #188]	; (334 <UART_Handler+0xc>)
+ 276:	6008      	str	r0, [r1, #0]
+ 278:	492f      	ldr	r1, [pc, #188]	; (338 <UART_Handler+0x10>)
+ 27a:	4830      	ldr	r0, [pc, #192]	; (33c <UART_Handler+0x14>)
+ 27c:	6008      	str	r0, [r1, #0]
+ 27e:	e7fe      	b.n	27e <PORT0_1_Handler+0xa>
+
+00000280 <PORT0_2_Handler>:
+ 280:	492c      	ldr	r1, [pc, #176]	; (334 <UART_Handler+0xc>)
+ 282:	6008      	str	r0, [r1, #0]
+ 284:	492c      	ldr	r1, [pc, #176]	; (338 <UART_Handler+0x10>)
+ 286:	482d      	ldr	r0, [pc, #180]	; (33c <UART_Handler+0x14>)
+ 288:	6008      	str	r0, [r1, #0]
+ 28a:	e7fe      	b.n	28a <PORT0_2_Handler+0xa>
+
+0000028c <PORT0_3_Handler>:
+ 28c:	4929      	ldr	r1, [pc, #164]	; (334 <UART_Handler+0xc>)
+ 28e:	6008      	str	r0, [r1, #0]
+ 290:	4929      	ldr	r1, [pc, #164]	; (338 <UART_Handler+0x10>)
+ 292:	482a      	ldr	r0, [pc, #168]	; (33c <UART_Handler+0x14>)
+ 294:	6008      	str	r0, [r1, #0]
+ 296:	e7fe      	b.n	296 <PORT0_3_Handler+0xa>
+
+00000298 <PORT0_4_Handler>:
+ 298:	4926      	ldr	r1, [pc, #152]	; (334 <UART_Handler+0xc>)
+ 29a:	6008      	str	r0, [r1, #0]
+ 29c:	4926      	ldr	r1, [pc, #152]	; (338 <UART_Handler+0x10>)
+ 29e:	4827      	ldr	r0, [pc, #156]	; (33c <UART_Handler+0x14>)
+ 2a0:	6008      	str	r0, [r1, #0]
+ 2a2:	e7fe      	b.n	2a2 <PORT0_4_Handler+0xa>
+
+000002a4 <PORT0_5_Handler>:
+ 2a4:	4923      	ldr	r1, [pc, #140]	; (334 <UART_Handler+0xc>)
+ 2a6:	6008      	str	r0, [r1, #0]
+ 2a8:	4923      	ldr	r1, [pc, #140]	; (338 <UART_Handler+0x10>)
+ 2aa:	4824      	ldr	r0, [pc, #144]	; (33c <UART_Handler+0x14>)
+ 2ac:	6008      	str	r0, [r1, #0]
+ 2ae:	e7fe      	b.n	2ae <PORT0_5_Handler+0xa>
+
+000002b0 <PORT0_6_Handler>:
+ 2b0:	4920      	ldr	r1, [pc, #128]	; (334 <UART_Handler+0xc>)
+ 2b2:	6008      	str	r0, [r1, #0]
+ 2b4:	4920      	ldr	r1, [pc, #128]	; (338 <UART_Handler+0x10>)
+ 2b6:	4821      	ldr	r0, [pc, #132]	; (33c <UART_Handler+0x14>)
+ 2b8:	6008      	str	r0, [r1, #0]
+ 2ba:	e7fe      	b.n	2ba <PORT0_6_Handler+0xa>
+
+000002bc <PORT0_7_Handler>:
+ 2bc:	491d      	ldr	r1, [pc, #116]	; (334 <UART_Handler+0xc>)
+ 2be:	6008      	str	r0, [r1, #0]
+ 2c0:	491d      	ldr	r1, [pc, #116]	; (338 <UART_Handler+0x10>)
+ 2c2:	481e      	ldr	r0, [pc, #120]	; (33c <UART_Handler+0x14>)
+ 2c4:	6008      	str	r0, [r1, #0]
+ 2c6:	e7fe      	b.n	2c6 <PORT0_7_Handler+0xa>
+
+000002c8 <PORT0_8_Handler>:
+ 2c8:	491a      	ldr	r1, [pc, #104]	; (334 <UART_Handler+0xc>)
+ 2ca:	6008      	str	r0, [r1, #0]
+ 2cc:	491a      	ldr	r1, [pc, #104]	; (338 <UART_Handler+0x10>)
+ 2ce:	481b      	ldr	r0, [pc, #108]	; (33c <UART_Handler+0x14>)
+ 2d0:	6008      	str	r0, [r1, #0]
+ 2d2:	e7fe      	b.n	2d2 <PORT0_8_Handler+0xa>
+
+000002d4 <PORT0_9_Handler>:
+ 2d4:	4917      	ldr	r1, [pc, #92]	; (334 <UART_Handler+0xc>)
+ 2d6:	6008      	str	r0, [r1, #0]
+ 2d8:	4917      	ldr	r1, [pc, #92]	; (338 <UART_Handler+0x10>)
+ 2da:	4818      	ldr	r0, [pc, #96]	; (33c <UART_Handler+0x14>)
+ 2dc:	6008      	str	r0, [r1, #0]
+ 2de:	e7fe      	b.n	2de <PORT0_9_Handler+0xa>
+
+000002e0 <PORT0_10_Handler>:
+ 2e0:	4914      	ldr	r1, [pc, #80]	; (334 <UART_Handler+0xc>)
+ 2e2:	6008      	str	r0, [r1, #0]
+ 2e4:	4914      	ldr	r1, [pc, #80]	; (338 <UART_Handler+0x10>)
+ 2e6:	4815      	ldr	r0, [pc, #84]	; (33c <UART_Handler+0x14>)
+ 2e8:	6008      	str	r0, [r1, #0]
+ 2ea:	e7fe      	b.n	2ea <PORT0_10_Handler+0xa>
+
+000002ec <PORT0_11_Handler>:
+ 2ec:	4911      	ldr	r1, [pc, #68]	; (334 <UART_Handler+0xc>)
+ 2ee:	6008      	str	r0, [r1, #0]
+ 2f0:	4911      	ldr	r1, [pc, #68]	; (338 <UART_Handler+0x10>)
+ 2f2:	4812      	ldr	r0, [pc, #72]	; (33c <UART_Handler+0x14>)
+ 2f4:	6008      	str	r0, [r1, #0]
+ 2f6:	e7fe      	b.n	2f6 <PORT0_11_Handler+0xa>
+
+000002f8 <PORT0_12_Handler>:
+ 2f8:	490e      	ldr	r1, [pc, #56]	; (334 <UART_Handler+0xc>)
+ 2fa:	6008      	str	r0, [r1, #0]
+ 2fc:	490e      	ldr	r1, [pc, #56]	; (338 <UART_Handler+0x10>)
+ 2fe:	480f      	ldr	r0, [pc, #60]	; (33c <UART_Handler+0x14>)
+ 300:	6008      	str	r0, [r1, #0]
+ 302:	e7fe      	b.n	302 <PORT0_12_Handler+0xa>
+
+00000304 <PORT0_13_Handler>:
+ 304:	490b      	ldr	r1, [pc, #44]	; (334 <UART_Handler+0xc>)
+ 306:	6008      	str	r0, [r1, #0]
+ 308:	490b      	ldr	r1, [pc, #44]	; (338 <UART_Handler+0x10>)
+ 30a:	480c      	ldr	r0, [pc, #48]	; (33c <UART_Handler+0x14>)
+ 30c:	6008      	str	r0, [r1, #0]
+ 30e:	e7fe      	b.n	30e <PORT0_13_Handler+0xa>
+
+00000310 <PORT0_14_Handler>:
+ 310:	4908      	ldr	r1, [pc, #32]	; (334 <UART_Handler+0xc>)
+ 312:	6008      	str	r0, [r1, #0]
+ 314:	4908      	ldr	r1, [pc, #32]	; (338 <UART_Handler+0x10>)
+ 316:	4809      	ldr	r0, [pc, #36]	; (33c <UART_Handler+0x14>)
+ 318:	6008      	str	r0, [r1, #0]
+ 31a:	e7fe      	b.n	31a <PORT0_14_Handler+0xa>
+
+0000031c <PORT0_15_Handler>:
+ 31c:	4905      	ldr	r1, [pc, #20]	; (334 <UART_Handler+0xc>)
+ 31e:	6008      	str	r0, [r1, #0]
+ 320:	4905      	ldr	r1, [pc, #20]	; (338 <UART_Handler+0x10>)
+ 322:	4806      	ldr	r0, [pc, #24]	; (33c <UART_Handler+0x14>)
+ 324:	6008      	str	r0, [r1, #0]
+ 326:	e7fe      	b.n	326 <PORT0_15_Handler+0xa>
+
+00000328 <UART_Handler>:
+ 328:	4902      	ldr	r1, [pc, #8]	; (334 <UART_Handler+0xc>)
+ 32a:	6008      	str	r0, [r1, #0]
+ 32c:	4902      	ldr	r1, [pc, #8]	; (338 <UART_Handler+0x10>)
+ 32e:	4803      	ldr	r0, [pc, #12]	; (33c <UART_Handler+0x14>)
+ 330:	6008      	str	r0, [r1, #0]
+ 332:	e7fe      	b.n	332 <UART_Handler+0xa>
+ 334:	80000004 	.word	0x80000004
+ 338:	80000000 	.word	0x80000000
+ 33c:	00000009 	.word	0x00000009
+
+00000340 <led>:
+//unsigned int volatile * const GPIO_DIR =
+//    (unsigned int *) (GPIO_BASE_ADDR + GPIO_DIR_REG);
+
+
+//void led() {
+void led(int x) {
+ 340:	b580      	push	{r7, lr}
+ 342:	b086      	sub	sp, #24
+ 344:	af00      	add	r7, sp, #0
+ 346:	6078      	str	r0, [r7, #4]
+int j;
+////    gpio_write(x);
+//    reg_gpio_data = x;
+////    *GPIO_DATA = x;
+    reg_gpio_data = 0x0a;
+ 348:	2380      	movs	r3, #128	; 0x80
+ 34a:	061b      	lsls	r3, r3, #24
+ 34c:	220a      	movs	r2, #10
+ 34e:	601a      	str	r2, [r3, #0]
+    for (int j = 0; j < 70000; j++);
+ 350:	2300      	movs	r3, #0
+ 352:	613b      	str	r3, [r7, #16]
+ 354:	e002      	b.n	35c <led+0x1c>
+ 356:	693b      	ldr	r3, [r7, #16]
+ 358:	3301      	adds	r3, #1
+ 35a:	613b      	str	r3, [r7, #16]
+ 35c:	693b      	ldr	r3, [r7, #16]
+ 35e:	4a48      	ldr	r2, [pc, #288]	; (480 <led+0x140>)
+ 360:	4293      	cmp	r3, r2
+ 362:	ddf8      	ble.n	356 <led+0x16>
+    reg_gpio_data = x;
+ 364:	2380      	movs	r3, #128	; 0x80
+ 366:	061b      	lsls	r3, r3, #24
+ 368:	687a      	ldr	r2, [r7, #4]
+ 36a:	601a      	str	r2, [r3, #0]
+    for (int j = 0; j < 70000; j++);
+ 36c:	2300      	movs	r3, #0
+ 36e:	60fb      	str	r3, [r7, #12]
+ 370:	e002      	b.n	378 <led+0x38>
+ 372:	68fb      	ldr	r3, [r7, #12]
+ 374:	3301      	adds	r3, #1
+ 376:	60fb      	str	r3, [r7, #12]
+ 378:	68fb      	ldr	r3, [r7, #12]
+ 37a:	4a41      	ldr	r2, [pc, #260]	; (480 <led+0x140>)
+ 37c:	4293      	cmp	r3, r2
+ 37e:	ddf8      	ble.n	372 <led+0x32>
+    __asm("mov %[result],sp":[result] "=r" (x)); reg_gpio_data = x; for (j = 0; j < 70000; j++); reg_gpio_data = 0x1;  for (j = 0; j < 70000; j++);
+ 380:	466b      	mov	r3, sp
+ 382:	607b      	str	r3, [r7, #4]
+ 384:	2380      	movs	r3, #128	; 0x80
+ 386:	061b      	lsls	r3, r3, #24
+ 388:	687a      	ldr	r2, [r7, #4]
+ 38a:	601a      	str	r2, [r3, #0]
+ 38c:	2300      	movs	r3, #0
+ 38e:	617b      	str	r3, [r7, #20]
+ 390:	e002      	b.n	398 <led+0x58>
+ 392:	697b      	ldr	r3, [r7, #20]
+ 394:	3301      	adds	r3, #1
+ 396:	617b      	str	r3, [r7, #20]
+ 398:	697b      	ldr	r3, [r7, #20]
+ 39a:	4a39      	ldr	r2, [pc, #228]	; (480 <led+0x140>)
+ 39c:	4293      	cmp	r3, r2
+ 39e:	ddf8      	ble.n	392 <led+0x52>
+ 3a0:	2380      	movs	r3, #128	; 0x80
+ 3a2:	061b      	lsls	r3, r3, #24
+ 3a4:	2201      	movs	r2, #1
+ 3a6:	601a      	str	r2, [r3, #0]
+ 3a8:	2300      	movs	r3, #0
+ 3aa:	617b      	str	r3, [r7, #20]
+ 3ac:	e002      	b.n	3b4 <led+0x74>
+ 3ae:	697b      	ldr	r3, [r7, #20]
+ 3b0:	3301      	adds	r3, #1
+ 3b2:	617b      	str	r3, [r7, #20]
+ 3b4:	697b      	ldr	r3, [r7, #20]
+ 3b6:	4a32      	ldr	r2, [pc, #200]	; (480 <led+0x140>)
+ 3b8:	4293      	cmp	r3, r2
+ 3ba:	ddf8      	ble.n	3ae <led+0x6e>
+    __asm("mov %[result],sp":[result] "=r" (x)); reg_gpio_data = x >> 4; for (j = 0; j < 70000; j++); reg_gpio_data = 0x1; for (j = 0; j < 70000; j++);
+ 3bc:	466b      	mov	r3, sp
+ 3be:	607b      	str	r3, [r7, #4]
+ 3c0:	687b      	ldr	r3, [r7, #4]
+ 3c2:	111a      	asrs	r2, r3, #4
+ 3c4:	2380      	movs	r3, #128	; 0x80
+ 3c6:	061b      	lsls	r3, r3, #24
+ 3c8:	601a      	str	r2, [r3, #0]
+ 3ca:	2300      	movs	r3, #0
+ 3cc:	617b      	str	r3, [r7, #20]
+ 3ce:	e002      	b.n	3d6 <led+0x96>
+ 3d0:	697b      	ldr	r3, [r7, #20]
+ 3d2:	3301      	adds	r3, #1
+ 3d4:	617b      	str	r3, [r7, #20]
+ 3d6:	697b      	ldr	r3, [r7, #20]
+ 3d8:	4a29      	ldr	r2, [pc, #164]	; (480 <led+0x140>)
+ 3da:	4293      	cmp	r3, r2
+ 3dc:	ddf8      	ble.n	3d0 <led+0x90>
+ 3de:	2380      	movs	r3, #128	; 0x80
+ 3e0:	061b      	lsls	r3, r3, #24
+ 3e2:	2201      	movs	r2, #1
+ 3e4:	601a      	str	r2, [r3, #0]
+ 3e6:	2300      	movs	r3, #0
+ 3e8:	617b      	str	r3, [r7, #20]
+ 3ea:	e002      	b.n	3f2 <led+0xb2>
+ 3ec:	697b      	ldr	r3, [r7, #20]
+ 3ee:	3301      	adds	r3, #1
+ 3f0:	617b      	str	r3, [r7, #20]
+ 3f2:	697b      	ldr	r3, [r7, #20]
+ 3f4:	4a22      	ldr	r2, [pc, #136]	; (480 <led+0x140>)
+ 3f6:	4293      	cmp	r3, r2
+ 3f8:	ddf8      	ble.n	3ec <led+0xac>
+    __asm("mov %[result],sp":[result] "=r" (x)); reg_gpio_data = x >> 8; for (j = 0; j < 70000; j++); reg_gpio_data = 0x1; for (j = 0; j < 70000; j++);
+ 3fa:	466b      	mov	r3, sp
+ 3fc:	607b      	str	r3, [r7, #4]
+ 3fe:	687b      	ldr	r3, [r7, #4]
+ 400:	121a      	asrs	r2, r3, #8
+ 402:	2380      	movs	r3, #128	; 0x80
+ 404:	061b      	lsls	r3, r3, #24
+ 406:	601a      	str	r2, [r3, #0]
+ 408:	2300      	movs	r3, #0
+ 40a:	617b      	str	r3, [r7, #20]
+ 40c:	e002      	b.n	414 <led+0xd4>
+ 40e:	697b      	ldr	r3, [r7, #20]
+ 410:	3301      	adds	r3, #1
+ 412:	617b      	str	r3, [r7, #20]
+ 414:	697b      	ldr	r3, [r7, #20]
+ 416:	4a1a      	ldr	r2, [pc, #104]	; (480 <led+0x140>)
+ 418:	4293      	cmp	r3, r2
+ 41a:	ddf8      	ble.n	40e <led+0xce>
+ 41c:	2380      	movs	r3, #128	; 0x80
+ 41e:	061b      	lsls	r3, r3, #24
+ 420:	2201      	movs	r2, #1
+ 422:	601a      	str	r2, [r3, #0]
+ 424:	2300      	movs	r3, #0
+ 426:	617b      	str	r3, [r7, #20]
+ 428:	e002      	b.n	430 <led+0xf0>
+ 42a:	697b      	ldr	r3, [r7, #20]
+ 42c:	3301      	adds	r3, #1
+ 42e:	617b      	str	r3, [r7, #20]
+ 430:	697b      	ldr	r3, [r7, #20]
+ 432:	4a13      	ldr	r2, [pc, #76]	; (480 <led+0x140>)
+ 434:	4293      	cmp	r3, r2
+ 436:	ddf8      	ble.n	42a <led+0xea>
+    __asm("mov %[result],sp":[result] "=r" (x)); reg_gpio_data = x >> 12; for (j = 0; j < 70000; j++); reg_gpio_data = 0x1; for (j = 0; j < 70000; j++);
+ 438:	466b      	mov	r3, sp
+ 43a:	607b      	str	r3, [r7, #4]
+ 43c:	687b      	ldr	r3, [r7, #4]
+ 43e:	131a      	asrs	r2, r3, #12
+ 440:	2380      	movs	r3, #128	; 0x80
+ 442:	061b      	lsls	r3, r3, #24
+ 444:	601a      	str	r2, [r3, #0]
+ 446:	2300      	movs	r3, #0
+ 448:	617b      	str	r3, [r7, #20]
+ 44a:	e002      	b.n	452 <led+0x112>
+ 44c:	697b      	ldr	r3, [r7, #20]
+ 44e:	3301      	adds	r3, #1
+ 450:	617b      	str	r3, [r7, #20]
+ 452:	697b      	ldr	r3, [r7, #20]
+ 454:	4a0a      	ldr	r2, [pc, #40]	; (480 <led+0x140>)
+ 456:	4293      	cmp	r3, r2
+ 458:	ddf8      	ble.n	44c <led+0x10c>
+ 45a:	2380      	movs	r3, #128	; 0x80
+ 45c:	061b      	lsls	r3, r3, #24
+ 45e:	2201      	movs	r2, #1
+ 460:	601a      	str	r2, [r3, #0]
+ 462:	2300      	movs	r3, #0
+ 464:	617b      	str	r3, [r7, #20]
+ 466:	e002      	b.n	46e <led+0x12e>
+ 468:	697b      	ldr	r3, [r7, #20]
+ 46a:	3301      	adds	r3, #1
+ 46c:	617b      	str	r3, [r7, #20]
+ 46e:	697b      	ldr	r3, [r7, #20]
+ 470:	4a03      	ldr	r2, [pc, #12]	; (480 <led+0x140>)
+ 472:	4293      	cmp	r3, r2
+ 474:	ddf8      	ble.n	468 <led+0x128>
+
+}
+ 476:	46c0      	nop			; (mov r8, r8)
+ 478:	46c0      	nop			; (mov r8, r8)
+ 47a:	46bd      	mov	sp, r7
+ 47c:	b006      	add	sp, #24
+ 47e:	bd80      	pop	{r7, pc}
+ 480:	0001116f 	.word	0x0001116f
+
+00000484 <main>:
+
+//int A[] = {5,7,2,3,1};
+
+void main()
+{
+ 484:	b580      	push	{r7, lr}
+ 486:	b086      	sub	sp, #24
+ 488:	af00      	add	r7, sp, #0
+    unsigned long *src , *dst, *dstend;
+    int x;
+
+    // Copy data initializers
+    src = &_sidata;
+ 48a:	4b59      	ldr	r3, [pc, #356]	; (5f0 <main+0x16c>)
+ 48c:	617b      	str	r3, [r7, #20]
+    dst = &_sdata;
+ 48e:	4b59      	ldr	r3, [pc, #356]	; (5f4 <main+0x170>)
+ 490:	613b      	str	r3, [r7, #16]
+    dstend = &_edata;
+ 492:	4b59      	ldr	r3, [pc, #356]	; (5f8 <main+0x174>)
+ 494:	60bb      	str	r3, [r7, #8]
+    while (dst < dstend)
+ 496:	e007      	b.n	4a8 <main+0x24>
+        *(dst ++) = *(src ++);
+ 498:	697a      	ldr	r2, [r7, #20]
+ 49a:	1d13      	adds	r3, r2, #4
+ 49c:	617b      	str	r3, [r7, #20]
+ 49e:	693b      	ldr	r3, [r7, #16]
+ 4a0:	1d19      	adds	r1, r3, #4
+ 4a2:	6139      	str	r1, [r7, #16]
+ 4a4:	6812      	ldr	r2, [r2, #0]
+ 4a6:	601a      	str	r2, [r3, #0]
+    while (dst < dstend)
+ 4a8:	693a      	ldr	r2, [r7, #16]
+ 4aa:	68bb      	ldr	r3, [r7, #8]
+ 4ac:	429a      	cmp	r2, r3
+ 4ae:	d3f3      	bcc.n	498 <main+0x14>
+
+    // Zero bss
+    dst = &_sbss;
+ 4b0:	4b52      	ldr	r3, [pc, #328]	; (5fc <main+0x178>)
+ 4b2:	613b      	str	r3, [r7, #16]
+    while (dst < &_ebss)
+ 4b4:	e004      	b.n	4c0 <main+0x3c>
+        *(dst ++) = 0;
+ 4b6:	693b      	ldr	r3, [r7, #16]
+ 4b8:	1d1a      	adds	r2, r3, #4
+ 4ba:	613a      	str	r2, [r7, #16]
+ 4bc:	2200      	movs	r2, #0
+ 4be:	601a      	str	r2, [r3, #0]
+    while (dst < &_ebss)
+ 4c0:	693a      	ldr	r2, [r7, #16]
+ 4c2:	4b4f      	ldr	r3, [pc, #316]	; (600 <main+0x17c>)
+ 4c4:	429a      	cmp	r2, r3
+ 4c6:	d3f6      	bcc.n	4b6 <main+0x32>
+
+    int i,j;
+    reg_gpio_dir = 0x0000;
+ 4c8:	4b4e      	ldr	r3, [pc, #312]	; (604 <main+0x180>)
+ 4ca:	2200      	movs	r2, #0
+ 4cc:	601a      	str	r2, [r3, #0]
+    reg_gpio_data = 0x000f;
+ 4ce:	2380      	movs	r3, #128	; 0x80
+ 4d0:	061b      	lsls	r3, r3, #24
+ 4d2:	220f      	movs	r2, #15
+ 4d4:	601a      	str	r2, [r3, #0]
+
+    for (j = 0; j < 70000; j++);
+ 4d6:	2300      	movs	r3, #0
+ 4d8:	60fb      	str	r3, [r7, #12]
+ 4da:	e002      	b.n	4e2 <main+0x5e>
+ 4dc:	68fb      	ldr	r3, [r7, #12]
+ 4de:	3301      	adds	r3, #1
+ 4e0:	60fb      	str	r3, [r7, #12]
+ 4e2:	68fb      	ldr	r3, [r7, #12]
+ 4e4:	4a48      	ldr	r2, [pc, #288]	; (608 <main+0x184>)
+ 4e6:	4293      	cmp	r3, r2
+ 4e8:	ddf8      	ble.n	4dc <main+0x58>
+
+//    for (i = 0; i<100; i++) {
+////        reg_gpio_data = A[i];
+//        *(m1) = 0x0b;
+
+        __asm("mov %[result],sp":[result] "=r" (x)); reg_gpio_data = x; for (j = 0; j < 70000; j++); reg_gpio_data = 0x1;  for (j = 0; j < 70000; j++);
+ 4ea:	466b      	mov	r3, sp
+ 4ec:	607b      	str	r3, [r7, #4]
+ 4ee:	2380      	movs	r3, #128	; 0x80
+ 4f0:	061b      	lsls	r3, r3, #24
+ 4f2:	687a      	ldr	r2, [r7, #4]
+ 4f4:	601a      	str	r2, [r3, #0]
+ 4f6:	2300      	movs	r3, #0
+ 4f8:	60fb      	str	r3, [r7, #12]
+ 4fa:	e002      	b.n	502 <main+0x7e>
+ 4fc:	68fb      	ldr	r3, [r7, #12]
+ 4fe:	3301      	adds	r3, #1
+ 500:	60fb      	str	r3, [r7, #12]
+ 502:	68fb      	ldr	r3, [r7, #12]
+ 504:	4a40      	ldr	r2, [pc, #256]	; (608 <main+0x184>)
+ 506:	4293      	cmp	r3, r2
+ 508:	ddf8      	ble.n	4fc <main+0x78>
+ 50a:	2380      	movs	r3, #128	; 0x80
+ 50c:	061b      	lsls	r3, r3, #24
+ 50e:	2201      	movs	r2, #1
+ 510:	601a      	str	r2, [r3, #0]
+ 512:	2300      	movs	r3, #0
+ 514:	60fb      	str	r3, [r7, #12]
+ 516:	e002      	b.n	51e <main+0x9a>
+ 518:	68fb      	ldr	r3, [r7, #12]
+ 51a:	3301      	adds	r3, #1
+ 51c:	60fb      	str	r3, [r7, #12]
+ 51e:	68fb      	ldr	r3, [r7, #12]
+ 520:	4a39      	ldr	r2, [pc, #228]	; (608 <main+0x184>)
+ 522:	4293      	cmp	r3, r2
+ 524:	ddf8      	ble.n	518 <main+0x94>
+        __asm("mov %[result],sp":[result] "=r" (x)); reg_gpio_data = x >> 4; for (j = 0; j < 70000; j++); reg_gpio_data = 0x1; for (j = 0; j < 70000; j++);
+ 526:	466b      	mov	r3, sp
+ 528:	607b      	str	r3, [r7, #4]
+ 52a:	687b      	ldr	r3, [r7, #4]
+ 52c:	111a      	asrs	r2, r3, #4
+ 52e:	2380      	movs	r3, #128	; 0x80
+ 530:	061b      	lsls	r3, r3, #24
+ 532:	601a      	str	r2, [r3, #0]
+ 534:	2300      	movs	r3, #0
+ 536:	60fb      	str	r3, [r7, #12]
+ 538:	e002      	b.n	540 <main+0xbc>
+ 53a:	68fb      	ldr	r3, [r7, #12]
+ 53c:	3301      	adds	r3, #1
+ 53e:	60fb      	str	r3, [r7, #12]
+ 540:	68fb      	ldr	r3, [r7, #12]
+ 542:	4a31      	ldr	r2, [pc, #196]	; (608 <main+0x184>)
+ 544:	4293      	cmp	r3, r2
+ 546:	ddf8      	ble.n	53a <main+0xb6>
+ 548:	2380      	movs	r3, #128	; 0x80
+ 54a:	061b      	lsls	r3, r3, #24
+ 54c:	2201      	movs	r2, #1
+ 54e:	601a      	str	r2, [r3, #0]
+ 550:	2300      	movs	r3, #0
+ 552:	60fb      	str	r3, [r7, #12]
+ 554:	e002      	b.n	55c <main+0xd8>
+ 556:	68fb      	ldr	r3, [r7, #12]
+ 558:	3301      	adds	r3, #1
+ 55a:	60fb      	str	r3, [r7, #12]
+ 55c:	68fb      	ldr	r3, [r7, #12]
+ 55e:	4a2a      	ldr	r2, [pc, #168]	; (608 <main+0x184>)
+ 560:	4293      	cmp	r3, r2
+ 562:	ddf8      	ble.n	556 <main+0xd2>
+        __asm("mov %[result],sp":[result] "=r" (x)); reg_gpio_data = x >> 8; for (j = 0; j < 70000; j++); reg_gpio_data = 0x1; for (j = 0; j < 70000; j++);
+ 564:	466b      	mov	r3, sp
+ 566:	607b      	str	r3, [r7, #4]
+ 568:	687b      	ldr	r3, [r7, #4]
+ 56a:	121a      	asrs	r2, r3, #8
+ 56c:	2380      	movs	r3, #128	; 0x80
+ 56e:	061b      	lsls	r3, r3, #24
+ 570:	601a      	str	r2, [r3, #0]
+ 572:	2300      	movs	r3, #0
+ 574:	60fb      	str	r3, [r7, #12]
+ 576:	e002      	b.n	57e <main+0xfa>
+ 578:	68fb      	ldr	r3, [r7, #12]
+ 57a:	3301      	adds	r3, #1
+ 57c:	60fb      	str	r3, [r7, #12]
+ 57e:	68fb      	ldr	r3, [r7, #12]
+ 580:	4a21      	ldr	r2, [pc, #132]	; (608 <main+0x184>)
+ 582:	4293      	cmp	r3, r2
+ 584:	ddf8      	ble.n	578 <main+0xf4>
+ 586:	2380      	movs	r3, #128	; 0x80
+ 588:	061b      	lsls	r3, r3, #24
+ 58a:	2201      	movs	r2, #1
+ 58c:	601a      	str	r2, [r3, #0]
+ 58e:	2300      	movs	r3, #0
+ 590:	60fb      	str	r3, [r7, #12]
+ 592:	e002      	b.n	59a <main+0x116>
+ 594:	68fb      	ldr	r3, [r7, #12]
+ 596:	3301      	adds	r3, #1
+ 598:	60fb      	str	r3, [r7, #12]
+ 59a:	68fb      	ldr	r3, [r7, #12]
+ 59c:	4a1a      	ldr	r2, [pc, #104]	; (608 <main+0x184>)
+ 59e:	4293      	cmp	r3, r2
+ 5a0:	ddf8      	ble.n	594 <main+0x110>
+        __asm("mov %[result],sp":[result] "=r" (x)); reg_gpio_data = x >> 12; for (j = 0; j < 70000; j++); reg_gpio_data = 0x1; for (j = 0; j < 70000; j++);
+ 5a2:	466b      	mov	r3, sp
+ 5a4:	607b      	str	r3, [r7, #4]
+ 5a6:	687b      	ldr	r3, [r7, #4]
+ 5a8:	131a      	asrs	r2, r3, #12
+ 5aa:	2380      	movs	r3, #128	; 0x80
+ 5ac:	061b      	lsls	r3, r3, #24
+ 5ae:	601a      	str	r2, [r3, #0]
+ 5b0:	2300      	movs	r3, #0
+ 5b2:	60fb      	str	r3, [r7, #12]
+ 5b4:	e002      	b.n	5bc <main+0x138>
+ 5b6:	68fb      	ldr	r3, [r7, #12]
+ 5b8:	3301      	adds	r3, #1
+ 5ba:	60fb      	str	r3, [r7, #12]
+ 5bc:	68fb      	ldr	r3, [r7, #12]
+ 5be:	4a12      	ldr	r2, [pc, #72]	; (608 <main+0x184>)
+ 5c0:	4293      	cmp	r3, r2
+ 5c2:	ddf8      	ble.n	5b6 <main+0x132>
+ 5c4:	2380      	movs	r3, #128	; 0x80
+ 5c6:	061b      	lsls	r3, r3, #24
+ 5c8:	2201      	movs	r2, #1
+ 5ca:	601a      	str	r2, [r3, #0]
+ 5cc:	2300      	movs	r3, #0
+ 5ce:	60fb      	str	r3, [r7, #12]
+ 5d0:	e002      	b.n	5d8 <main+0x154>
+ 5d2:	68fb      	ldr	r3, [r7, #12]
+ 5d4:	3301      	adds	r3, #1
+ 5d6:	60fb      	str	r3, [r7, #12]
+ 5d8:	68fb      	ldr	r3, [r7, #12]
+ 5da:	4a0b      	ldr	r2, [pc, #44]	; (608 <main+0x184>)
+ 5dc:	4293      	cmp	r3, r2
+ 5de:	ddf8      	ble.n	5d2 <main+0x14e>
+//    reg_gpio_data = 0x000e;
+
+
+//    for (j = 0; j < 70000; j++);
+
+    led(9);
+ 5e0:	2009      	movs	r0, #9
+ 5e2:	f7ff fead 	bl	340 <led>
+
+    reg_gpio_data = 0x0006;
+ 5e6:	2380      	movs	r3, #128	; 0x80
+ 5e8:	061b      	lsls	r3, r3, #24
+ 5ea:	2206      	movs	r2, #6
+ 5ec:	601a      	str	r2, [r3, #0]
+
+    while (1) {
+ 5ee:	e7fe      	b.n	5ee <main+0x16a>
+ 5f0:	00000700 	.word	0x00000700
+ 5f4:	20000000 	.word	0x20000000
+ 5f8:	20000000 	.word	0x20000000
+ 5fc:	20000000 	.word	0x20000000
+ 600:	20000000 	.word	0x20000000
+ 604:	80000004 	.word	0x80000004
+ 608:	0001116f 	.word	0x0001116f
+	...
