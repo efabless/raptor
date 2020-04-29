@@ -1,10 +1,10 @@
 ARMGNU := arm-none-eabi
 
-GCCOPS := -Bstatic -Wall -nostdlib -nostartfiles -ffreestanding -mcpu=cortex-m0
-# GCCOPS := -Wall  -nostdlib -nostartfiles -ffreestanding -mthumb -mcpu=cortex-m0 -Wno-unused-value
-AOPS := --warn #--fatal-warnings
+# GCCOPS := -Wall -nostdlib -nostartfiles -ffreestanding -mcpu=cortex-m0 -Wno-unused-value
+GCCOPS := -g -Wall -nostdlib -nostartfiles -ffreestanding -mcpu=cortex-m0 -Wno-unused-value
+AOPS := --warn -Wa -mcpu=cortex-m0 #--fatal-warnings
 
-COMPILE := $(ARMGNU)-gcc $(GCCOPS) -O0 -c
+COMPILE := $(ARMGNU)-gcc $(GCCOPS) -O1 -c
 
 SRC_PREFIX := ../sw
 
@@ -14,9 +14,7 @@ OBJECTS = $(patsubst %.c,%.o,$(SOURCES))
 STARTUP := $(SRC_PREFIX)/cm0_startup.s
 STARTUP_OBJECT := $(SRC_PREFIX)/start.o
 
-# LINKSCRIPT := $(SRC_PREFIX)/memmap_qspi.ld
-LINKSCRIPT := memmap_qspi.ld
-# LINKSCRIPT := sections.lds
+LINKSCRIPT := $(SRC_PREFIX)/sections.ld
 
 PATTERN = uart
 
@@ -32,11 +30,10 @@ $(OBJECTS): %.o : %.c ../raptor.h
 
 #.SILENT:
 %.hex : $(OBJECTS) %.c ../raptor.h
-	$(ARMGNU)-as $(AOPS) -mcpu=cortex-m0 -o ../sw/start.o ../sw/cm0_startup.s
-# 	$(COMPILE) -o uart.o uart.c
-	$(ARMGNU)-gcc -T memmap_qspi.ld -Bstatic -Wall -nostdlib -nostartfiles -ffreestanding -mcpu=cortex-m0 -o uart.elf uart.c ../sw/start.o ../sw/gpio_drv.o
-# 	$(COMPILE) $(GCCOPS) -T memmap_qspi.ld -o uart.elf uart.c ../sw/start.o $(OBJECTS)
-# 	$(ARMGNU)-ld $(LDOPS) -T $(LINKSCRIPT) ../sw/start.o uart.o $(OBJECTS) -o uart.elf
+	$(ARMGNU)-as $(AOPS) -o $(STARTUP_OBJECT) $(STARTUP)
+	$(COMPILE) -o uart.o uart.c
+# 	$(ARMGNU)-ld $(LDOPS) -T $(LINKSCRIPT) $(STARTUP_OBJECT) $(OBJECTS) uart.o -o uart.elf
+	$(ARMGNU)-ld $(LDOPS) -T $(LINKSCRIPT) $(STARTUP_OBJECT) ../sw/gpio_drv.o uart.o -o uart.elf
 	$(ARMGNU)-objdump -D uart.elf > uart.lst
 	$(ARMGNU)-objcopy uart.elf -O verilog uart.hex
 
@@ -57,17 +54,4 @@ client: client.c
 flash: uart.hex
 	python3 ../../test/raptor_flash.py uart.hex
 
-# ARMGNU := arm-none-eabi
-# GCCOPS := -Wall -nostdlib -nostartfiles -ffreestanding -mcpu=cortex-m0
-# STARTUP := cm0_startup.s
-# STARTUP_OBJECT := start.o
-# LINKSCRIPT := memmap_qspi.ld
-# AOPS := --warn #--fatal-warnings
-# $(STARTUP_OBJECT): $(STARTUP)
-#         $(ARMGNU)-as $(AOPS)-mcpu=cortex-m0 -o $@ $<
-# main.o: main.c
-#         $(ARMGNU)-gcc $(GCCOPS) -O0 -c  -o $@ $<
-# main.hex: main.o $(STARTUP_OBJECT)
-#         $(ARMGNU)-ld  -T $(LINKSCRIPT) $(STARTUP_OBJECT) main.o -o main.elf
-#         $(ARMGNU)-objdump -D main.elf > main.lst
-#         $(ARMGNU)-objcopy main.elf -O verilog main.hex
+

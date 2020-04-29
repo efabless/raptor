@@ -33,11 +33,10 @@ $(OBJECTS): %.o : %.c
 #.SILENT:
 %.hex : $(OBJECTS) blink.c ../raptor.h
 	$(ARMGNU)-as $(AOPS) -o $(STARTUP_OBJECT) $(STARTUP)
-	$(COMPILE) $(GCCOPS) -o blink.o blink.c
+	$(COMPILE) -o blink.o blink.c
 	$(ARMGNU)-ld $(LDOPS) -T $(LINKSCRIPT) $(STARTUP_OBJECT) blink.o $(OBJECTS) -o blink.elf
 	$(ARMGNU)-objdump -d -S blink.elf > blink.lst
 	$(ARMGNU)-objcopy blink.elf -O verilog blink.hex
-	$(ARMGNU)-objcopy blink.elf
 
 clean :
 	rm -rf Dumps
