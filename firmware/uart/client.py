@@ -9,5 +9,6 @@ import pyftdi.serialext
 
 port = pyftdi.serialext.serial_for_url('ftdi://:/1', baudrate=4175)
 
-data = port.read(1)
-print(data)
+while (1):
+    data = port.read(1)
+    print(data)
