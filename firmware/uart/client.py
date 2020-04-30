@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 # from pyftdi.ftdi import Ftdi
 import pyftdi.serialext
 
