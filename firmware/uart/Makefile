@@ -18,7 +18,7 @@ LINKSCRIPT := $(SRC_PREFIX)/sections.ld
 
 PATTERN = uart
 
-all:  hex client
+all:  hex
 
 hex:  ${PATTERN:=.hex}
 
@@ -47,9 +47,6 @@ clean :
 	rm -f *.vvp
 	rm -f *.vcd
 	rm -f *.out
-
-client: client.c
-	gcc client.c -o client
 
 flash: uart.hex
 	python3 ../../test/raptor_flash.py uart.hex
