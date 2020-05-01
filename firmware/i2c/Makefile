@@ -16,7 +16,7 @@ STARTUP_OBJECT := $(SRC_PREFIX)/start.o
 
 LINKSCRIPT := $(SRC_PREFIX)/sections.ld
 
-PATTERN = adc
+PATTERN = i2c
 
 all:  hex
 
@@ -31,11 +31,11 @@ $(OBJECTS): %.o : %.c ../raptor.h
 #.SILENT:
 %.hex : $(OBJECTS) %.c ../raptor.h
 	$(ARMGNU)-as $(AOPS) -o $(STARTUP_OBJECT) $(STARTUP)
-	$(COMPILE) -o adc.o adc.c
-# 	$(ARMGNU)-ld $(LDOPS) -T $(LINKSCRIPT) $(STARTUP_OBJECT) $(OBJECTS) adc.o -o adc.elf
-	$(ARMGNU)-ld $(LDOPS) -T $(LINKSCRIPT) $(STARTUP_OBJECT) ../sw/gpio_drv.o ../sw/adc_drv.o adc.o -o adc.elf
-	$(ARMGNU)-objdump -D adc.elf > adc.lst
-	$(ARMGNU)-objcopy adc.elf -O verilog adc.hex
+	$(COMPILE) -o i2c.o i2c.c
+# 	$(ARMGNU)-ld $(LDOPS) -T $(LINKSCRIPT) $(STARTUP_OBJECT) $(OBJECTS) i2c.o -o i2c.elf
+	$(ARMGNU)-ld $(LDOPS) -T $(LINKSCRIPT) $(STARTUP_OBJECT) ../sw/gpio_drv.o ../sw/i2c_drv.o i2c.o -o i2c.elf
+	$(ARMGNU)-objdump -D i2c.elf > i2c.lst
+	$(ARMGNU)-objcopy i2c.elf -O verilog i2c.hex
 
 clean :
 	rm -rf Dumps
@@ -48,7 +48,7 @@ clean :
 	rm -f *.vcd
 	rm -f *.out
 
-flash: adc.hex
-	python3 ../../test/raptor_flash.py adc.hex
+flash: i2c.hex
+	python3 ../../test/raptor_flash.py i2c.hex
 
 
