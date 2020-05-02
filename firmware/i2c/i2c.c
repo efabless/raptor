@@ -178,11 +178,11 @@ void main()
 
     while (1) {
 //        i2c_send(0xa2, 0x02);
-        i2c_read(0xa2, 0x02, &data, 3);
-        print_hex(data[0] & 0xff, 2); print(":");
-        print_hex(data[1] & 0xff, 2); print(":");
-        print_hex(data[2] & 0xff, 2); print(":");
         gpio_write(0x000a);
+        i2c_read(0xa2, 0x02, &data, 3);
+        print_hex(data[0], 2); print(":");
+        print_hex(data[1], 2); print(":");
+        print_hex(data[2], 2); print(":");
         for (j = 0; j < 34000; j++) {} // 2 sec
         gpio_write(0x0005);
         for (j = 0; j < 34000; j++) {} // 2 sec

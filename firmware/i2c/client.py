@@ -43,8 +43,9 @@ port._timeout = True  # make reads non-blocking
 
 c = ''
 while (c != 'q'):
-    data = port.read(1024)
-    print(data.decode("utf-8"))
+    data = port.read(1)
+    if (data):
+        print(data.decode("utf-8"))
     c = getch()
-    if (c):
-        port.write(c)
+    # if (c != ''):
+    #     port.write(c)
