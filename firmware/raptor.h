@@ -16,7 +16,7 @@
 #include "sw/tmr_drv.h"
 #include "sw/pwm_drv.h"
 #include "sw/cmp_drv.h"
-#include "sw/clkctrl_regs.h"
+#include "sw/clkctrl.h"
 
 // a pointer to this is a null pointer, but the compiler does not
 // know that because "sram" is a linker symbol from sections.lds.
@@ -29,9 +29,11 @@ extern uint32_t sram;
 
 //#define reg_spictrl (*(volatile uint32_t*)0x02000000)
 //#define reg_uart_clkdiv (*(volatile uint32_t*)0x02000004)
-#define reg_uart_data (*(volatile uint32_t*) UART_BASE_ADDR_0)
-#define reg_uart0_data (*(volatile uint32_t*) UART_BASE_ADDR_0)
-#define reg_uart1_data (*(volatile uint32_t*) UART_BASE_ADDR_1)
+
+#define reg_uart_data (*(volatile unsigned char*) UART_BASE_ADDR_0)
+#define reg_uart0_data (*(volatile unsigned char*) UART_BASE_ADDR_0)
+#define reg_uart1_data (*(volatile unsigned char*) UART_BASE_ADDR_1)
+
 //
 //#define reg_gpio_data (*(volatile uint32_t*)0x80000000)
 //#define reg_gpio_ena (*(volatile uint32_t*)0x80000004)

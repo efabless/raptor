@@ -8,7 +8,7 @@ COMPILE := $(ARMGNU)-gcc $(GCCOPS) -O1 -c
 
 SRC_PREFIX := ../sw
 
-SOURCES = $(shell find $(SRC_PREFIX) | grep _drv.c) ../raptor_io.c
+SOURCES = $(shell find $(SRC_PREFIX) | grep _drv.c)
 OBJECTS = $(patsubst %.c,%.o,$(SOURCES))
 
 STARTUP := $(SRC_PREFIX)/cm0_startup.s
@@ -16,7 +16,7 @@ STARTUP_OBJECT := $(SRC_PREFIX)/start.o
 
 LINKSCRIPT := $(SRC_PREFIX)/sections.ld
 
-PATTERN = i2c
+PATTERN = adc
 
 all:  hex
 
@@ -24,20 +24,18 @@ hex:  ${PATTERN:=.hex}
 
 .PHONY: clean flash hex all bin
 
-$(OBJECTS): %.o : %.c ../raptor.h ../raptor_io.h
+$(OBJECTS): %.o : %.c ../raptor.h
 	@echo ">> Compiling $<"
 	$(COMPILE) -o $@ $<
 
 #.SILENT:
 %.hex : $(OBJECTS) %.c ../raptor.h
 	$(ARMGNU)-as $(AOPS) -o $(STARTUP_OBJECT) $(STARTUP)
-	$(COMPILE) -o i2c.o i2c.c
-# 	$(ARMGNU)-ld $(LDOPS) -T $(LINKSCRIPT) $(STARTUP_OBJECT) $(OBJECTS) i2c.o -o i2c.elf
-	$(ARMGNU)-ld $(LDOPS) -T $(LINKSCRIPT) $(STARTUP_OBJECT) ../raptor_io.o ../sw/gpio_drv.o ../sw/i2c_drv.o i2c.o -o i2c.elf
-# 	$(ARMGNU)-ld $(LDOPS) -T $(LINKSCRIPT) $(STARTUP_OBJECT) ../raptor_io.o ../sw/clkctrl.o ../sw/gpio_drv.o ../sw/i2c_drv.o i2c.o -o i2c.elf
-# 	$(ARMGNU)-ld $(LDOPS) -T $(LINKSCRIPT) $(STARTUP_OBJECT) ../sw/gpio_drv.o ../sw/i2c_drv.o i2c.o -o i2c.elf
-	$(ARMGNU)-objdump -D i2c.elf > i2c.lst
-	$(ARMGNU)-objcopy i2c.elf -O verilog i2c.hex
+	$(COMPILE) -o adc.o adc.c
+# 	$(ARMGNU)-ld $(LDOPS) -T $(LINKSCRIPT) $(STARTUP_OBJECT) $(OBJECTS) adc.o -o adc.elf
+	$(ARMGNU)-ld $(LDOPS) -T $(LINKSCRIPT) $(STARTUP_OBJECT) ../sw/gpio_drv.o ../sw/adc_drv.o adc.o -o adc.elf
+	$(ARMGNU)-objdump -D adc.elf > adc.lst
+	$(ARMGNU)-objcopy adc.elf -O verilog adc.hex
 
 clean :
 	rm -rf Dumps
@@ -49,9 +47,8 @@ clean :
 	rm -f *.vvp
 	rm -f *.vcd
 	rm -f *.out
-	rm -f *.o
 
-flash: i2c.hex
-	python3 ../../test/raptor_flash.py i2c.hex
+flash: adc.hex
+	python3 ../../test/raptor_flash.py adc.hex
 
 

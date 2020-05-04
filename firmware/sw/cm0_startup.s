@@ -122,7 +122,9 @@
     blo loop_init
     end_init:
 
-    b   main
+    ldr r0,=main
+    bx r0
+    // b   main
     b   .
 
 

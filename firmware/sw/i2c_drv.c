@@ -1,4 +1,13 @@
+#include "base_addr.h"
+#include "i2c_drv.h"
 #include "i2c_regs.h"
+
+
+// added for debug
+#define     GPIO_DATA_REG           0x00000000
+#define     GPIO_DIR_REG            0x00000004
+#define     GPIO_BASE_ADDR          AHB_GPIO_BASE_ADDR_0
+#define reg_gpio_data (*(volatile unsigned int*) (GPIO_BASE_ADDR + GPIO_DATA_REG))
 
 void i2c_init(unsigned int pre){
     //unsigned int sysCLK, unsigned int i2cCLK)
@@ -9,7 +18,7 @@ void i2c_init(unsigned int pre){
     *(I2C_CTRL) = I2C_CTRL_EN;
 }
 
-int i2c_send(unsigned char saddr, unsigned char sdata){
+int i2c_send_byte(unsigned char saddr, unsigned char sdata){
     int volatile y;
     *(I2C_TX) = saddr;
     *(I2C_CMD) = I2C_CMD_STA | I2C_CMD_WR;
@@ -30,7 +39,91 @@ int i2c_send(unsigned char saddr, unsigned char sdata){
         return 1;
 }
 
-int i2c_read(unsigned char saddr, unsigned char waddr, unsigned char *data, int len){
+//int i2c_read_bytes(unsigned char saddr, unsigned char waddr, unsigned char *data, int len) {
+inline int i2c_read_bytes(unsigned char saddr, unsigned char waddr, unsigned char *data) {
+    int volatile y;
+
+    // debug code
+    int len = 3;
+
+    // write slave address
+    *(I2C_TX) = saddr;
+    *(I2C_CMD) = I2C_CMD_STA | I2C_CMD_WR;
+    while( ((*I2C_STAT) & I2C_STAT_TIP) != 0 ) {
+    for(int i=0; i<100; i++)
+        reg_gpio_data = 0x01;
+//        reg_gpio_data = (*I2C_STAT) >> 4;
+    };
+    reg_gpio_data = 0x02;
+    if( ((*I2C_STAT) & I2C_STAT_RXACK)  == 1) {
+        *(I2C_CMD) = I2C_CMD_STO;
+        return 0;
+    }
+
+    // write word / memory address
+    *(I2C_TX) = waddr;
+    *(I2C_CMD) = I2C_CMD_WR;
+    while( ((*I2C_STAT) & I2C_STAT_TIP) != 0 ) {
+        reg_gpio_data = 0x03;
+    };
+    reg_gpio_data = 0x04;
+    if( ((*I2C_STAT) & I2C_STAT_RXACK)  == 1) {
+        *(I2C_CMD) = I2C_CMD_STO;
+        return 0;
+    }
+
+    // restart and send slave address _ read bit
+    *(I2C_TX) = saddr | 0x0001;
+    *(I2C_CMD) = I2C_CMD_STA | I2C_CMD_WR;
+    while( ((*I2C_STAT) & I2C_STAT_TIP) != 0 ) {
+        reg_gpio_data = 0x05;
+    };
+    reg_gpio_data = 0x06;
+    if( ((*I2C_STAT) & I2C_STAT_RXACK)  == 1) {
+        *(I2C_CMD) = I2C_CMD_STO;
+        return 0;
+    }
+
+    // read data
+    for (int i = 0; i < len; i++) {
+//        if (i == len-1)
+//            *(I2C_CMD) = I2C_CMD_RD;
+//        else
+//            *(I2C_CMD) = I2C_CMD_RD|I2C_CMD_ACK;
+
+        if (i < len-1) {
+            *(I2C_CMD) = I2C_CMD_RD;
+        } else {
+            *(I2C_CMD) = I2C_CMD_RD | I2C_CMD_STO;
+//            *(I2C_CMD) = I2C_CMD_RD | I2C_CMD_NACK | I2C_CMD_STO;
+//            *(I2C_CMD) = I2C_CMD_RD | I2C_CMD_NACK;
+//            *(I2C_CMD) = I2C_CMD_RD;
+        }
+
+        while( ((*I2C_STAT) & I2C_STAT_TIP) != 0 ) {
+            reg_gpio_data = 0x08 | i;
+    //        reg_gpio_data = (*I2C_STAT) >> 4;
+//            reg_gpio_data = (*I2C_STAT);
+        };
+
+        reg_gpio_data = 0x0e;
+
+        if( ((*I2C_STAT) & I2C_STAT_RXACK ) == 1){
+            *(I2C_CMD) = I2C_CMD_STO;
+            return 0;
+        }
+
+        data[i] = *(I2C_RX);
+    reg_gpio_data = 0x0f;
+
+
+    }
+    reg_gpio_data = 0x0d;
+
+    return 1;
+}
+
+unsigned char i2c_read_byte(unsigned char saddr, unsigned char waddr) {
     int volatile y;
 
     // write slave address
@@ -61,27 +154,13 @@ int i2c_read(unsigned char saddr, unsigned char waddr, unsigned char *data, int 
     }
 
     // read data
-    for (int i = 0; i < len-1; i++) {
-//        if (i == len-1)
-//            *(I2C_CMD) = I2C_CMD_RD;
-//        else
-//            *(I2C_CMD) = I2C_CMD_RD|I2C_CMD_ACK;
+//    *(I2C_CMD) = I2C_CMD_RD | I2C_CMD_NACK | I2C_CMD_STO;
+    *(I2C_CMD) = I2C_CMD_RD | I2C_CMD_STO;
 
-        if (i < len-1)
-            *(I2C_CMD) = I2C_CMD_RD | I2C_CMD_ACK;
-        else {
-            *(I2C_CMD) &= ~(I2C_CMD_ACK);
-            *(I2C_CMD) = I2C_CMD_RD | I2C_CMD_STO;
-        }
+    while( (*I2C_STAT) & I2C_STAT_TIP );
 
-        while( (*I2C_STAT) & I2C_STAT_TIP );
-        data[i] = *(I2C_RX) & 0xff;
-
-//        if( ((*I2C_STAT) & I2C_STAT_RXACK ) == 1)
-//            return 0;
-//        else
-//            return 1;
-
+    if( ((*I2C_STAT) & I2C_STAT_RXACK ) == 1)
         return 0;
-    }
+    else
+        return *(I2C_RX);
 }

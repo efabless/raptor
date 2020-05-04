@@ -88,12 +88,14 @@ if not os.path.isfile(file_path):
 
 spi = SpiController(cs_count=1, turbo=True)
 # spi.configure(vendor=0x0403, product=0x6014, interface=1)
-spi.configure('ftdi://::/1')
+spi.configure('ftdi://ftdi:232h:0/1')
 slave = spi.get_port(cs=0, freq=12E6, mode=0)  # Chip select is 0 -- corresponds to D3
 
 gpio = spi.get_gpio()
 gpio.set_direction(0x0100, 0x0100)
 gpio.write(0x0000)
+
+time.sleep(0.5)
 
 slave.write([CMD_RESET_CHIP])
 

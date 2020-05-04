@@ -15,7 +15,7 @@
 #define     I2C_CMD_STO         0x40
 #define     I2C_CMD_RD          0x20
 #define     I2C_CMD_WR          0x10
-#define     I2C_CMD_ACK         0x08
+#define     I2C_CMD_NACK        0x08
 #define     I2C_CMD_IACK        0x01
 
 #define     I2C_CTRL_EN         0x80
