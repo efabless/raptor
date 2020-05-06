@@ -125,6 +125,11 @@
     ldr r0,=main
     bx r0
     // b   main
+    ldr r1, =0x80000004
+    str r0, [r1]
+    ldr r1, =0x80000000
+    ldr r0, =#9
+    str r0, [r1]
     b   .
 
 

@@ -1,7 +1,7 @@
 ARMGNU := arm-none-eabi
 
 # GCCOPS := -Wall -nostdlib -nostartfiles -ffreestanding -mcpu=cortex-m0 -Wno-unused-value
-GCCOPS := -g -Wall -nostdlib -nostartfiles -ffreestanding -mcpu=cortex-m0 -Wno-unused-value
+GCCOPS := -g -Wall -nostdlib -nostartfiles -ffreestanding -mthumb -mcpu=cortex-m0 -Wno-unused-value
 AOPS := --warn -Wa -mcpu=cortex-m0 #--fatal-warnings
 
 COMPILE := $(ARMGNU)-gcc $(GCCOPS) -O1 -c
@@ -36,6 +36,7 @@ $(OBJECTS): %.o : %.c ../raptor.h ../raptor_io.h
 	$(ARMGNU)-ld $(LDOPS) -T $(LINKSCRIPT) $(STARTUP_OBJECT) ../raptor_io.o ../sw/gpio_drv.o ../sw/i2c_drv.o i2c.o -o i2c.elf
 # 	$(ARMGNU)-ld $(LDOPS) -T $(LINKSCRIPT) $(STARTUP_OBJECT) ../raptor_io.o ../sw/clkctrl.o ../sw/gpio_drv.o ../sw/i2c_drv.o i2c.o -o i2c.elf
 # 	$(ARMGNU)-ld $(LDOPS) -T $(LINKSCRIPT) $(STARTUP_OBJECT) ../sw/gpio_drv.o ../sw/i2c_drv.o i2c.o -o i2c.elf
+# 	$(ARMGNU)-objdump -d -S i2c.elf > i2c.lst
 	$(ARMGNU)-objdump -D i2c.elf > i2c.lst
 	$(ARMGNU)-objcopy i2c.elf -O verilog i2c.hex
 

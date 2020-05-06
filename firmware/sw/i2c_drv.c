@@ -50,7 +50,6 @@ inline int i2c_read_bytes(unsigned char saddr, unsigned char waddr, unsigned cha
     *(I2C_TX) = saddr;
     *(I2C_CMD) = I2C_CMD_STA | I2C_CMD_WR;
     while( ((*I2C_STAT) & I2C_STAT_TIP) != 0 ) {
-    for(int i=0; i<100; i++)
         reg_gpio_data = 0x01;
 //        reg_gpio_data = (*I2C_STAT) >> 4;
     };
@@ -101,7 +100,8 @@ inline int i2c_read_bytes(unsigned char saddr, unsigned char waddr, unsigned cha
         }
 
         while( ((*I2C_STAT) & I2C_STAT_TIP) != 0 ) {
-            reg_gpio_data = 0x08 | i;
+//            reg_gpio_data = 0x08 | i;
+            reg_gpio_data = 0x08;
     //        reg_gpio_data = (*I2C_STAT) >> 4;
 //            reg_gpio_data = (*I2C_STAT);
         };
@@ -114,11 +114,9 @@ inline int i2c_read_bytes(unsigned char saddr, unsigned char waddr, unsigned cha
         }
 
         data[i] = *(I2C_RX);
-    reg_gpio_data = 0x0f;
-
 
     }
-    reg_gpio_data = 0x0d;
+    reg_gpio_data = 0x0e;
 
     return 1;
 }

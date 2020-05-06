@@ -1,28 +1,7 @@
 #include "../raptor.h"
+#include "../raptor_io.h"
 
-void set_clock(bool hse, bool pll, int div) {
 
-#define   HSE_ON      *CLKCTRL_CLKCR |= 0x10
-#define   PLL_ON      *CLKCTRL_PLLCR |= 0x1
-#define   PLL_DIV(d)  *CLKCTRL_PLLCR &= 0x3; *CLKCTRL_PLLCR |= (d<<2); *CLKCTRL_CLKCR |= 2
-
-	if (hse){
-	    HSE_ON;
-        for (int j = 0; j < 70000; j++);
-	}
-	if (pll) {
-	    PLL_ON;
-        for (int j = 0; j < 70000; j++);
-	}
-	if (div)
-	    PLL_DIV(div);
-
-    // configure the clock muxes
-    //    *CLKCTRL_CLKCR |= 0x5;
-    //    *CLKCTRL_CLKCR |= 0x6;
-    //    *CLKCTRL_CLKCR = 0x1e;
-
-}
 
 void putchar(uint32_t c)
 {
@@ -173,31 +152,11 @@ void main()
     for (j = 0; j < 70000; j++);
 
     print("Starting...");
-    adc_enable();
-    adc_set_vrefh(0);
-    adc_set_channel(0);
-    adc_set_prescalar(9); // ADC clock = Sysclk/(2*(ADCPRESCALER + 1))
+    dac_enable();
+    dac_set_vrefh(1);
+    dac_write(0xffff);
 
     while (1) {
-        data = adc_acquire();
-        print(":");
-        print_dec(data);
-//        print_dec(data);
-//        print("\n");
-        v = data;
-        x = 1;
-        while (1) {
-            if (v > 256) {
-                v = v - 256;
-                x = x << 1;
-                x = x | 1;
-            } else {
-                break;
-            }
-        }
-        gpio_write(x);
-
-        for (j = 0; j < 34000; j++) {} // 2 sec
     }
 
 }

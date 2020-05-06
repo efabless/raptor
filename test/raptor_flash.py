@@ -95,7 +95,7 @@ gpio = spi.get_gpio()
 gpio.set_direction(0x0100, 0x0100)
 gpio.write(0x0000)
 
-time.sleep(0.5)
+# time.sleep(1.0)
 
 slave.write([CMD_RESET_CHIP])
 
