@@ -36,6 +36,8 @@ $(OBJECTS): %.o : %.c ../raptor.h
 	$(ARMGNU)-ld $(LDOPS) -T $(LINKSCRIPT) $(STARTUP_OBJECT) ../sw/gpio_drv.o ../sw/dac_drv.o dac.o -o dac.elf
 	$(ARMGNU)-objdump -D dac.elf > dac.lst
 	$(ARMGNU)-objcopy dac.elf -O verilog dac.hex
+	python3 ../../util/check_bug.py dac.lst
+
 
 clean :
 	rm -rf Dumps

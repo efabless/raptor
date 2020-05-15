@@ -37,6 +37,8 @@ $(OBJECTS): %.o : %.c
 	$(ARMGNU)-ld $(LDOPS) -T $(LINKSCRIPT) $(STARTUP_OBJECT) blink.o $(OBJECTS) -o blink.elf
 	$(ARMGNU)-objdump -d -S blink.elf > blink.lst
 	$(ARMGNU)-objcopy blink.elf -O verilog blink.hex
+	python3 ../../util/check_bug.py blink.lst
+
 
 clean :
 	rm -rf Dumps

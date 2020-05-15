@@ -47,6 +47,8 @@ $(OBJECTS): %.o : %.c
 	$(ARMGNU)-objdump -d -S blink.elf > blink.lst
 	$(ARMGNU)-objcopy blink.elf -O verilog blink.hex
 	$(ARMGNU)-objcopy blink.elf
+    python3 ../../util/check_bug.py blink.lst
+
 
 clean :
 	rm -rf Dumps
@@ -60,4 +62,4 @@ clean :
 	rm -f *.out
 
 flash: blink.hex
-	python3 ../../test/raptor_flash.py blink.hex
+	python3 ../../util/raptor_flash.py blink.hex

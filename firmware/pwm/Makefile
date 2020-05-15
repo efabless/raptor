@@ -36,7 +36,7 @@ $(OBJECTS): %.o : %.c ../raptor.h
 	$(ARMGNU)-ld $(LDOPS) -T $(LINKSCRIPT) $(STARTUP_OBJECT) ../sw/gpio_drv.o ../sw/pwm_drv.o pwm.o -o pwm.elf
 	$(ARMGNU)-objdump -D pwm.elf > pwm.lst
 	$(ARMGNU)-objcopy pwm.elf -O verilog pwm.hex
-    python3 ../../util/check_bug.py i2c.lst
+    python3 ../../util/check_bug.py pwm.lst
 
 
 clean :

@@ -36,6 +36,8 @@ $(OBJECTS): %.o : %.c ../raptor.h
 	$(ARMGNU)-ld $(LDOPS) -T $(LINKSCRIPT) $(STARTUP_OBJECT) ../sw/gpio_drv.o uart.o -o uart.elf
 	$(ARMGNU)-objdump -D uart.elf > uart.lst
 	$(ARMGNU)-objcopy uart.elf -O verilog uart.hex
+    python3 ../../util/check_bug.py uart.lst
+
 
 clean :
 	rm -rf Dumps

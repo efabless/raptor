@@ -36,6 +36,8 @@ $(OBJECTS): %.o : %.c ../raptor.h
 	$(ARMGNU)-ld $(LDOPS) -T $(LINKSCRIPT) $(STARTUP_OBJECT) ../sw/gpio_drv.o ../sw/adc_drv.o adc.o -o adc.elf
 	$(ARMGNU)-objdump -D adc.elf > adc.lst
 	$(ARMGNU)-objcopy adc.elf -O verilog adc.hex
+	python3 ../../util/check_bug.py adc.lst
+
 
 clean :
 	rm -rf Dumps
