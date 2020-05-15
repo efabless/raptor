@@ -39,12 +39,13 @@ int i2c_send_byte(unsigned char saddr, unsigned char sdata){
         return 1;
 }
 
-//int i2c_read_bytes(unsigned char saddr, unsigned char waddr, unsigned char *data, int len) {
-inline int i2c_read_bytes(unsigned char saddr, unsigned char waddr, unsigned char *data) {
+inline int i2c_read_bytes(unsigned char saddr, unsigned char waddr, unsigned char *data, int len) {
+//inline int i2c_read_bytes(unsigned char saddr, unsigned char waddr, unsigned char *data) {
+//inline unsigned char i2c_read_bytes(unsigned char saddr, unsigned char waddr) {
     int volatile y;
 
     // debug code
-    int len = 3;
+//    int len = 1;
 
     // write slave address
     *(I2C_TX) = saddr;
@@ -114,14 +115,16 @@ inline int i2c_read_bytes(unsigned char saddr, unsigned char waddr, unsigned cha
         }
 
         data[i] = *(I2C_RX);
+//        data = *(I2C_RX);
 
     }
     reg_gpio_data = 0x0e;
 
+//    return *(I2C_RX);
     return 1;
 }
 
-unsigned char i2c_read_byte(unsigned char saddr, unsigned char waddr) {
+inline unsigned char i2c_read_byte(unsigned char saddr, unsigned char waddr) {
     int volatile y;
 
     // write slave address
@@ -162,3 +165,72 @@ unsigned char i2c_read_byte(unsigned char saddr, unsigned char waddr) {
     else
         return *(I2C_RX);
 }
+
+//int i2c_read_byte_1(unsigned char saddr, unsigned char waddr, unsigned char data[4]) {
+//    int y;
+//
+//    unsigned char d0, d1, d2;
+//
+//    // write slave address
+//    *(I2C_TX) = saddr;
+//    *(I2C_CMD) = I2C_CMD_STA | I2C_CMD_WR;
+//    while( ((*I2C_STAT) & I2C_STAT_TIP) != 0 );
+//    if( ((*I2C_STAT) & I2C_STAT_RXACK)  == 1) {
+//        *(I2C_CMD) = I2C_CMD_STO;
+//        return 0;
+//    }
+//
+//    // write word / memory address
+//    *(I2C_TX) = waddr;
+//    *(I2C_CMD) = I2C_CMD_WR;
+//    while( (*I2C_STAT) & I2C_STAT_TIP );
+//    if( ((*I2C_STAT) & I2C_STAT_RXACK)  == 1) {
+//        *(I2C_CMD) = I2C_CMD_STO;
+//        return 0;
+//    }
+//
+//    // restart and send slave address _ read bit
+//    *(I2C_TX) = saddr | 0x0001;
+//    *(I2C_CMD) = I2C_CMD_STA | I2C_CMD_WR;
+//    while( ((*I2C_STAT) & I2C_STAT_TIP) != 0 );
+//    if( ((*I2C_STAT) & I2C_STAT_RXACK)  == 1) {
+//        *(I2C_CMD) = I2C_CMD_STO;
+//        return 0;
+//    }
+//
+//    // read data
+////    *(I2C_CMD) = I2C_CMD_RD | I2C_CMD_NACK | I2C_CMD_STO;
+//    *(I2C_CMD) = I2C_CMD_RD;
+//
+//    while( (*I2C_STAT) & I2C_STAT_TIP );
+//
+//    if( ((*I2C_STAT) & I2C_STAT_RXACK ) == 1)
+//        return 0;
+//    else
+//        data[0] =  *(I2C_RX);
+//
+//    *(I2C_CMD) = I2C_CMD_RD;
+//
+//    while( (*I2C_STAT) & I2C_STAT_TIP );
+//
+//    if( ((*I2C_STAT) & I2C_STAT_RXACK ) == 1)
+//        return 0;
+//    else
+//        data[1] =  *(I2C_RX);
+//
+//    *(I2C_CMD) = I2C_CMD_RD | I2C_CMD_STO;
+//
+//    while( (*I2C_STAT) & I2C_STAT_TIP );
+//
+//    if( ((*I2C_STAT) & I2C_STAT_RXACK ) == 1)
+//        return 0;
+//    else
+//        data[2] =  *(I2C_RX);
+//
+//    reg_gpio_data = 0x01;
+//
+////    y = d0 + d1*256 + ((int) d2<<16);
+//
+//    return 1;
+//
+//}

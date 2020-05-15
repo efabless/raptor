@@ -49,6 +49,6 @@ clean :
 	rm -f *.out
 
 flash: adc.hex
-	python3 ../../test/raptor_flash.py adc.hex
+	python3 ../../util/raptor_flash.py adc.hex
 
 

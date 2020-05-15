@@ -49,6 +49,6 @@ clean :
 	rm -f *.out
 
 flash: spi.hex
-	python3 ../../test/raptor_flash.py spi.hex
+	python3 ../../util/raptor_flash.py spi.hex
 
 
