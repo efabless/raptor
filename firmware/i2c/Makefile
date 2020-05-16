@@ -11,6 +11,8 @@ SRC_PREFIX := ../sw
 
 SOURCES = $(shell find $(SRC_PREFIX) | grep _drv.c) ../raptor_io.c
 OBJECTS = $(patsubst %.c,%.o,$(SOURCES))
+ASMBYS = $(patsubst %.c,%.s,$(SOURCES))
+ORIG = $(patsubst %.c,%.s.orig,$(SOURCES))
 
 STARTUP := $(SRC_PREFIX)/cm0_startup.s
 STARTUP_OBJECT := $(SRC_PREFIX)/start.o
@@ -25,14 +27,21 @@ hex:  ${PATTERN:=.hex}
 
 .PHONY: clean flash hex all bin
 
-$(OBJECTS): %.o : %.c ../raptor.h ../raptor_io.h
-	@echo ">> Compiling $<"
+$(ASMBYS): %.s : %.c ../raptor.h ../raptor_io.h
+	@echo ">> Compiling assembly $<"
+	$(COMPILE) -S -fverbose-asm -o $@ $<
+	python3 ../../util/code_workaround.py $@
+
+# $(OBJECTS): %.o : %.c ../raptor.h ../raptor_io.h
+$(OBJECTS): %.o : %.s ../raptor.h ../raptor_io.h
+	@echo ">> Compiling objects$<"
 	$(COMPILE) -o $@ $<
 
 #.SILENT:
 %.hex : $(OBJECTS) %.c ../raptor.h
 	$(ARMGNU)-as $(AOPS) -o $(STARTUP_OBJECT) $(STARTUP)
 	$(COMPILE) -o i2c.o i2c.c
+	$(COMPILE) -S -fverbose-asm -o i2c.s i2c.c
 # 	$(ARMGNU)-ld $(LDOPS) -T $(LINKSCRIPT) $(STARTUP_OBJECT) $(OBJECTS) i2c.o -o i2c.elf
 	$(ARMGNU)-ld $(LDOPS) -T $(LINKSCRIPT) $(STARTUP_OBJECT) ../sw/gpio_drv.o ../sw/i2c_drv.o ../raptor_io.o i2c.o -o i2c.elf
 # 	$(ARMGNU)-ld $(LDOPS) -T $(LINKSCRIPT) $(STARTUP_OBJECT) ../raptor_io.o ../sw/clkctrl.o ../sw/gpio_drv.o ../sw/i2c_drv.o i2c.o -o i2c.elf
@@ -44,9 +53,17 @@ $(OBJECTS): %.o : %.c ../raptor.h ../raptor_io.h
 	grep 'pop' i2c.lst
 	python3 ../../util/check_bug.py i2c.lst
 
+sim:
+	iverilog -D RTL -D DBG -D JTAG -D CREATE_DUMPS -Wall -Wno-timescale -c files_gl.list -s SoC_tb -o SoC.tb.vvp 2>&1 | grep -v "warning"
+# 	iverilog -D RTL -D DBG -D JTAG -D CREATE_DUMPS -Wall -Wno-timescale -c files.list -s SoC_tb -o SoC.tb.vvp 2>&1 | grep -v "warning"
+# 	iverilog -D RTL -D DBG -D JTAG -D CREATE_DUMPS -Wall -Wno-timescale -c files.list -s SoC_tb -o SoC.tb.vvp 2>&1 | grep -v "warning"
+	vvp SoC.tb.vvp | grep -v "Standard inconsistency," | grep -v "VCD" | tee -a results.out
+
 clean :
 	rm -rf Dumps
 	rm -f $(OBJECTS)
+	rm -f $(ASMBYS)
+	rm -f $(ORIG)
 	rm -f *.bin
 	rm -f *.elf
 	rm -f *.lst

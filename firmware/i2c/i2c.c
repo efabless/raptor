@@ -22,15 +22,15 @@ void main()
 
     for (j = 0; j < 70000; j++);
 
-//    print("Starting...");
+    print("Starting...");
     i2c_init(19);
     y = 0;
 
     while (1) {
 //        i2c_send_byte(0xa2, 0x02);
 //        gpio_write(0x000a);
-//        if (i2c_read_bytes(0xa2, 0x02, data, 3)){
-            i2c_read_bytes(0xa2, 0x02, data, 3);
+        if (i2c_read_bytes(0xa2, 0x02, data, 3)){
+//            i2c_read_bytes(0xa2, 0x02, data, 3);
 //        if (data[0] = i2c_read_byte(0xa2, 0x02)){
 //           data[0] = i2c_read_bytes(0xa2, 0x02);
 //        y = i2c_read_byte_1(0xa2, 0x02, data);
@@ -55,9 +55,9 @@ void main()
 
 //        print_hex(data[1], 2); print(":");
 //        print_hex(data[2], 2);
-//        } else {
-//            gpio_write(0x09);
-//        }
+        } else {
+            gpio_write(0x09);
+        }
         gpio_write(0x0a);
         for (j = 0; j < 700000; j++) {
 //            gpio_write(0x0b);
