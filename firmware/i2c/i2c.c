@@ -20,9 +20,9 @@ void main()
 	gpio_set_dir(0x0000);
     gpio_write(0x000f);
 
-    for (j = 0; j < 70000; j++);
+//    for (j = 0; j < 70000; j++);
 
-    print("Starting...");
+//    print("Starting...");
     i2c_init(19);
     y = 0;
 
@@ -39,17 +39,17 @@ void main()
 //        data[1] = (y >> 8) & 0x7f;
 //        data[2] = (y >> 16) & 0x3f;
 //            print_hex(data[0], 2);
-            data[0] &= ((unsigned char) 0x007F);
-            data[1] &= ((unsigned char) 0x007F);
-            data[2] &= ((unsigned char) 0x003F);
-            print_digit(BCD_DIGIT1(data[0]));
-            print_digit(BCD_DIGIT0(data[0]));
-            print(":");
-            print_digit(BCD_DIGIT1(data[1]));
-            print_digit(BCD_DIGIT0(data[1]));
-            print(":");
-            print_digit(BCD_DIGIT1(data[2]));
-            print_digit(BCD_DIGIT0(data[2]));
+//            data[0] &= ((unsigned char) 0x007F);
+//            data[1] &= ((unsigned char) 0x007F);
+//            data[2] &= ((unsigned char) 0x003F);
+//            print_digit(BCD_DIGIT1(data[0]));
+//            print_digit(BCD_DIGIT0(data[0]));
+//            print(":");
+//            print_digit(BCD_DIGIT1(data[1]));
+//            print_digit(BCD_DIGIT0(data[1]));
+//            print(":");
+//            print_digit(BCD_DIGIT1(data[2]));
+//            print_digit(BCD_DIGIT0(data[2]));
 //            print("\n");
 //            gpio_write(data[0]);
 
@@ -58,10 +58,11 @@ void main()
         } else {
             gpio_write(0x09);
         }
-        gpio_write(0x0a);
-        for (j = 0; j < 700000; j++) {
-//            gpio_write(0x0b);
-        } // 2 sec
+        gpio_write(0x05);
+        while(1);
+//        for (j = 0; j < 700000; j++) {
+//            gpio_write(0x05);
+//        } // 2 sec
 //        gpio_write(0x05);
 //        for (j = 0; j < 70000; j++) {} // 2 sec
     }

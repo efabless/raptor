@@ -101,26 +101,26 @@
     mov r8, r0
     mov r9, r0
 
-    // ldr r1, =0x80000004
-    // str r0, [r1]
-    // ldr r1, =0x80000000
-    // ldr r0, =#1
-    // str r0, [r1]
+    //ldr r1, =0x80000004
+    //str r0, [r1]
+    //ldr r1, =0x80000000
+    //ldr r0, =#1
+    //str r0, [r1]
 
-    // copy data section
-    // ldr r0, =_sidata
-    // ldr r1, =_sdata
-    // ldr r2, =_edata
-    // cmp r1, r2
-    // bhs end_init
-    // loop_init:
-    // ldr r3, [r0]
-    // str r3, [r1]
-    // adds r0, #1
-    // adds r1, #1
-    // cmp r1, r2
-    // blo loop_init
-    // end_init:
+    //copy data section
+    ldr r0, =_sidata
+    ldr r1, =_sdata
+    ldr r2, =_edata
+    cmp r1, r2
+    bhs end_init
+    loop_init:
+    ldr r3, [r0]
+    str r3, [r1]
+    adds r0, #4
+    adds r1, #4
+    cmp r1, r2
+    blo loop_init
+    end_init:
 
     ldr r0,=main
     bx r0

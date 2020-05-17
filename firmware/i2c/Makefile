@@ -1,11 +1,11 @@
 ARMGNU := arm-none-eabi
 
-GCCOPS := -Wall -nostdlib -nostartfiles -ffreestanding -mcpu=cortex-m0 -Wno-unused-value -finline-functions
-# GCCOPS := -Wall -nostdlib -nostartfiles -ffreestanding -mcpu=cortex-m0 -Wno-unused-value
+# GCCOPS := -Wall -nostdlib -nostartfiles -ffreestanding -mcpu=cortex-m0 -Wno-unused-value -finline-functions
+GCCOPS := -Wall -nostdlib -nostartfiles -ffreestanding -mcpu=cortex-m0 -Wno-unused-value
 # GCCOPS := -g -Wall -nostdlib -nostartfiles -ffreestanding -mthumb -mcpu=cortex-m0 -Wno-unused-value
 AOPS := --warn -Wa -mcpu=cortex-m0 #--fatal-warnings
 
-COMPILE := $(ARMGNU)-gcc $(GCCOPS) -O3 -c
+COMPILE := $(ARMGNU)-gcc $(GCCOPS) -O1 -c
 
 SRC_PREFIX := ../sw
 
@@ -40,8 +40,9 @@ $(OBJECTS): %.o : %.s ../raptor.h ../raptor_io.h
 #.SILENT:
 %.hex : $(OBJECTS) %.c ../raptor.h
 	$(ARMGNU)-as $(AOPS) -o $(STARTUP_OBJECT) $(STARTUP)
-	$(COMPILE) -o i2c.o i2c.c
 	$(COMPILE) -S -fverbose-asm -o i2c.s i2c.c
+	python3 ../../util/code_workaround.py i2c.s
+	$(COMPILE) -o i2c.o i2c.s
 # 	$(ARMGNU)-ld $(LDOPS) -T $(LINKSCRIPT) $(STARTUP_OBJECT) $(OBJECTS) i2c.o -o i2c.elf
 	$(ARMGNU)-ld $(LDOPS) -T $(LINKSCRIPT) $(STARTUP_OBJECT) ../sw/gpio_drv.o ../sw/i2c_drv.o ../raptor_io.o i2c.o -o i2c.elf
 # 	$(ARMGNU)-ld $(LDOPS) -T $(LINKSCRIPT) $(STARTUP_OBJECT) ../raptor_io.o ../sw/clkctrl.o ../sw/gpio_drv.o ../sw/i2c_drv.o i2c.o -o i2c.elf
@@ -64,6 +65,7 @@ clean :
 	rm -f $(OBJECTS)
 	rm -f $(ASMBYS)
 	rm -f $(ORIG)
+	rm -f *.s
 	rm -f *.bin
 	rm -f *.elf
 	rm -f *.lst

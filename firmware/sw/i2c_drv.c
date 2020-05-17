@@ -54,7 +54,7 @@ inline int i2c_read_bytes(unsigned char saddr, unsigned char waddr, unsigned cha
         reg_gpio_data = 0x01;
 //        reg_gpio_data = (*I2C_STAT) >> 4;
     };
-    reg_gpio_data = 0x02;
+//    reg_gpio_data = 0x02;
     if( ((*I2C_STAT) & I2C_STAT_RXACK)  == 1) {
         *(I2C_CMD) = I2C_CMD_STO;
         return 0;
@@ -64,7 +64,7 @@ inline int i2c_read_bytes(unsigned char saddr, unsigned char waddr, unsigned cha
     *(I2C_TX) = waddr;
     *(I2C_CMD) = I2C_CMD_WR;
     while( ((*I2C_STAT) & I2C_STAT_TIP) != 0 ) {
-        reg_gpio_data = 0x03;
+//        reg_gpio_data = 0x03;
     };
     reg_gpio_data = 0x04;
     if( ((*I2C_STAT) & I2C_STAT_RXACK)  == 1) {
@@ -76,7 +76,7 @@ inline int i2c_read_bytes(unsigned char saddr, unsigned char waddr, unsigned cha
     *(I2C_TX) = saddr | 0x0001;
     *(I2C_CMD) = I2C_CMD_STA | I2C_CMD_WR;
     while( ((*I2C_STAT) & I2C_STAT_TIP) != 0 ) {
-        reg_gpio_data = 0x05;
+//        reg_gpio_data = 0x05;
     };
     reg_gpio_data = 0x06;
     if( ((*I2C_STAT) & I2C_STAT_RXACK)  == 1) {
@@ -102,12 +102,12 @@ inline int i2c_read_bytes(unsigned char saddr, unsigned char waddr, unsigned cha
 
         while( ((*I2C_STAT) & I2C_STAT_TIP) != 0 ) {
 //            reg_gpio_data = 0x08 | i;
-            reg_gpio_data = 0x08;
+//            reg_gpio_data = 0x08;
     //        reg_gpio_data = (*I2C_STAT) >> 4;
 //            reg_gpio_data = (*I2C_STAT);
         };
 
-        reg_gpio_data = 0x0e;
+//        reg_gpio_data = 0x0e;
 
         if( ((*I2C_STAT) & I2C_STAT_RXACK ) == 1){
             *(I2C_CMD) = I2C_CMD_STO;
