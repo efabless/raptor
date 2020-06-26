@@ -1,6 +1,8 @@
 (sym_lib_table
-  (lib (name raptor-eagle-import)(type Legacy)(uri ${KIPRJMOD}/raptor-eagle-import.lib)(options "")(descr ""))
-  (lib (name raptor-rescue)(type Legacy)(uri ${KIPRJMOD}/raptor-rescue.lib)(options "")(descr ""))
-  (lib (name CSTNE12M0GH5L000R0)(type Legacy)(uri "/Users/jeffdi/Projects/raptor/hardware/parts and footprints/CSTNE12M0GH5L000R0.lib")(options "")(descr ""))
+  (lib (name raptor-lib)(type Legacy)(uri ${KIPRJMOD}/raptor-lib.lib)(options "")(descr ""))
+  (lib (name CSTNE12M0GH5L000R0)(type Legacy)(uri "/Users/jeffdi/Projects/raptor/hardware/parts and footprints/CSTNE12M0GH5L000R0.lib")(options "")(descr "")(disabled))
   (lib (name sn74lvc1g125dckr-sn74lvc1g125dckr)(type Legacy)(uri "/Users/jeffdi/Projects/raptor/hardware/parts and footprints/sn74lvc1g125dckr-sn74lvc1g125dckr.lib")(options "")(descr ""))
+  (lib (name sn74lv1t34dbvr)(type Legacy)(uri "/Users/jeffdi/Projects/ravenna/hardware/parts and footprints/sn74lv1t34dbvr.lib")(options "")(descr ""))
+  (lib (name raptor-eagle-import)(type Legacy)(uri ${KIPRJMOD}/raptor-eagle-import.lib)(options "")(descr ""))
+  (lib (name raptor-rescue)(type Legacy)(uri ${KIPRJMOD}/raptor-rescue.lib)(options "")(descr "")(disabled))
 )

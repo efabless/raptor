@@ -1,0 +1,6 @@
+REV C
+* fix signal swap issue for A vs B channels for tmux for flash
+* added buffer drivers (2) for PWM outputs
+* moved LEDs for FTDI to gpio that can be accessed in MPSSE mode (ACBUS2/3  pin 26/27)
+* increased font size on silkscreen
+* changed pad for X2 to support 6.25MHz resonator
