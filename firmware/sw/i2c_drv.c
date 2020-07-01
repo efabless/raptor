@@ -39,19 +39,20 @@ int i2c_send_byte(unsigned char saddr, unsigned char sdata){
         return 1;
 }
 
-inline int i2c_read_bytes(unsigned char saddr, unsigned char waddr, unsigned char *data, int len) {
+int i2c_read_bytes(unsigned char saddr, unsigned char waddr, unsigned char *data, int len) {
 //inline int i2c_read_bytes(unsigned char saddr, unsigned char waddr, unsigned char *data) {
 //inline unsigned char i2c_read_bytes(unsigned char saddr, unsigned char waddr) {
     int volatile y;
 
     // debug code
 //    int len = 1;
+    reg_gpio_data = 0x01;
 
     // write slave address
     *(I2C_TX) = saddr;
     *(I2C_CMD) = I2C_CMD_STA | I2C_CMD_WR;
     while( ((*I2C_STAT) & I2C_STAT_TIP) != 0 ) {
-        reg_gpio_data = 0x01;
+        reg_gpio_data = 0x02;
 //        reg_gpio_data = (*I2C_STAT) >> 4;
     };
 //    reg_gpio_data = 0x02;
@@ -66,7 +67,7 @@ inline int i2c_read_bytes(unsigned char saddr, unsigned char waddr, unsigned cha
     while( ((*I2C_STAT) & I2C_STAT_TIP) != 0 ) {
 //        reg_gpio_data = 0x03;
     };
-    reg_gpio_data = 0x04;
+//    reg_gpio_data = 0x04;
     if( ((*I2C_STAT) & I2C_STAT_RXACK)  == 1) {
         *(I2C_CMD) = I2C_CMD_STO;
         return 0;
@@ -78,7 +79,7 @@ inline int i2c_read_bytes(unsigned char saddr, unsigned char waddr, unsigned cha
     while( ((*I2C_STAT) & I2C_STAT_TIP) != 0 ) {
 //        reg_gpio_data = 0x05;
     };
-    reg_gpio_data = 0x06;
+//    reg_gpio_data = 0x06;
     if( ((*I2C_STAT) & I2C_STAT_RXACK)  == 1) {
         *(I2C_CMD) = I2C_CMD_STO;
         return 0;

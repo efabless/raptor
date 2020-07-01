@@ -4,7 +4,16 @@
 #define BCD_DIGIT0(x) (x & (uint32_t)0x000F)
 #define BCD_DIGIT1(x) ((x >> 4) & (uint32_t)0x000F)
 
-unsigned char data[4];
+#define RTC_I2C_ADDR (uint32_t) 0xA2 // RTC PCF8563
+#define RTC_I2C_REG (uint32_t) 0x02 // RTC PCF8563
+
+//#define RTC_I2C_ADDR (uint32_t)0xD0 // RTC DS3231
+//#define RTC_I2C_REG (uint32_t) 0x00 // RTC DS3231
+
+//#define RTC_I2C_ADDR (uint32_t) 0xDE // RTC MCP79410
+//#define RTC_I2C_REG (uint32_t) 0x00 // RTC MCP79410
+
+//unsigned char data[4];
 
 
 void main()
@@ -12,13 +21,15 @@ void main()
 //	uint32_t i, j;
 	int i, j;
 	int x, v, y;
-//    unsigned char data[2];
+    unsigned char data[2];
 
 //    set_clock(true, true, 16);
 
     // Enable GPIO (all output, ena = 0)
-	gpio_set_dir(0x0000);
-    gpio_write(0x000f);
+//	gpio_set_dir(0x0000);
+//    gpio_write(0x000f);
+    reg_gpio_dir = 0x0000;
+    reg_gpio_data = 0x0f;
 
 //    for (j = 0; j < 70000; j++);
 
@@ -29,9 +40,9 @@ void main()
     while (1) {
 //        i2c_send_byte(0xa2, 0x02);
 //        gpio_write(0x000a);
-        if (i2c_read_bytes(0xa2, 0x02, data, 3)){
+        if (i2c_read_bytes(RTC_I2C_ADDR, RTC_I2C_REG, data, 3)){
 //            i2c_read_bytes(0xa2, 0x02, data, 3);
-//        if (data[0] = i2c_read_byte(0xa2, 0x02)){
+//        if (data[0] = i2c_read_byte(RTC_I2C_ADDR, RTC_I2C_REG)){
 //           data[0] = i2c_read_bytes(0xa2, 0x02);
 //        y = i2c_read_byte_1(0xa2, 0x02, data);
 //        print_hex(y,6);
@@ -56,9 +67,12 @@ void main()
 //        print_hex(data[1], 2); print(":");
 //        print_hex(data[2], 2);
         } else {
-            gpio_write(0x09);
+//            gpio_write(0x09);
+            reg_gpio_data = 0x09;
         }
-        gpio_write(0x05);
+//        gpio_write(0x05);
+        reg_gpio_data = 0x05;
+
         while(1);
 //        for (j = 0; j < 700000; j++) {
 //            gpio_write(0x05);

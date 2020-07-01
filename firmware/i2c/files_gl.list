@@ -21,10 +21,10 @@
 ../../../raptor_ip/AMUX4_3V.v
 ../../../raptor_ip/AMUX2_3V.v
 ../../../raptor_ip/LS_3VX2.v
-../../../raptor_ip/source/DIGITALCORE.vgl
+../../../raptor_digitalcore/DIGITALCORE_fix05.vgl
 ../../../raptor_ip/raptor.v
 ../../../raptor_ip/XSPRAMBLP_4096X32_M16P.v
-../../../raptor_ip/source/i2c_slave_vip.v
+../../../raptor_ip/i2c_slave/i2c_slave_vip.v
 ../../../raptor_ip/source/SST26VF064B.v
 ./SoC.tb.v
 ../../../raptor_ip/source/APBSYS_1/23LC512.v

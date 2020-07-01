@@ -246,7 +246,9 @@ module  SoC_tb ;
 	// Stop the simulation after 5M ticks
 	// The test fails if we reach this point.
 	initial begin
-		#10_000_000;          // Max simulation time is 10msec
+	//	#10_000_000;          // Max simulation time is 10msec
+	//	#3_000_000;          // Max simulation time is 3msec
+		#1_000_000;          // Max simulation time is 1msec
 		$display("Test: %0X failed - Timeout", test_id );
 		$finish();
 	end
@@ -301,18 +303,25 @@ module  SoC_tb ;
 	// I2C Verifier
     // ~~~~~~~~~~~~~~~
 	wire [15:0] i2c_data;
+
+	// MCP79410 I2CSVIP(
+	// 	.SCL(i2c_cl), .SDA(i2c_da),
+	// 	.RESET(~HRESETn)
+	// );
+
 	i2c_slave_vip I2CSVIP(
-		.scl(i2c_cl), .sda(i2c_da),
-		.rst(~HRESETn), .clk(CLK),
+	    .scl(i2c_cl), .sda(i2c_da),
+	    .rst(~HRESETn), .clk(CLK),
 		.i2c_data(i2c_data)
 	);
+
 	// Wait for 69 to be produced by the i2c master controller
-	always@(i2c_data)
-		if(i2c_data==69) begin
-			$display("Test: %0X passed", test_id );
-			#100;
-			$finish;
-		end
+	// always@(i2c_data)
+	//	if(i2c_data==69) begin
+	//		$display("Test: %0X passed", test_id );
+	//		#100;
+	//		$finish;
+	//	end
 
 
     // Performance reporting

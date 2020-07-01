@@ -10,6 +10,8 @@ SRC_PREFIX := ../sw
 
 SOURCES = $(shell find $(SRC_PREFIX) | grep _drv.c)
 OBJECTS = $(patsubst %.c,%.o,$(SOURCES))
+ASMBYS = $(patsubst %.c,%.s,$(SOURCES))
+ORIG = $(patsubst %.c,%.s.orig,$(SOURCES))
 
 STARTUP := $(SRC_PREFIX)/cm0_startup.s
 STARTUP_OBJECT := $(SRC_PREFIX)/start.o
@@ -22,20 +24,26 @@ all:  ${PATTERN:=.hex}
 
 hex:  ${PATTERN:=.hex}
 
-bin:  ${PATTERN:=.bin}
-
 .PHONY: clean flash hex all bin
 
-$(OBJECTS): %.o : %.c
+$(ASMBYS): %.s : %.c ../raptor.h
+	@echo ">> Compiling assembly $<"
+	$(COMPILE) -S -fverbose-asm -o $@ $<
+	python3 ../../util/code_workaround.py $@
+
+$(OBJECTS): %.o : %.s ../raptor.h
 	@echo ">> Compiling $<"
 	$(COMPILE) -o $@ $<
 
 #.SILENT:
 %.hex : $(OBJECTS) blink.c ../raptor.h
 	$(ARMGNU)-as $(AOPS) -o $(STARTUP_OBJECT) $(STARTUP)
-	$(COMPILE) -o blink.o blink.c
-	$(ARMGNU)-ld $(LDOPS) -T $(LINKSCRIPT) $(STARTUP_OBJECT) blink.o $(OBJECTS) -o blink.elf
-	$(ARMGNU)-objdump -d -S blink.elf > blink.lst
+	$(COMPILE) -S -fverbose-asm -o blink.s blink.c
+# 	python3 ../../util/code_workaround.py i2c.s
+	$(COMPILE) -o blink.o blink.s
+	$(ARMGNU)-ld $(LDOPS) -T $(LINKSCRIPT) $(STARTUP_OBJECT) $(OBJECTS) blink.o -o blink.elf
+# 	$(ARMGNU)-objdump -d -S blink.elf > blink.lst
+	$(ARMGNU)-objdump -D blink.elf > blink.lst
 	$(ARMGNU)-objcopy blink.elf -O verilog blink.hex
 	python3 ../../util/check_bug.py blink.lst
 
@@ -43,6 +51,8 @@ $(OBJECTS): %.o : %.c
 clean :
 	rm -rf Dumps
 	rm -f $(OBJECTS)
+	rm -f $(ASMBYS)
+	rm -f $(ORIG)
 	rm -f *.bin
 	rm -f *.elf
 	rm -f *.lst

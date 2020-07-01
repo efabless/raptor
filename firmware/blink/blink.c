@@ -50,7 +50,7 @@ void main()
 {
     int i,j;
 
-    set_clock(true, true, 0);
+//    set_clock(true, true, 0);
 
     reg_gpio_dir = 0x0000;
 //	gpio_set_dir(0x0000);
