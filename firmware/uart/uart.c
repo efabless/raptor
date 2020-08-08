@@ -6,19 +6,41 @@ void set_clock(bool hse, bool pll, int div) {
 #define   PLL_ON      *CLKCTRL_PLLCR |= 0x1
 #define   PLL_DIV(d)  *CLKCTRL_PLLCR &= 0x3; *CLKCTRL_PLLCR |= (d<<2); *CLKCTRL_CLKCR |= 2
 
-	if (hse){
-	    HSE_ON;
-        for (int j = 0; j < 70000; j++);
-	}
-	if (pll) {
-	    PLL_ON;
-        for (int j = 0; j < 70000; j++);
-	}
-	if (div)
-	    PLL_DIV(div);
+//	if (hse){
+//	    HSE_ON;
+	    *((unsigned int *)(0x50000008)) = 0x10;  // HSE on
+//	    *CLKCTRL_CLKCR = 0x10; // HSE
+        for (int j = 0; j < 15000; j++); // wait for HSE to stabilize
+
+        *((unsigned int *)(0x50000008)) |= 0x2;  // DIV bypass
+
+	    *((unsigned int *)(0x50000000)) |= 0x2;  // PLL source = ext
+	    *((unsigned int *)(0x50000000)) = 0x01;  // PLL on
+        for (int j = 0; j < 15000; j++); // wait for PLL to lock
+
+        *((unsigned int *)(0x50000008)) |= 0x4;  // set sysclk to ext
+
+//	}
+//	if (pll) {
+//	    PLL_ON;
+//        for (int j = 0; j < 70000; j++);
+//	}
+//	if (div)
+//	    PLL_DIV(div);
 
     // configure the clock muxes
-    //    *CLKCTRL_CLKCR |= 0x5;
+//    *CLKCTRL_PLLCR = 0x3;
+
+//    *CLKCTRL_CLKCR |= 0x5;
+//    *((unsigned int *)(0x50000008)) |= 0x5;  // external with PLL by-pass
+
+//    for (int j = 0; j < 15000; j++);
+
+
+//    *CLKCTRL_CLKCR = 0x16;
+//    *CLKCTRL_CLKCR = 0x14;
+//    PLL_DIV(2);
+
     //    *CLKCTRL_CLKCR |= 0x6;
     //    *CLKCTRL_CLKCR = 0x1e;
 
@@ -163,11 +185,17 @@ void main()
 //	uint32_t i, j;
 	int i, j;
 
-//    set_clock(true, true, 0);
+
+    for (j = 0; j < 70000; j++);
 
     // Enable GPIO (all output, ena = 0)
 	gpio_set_dir(0x0000);
     gpio_write(0x000f);
+
+    set_clock(true, true, 0);
+
+    gpio_write(0x000a);
+
 
 //    reg_gpio_ena = 0;
 //    reg_gpio_data = 0x000f;
@@ -225,9 +253,6 @@ void main()
 	// Divided by clkdiv is 9.6 kHz
 	// So at this crystal rate, use clkdiv = 6667 for 9600 baud.
 
-	// Set UART clock to 9600 baud
-//	reg_uart_clkdiv = 6667;
-//	reg_uart_clkdiv = 6600;
 
 //	reg_gpio_enb = 0x0000;
 //	reg_gpio_data = 0x0001;
@@ -249,13 +274,13 @@ void main()
 //    cmd_echo();
     gpio_write(0x0000);
 
-    print("\n\n");
+//    print("\n\n");
 
     while (1) {
-        gpio_write(0x0005);
+        gpio_write(0x0085);
         print("A");
         for (j = 0; j < 34000; j++) {} // 2 sec
-        gpio_write(0x000a);
+        gpio_write(0x008a);
 //        print("b");
         for (j = 0; j < 34000; j++) {} // 2 sec
     }

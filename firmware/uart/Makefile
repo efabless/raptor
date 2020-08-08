@@ -10,6 +10,8 @@ SRC_PREFIX := ../sw
 
 SOURCES = $(shell find $(SRC_PREFIX) | grep _drv.c)
 OBJECTS = $(patsubst %.c,%.o,$(SOURCES))
+ASMBYS = $(patsubst %.c,%.s,$(SOURCES))
+ORIG = $(patsubst %.c,%.s.orig,$(SOURCES))
 
 STARTUP := $(SRC_PREFIX)/cm0_startup.s
 STARTUP_OBJECT := $(SRC_PREFIX)/start.o
@@ -24,24 +26,33 @@ hex:  ${PATTERN:=.hex}
 
 .PHONY: clean flash hex all bin
 
-$(OBJECTS): %.o : %.c ../raptor.h
-	@echo ">> Compiling $<"
+$(ASMBYS): %.s : %.c ../raptor.h ../raptor_io.h
+	@echo ">> Compiling assembly $<"
+	$(COMPILE) -S -fverbose-asm -o $@ $<
+
+$(OBJECTS): %.o : %.s ../raptor.h ../raptor_io.h
+	@echo ">> Compiling objects$<"
 	$(COMPILE) -o $@ $<
 
 #.SILENT:
 %.hex : $(OBJECTS) %.c ../raptor.h
 	$(ARMGNU)-as $(AOPS) -o $(STARTUP_OBJECT) $(STARTUP)
-	$(COMPILE) -o uart.o uart.c
+	$(COMPILE) -S -fverbose-asm -o uart.s uart.c
+	python3 ../../util/code_workaround.py uart.s
+	$(COMPILE) -o uart.o uart.s
+
 # 	$(ARMGNU)-ld $(LDOPS) -T $(LINKSCRIPT) $(STARTUP_OBJECT) $(OBJECTS) uart.o -o uart.elf
 	$(ARMGNU)-ld $(LDOPS) -T $(LINKSCRIPT) $(STARTUP_OBJECT) ../sw/gpio_drv.o uart.o -o uart.elf
 	$(ARMGNU)-objdump -D uart.elf > uart.lst
 	$(ARMGNU)-objcopy uart.elf -O verilog uart.hex
-    python3 ../../util/check_bug.py uart.lst
+	python3 ../../util/check_bug.py uart.lst
 
 
 clean :
 	rm -rf Dumps
 	rm -f $(OBJECTS)
+	rm -f $(ASMBYS)
+	rm -f $(ORIG)
 	rm -f *.bin
 	rm -f *.elf
 	rm -f *.lst

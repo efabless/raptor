@@ -38,7 +38,8 @@ def getch():
 
 # print(f1.baudrate)
 
-port = pyftdi.serialext.serial_for_url('ftdi://ftdi:232h:/1', baudrate=4175)
+port = pyftdi.serialext.serial_for_url('ftdi://ftdi:232h:/1', baudrate=19200)
+# baudrate for internal 10MHz clock = 4175
 port._timeout = True  # make reads non-blocking
 
 c = ''

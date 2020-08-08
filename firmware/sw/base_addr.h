@@ -4,7 +4,8 @@
 #define INVALID_ADDR NULL
 
 #define     APB_BASE_ADDR_0             0x0fa00000
-#define     CLK_CTRL_BASE_ADDR_0        0x13880000
+#define     CLK_CTRL_BASE_ADDR_0        0x50000000
+//#define     CLK_CTRL_BASE_ADDR_0        0x13880000
 #define     I2C_BASE_ADDR_0             0x40100000
 #define     UART_BASE_ADDR_0            0x40200000
 #define     UART_BASE_ADDR_1            0x40300000

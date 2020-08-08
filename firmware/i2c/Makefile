@@ -30,9 +30,8 @@ hex:  ${PATTERN:=.hex}
 $(ASMBYS): %.s : %.c ../raptor.h ../raptor_io.h
 	@echo ">> Compiling assembly $<"
 	$(COMPILE) -S -fverbose-asm -o $@ $<
-# 	python3 ../../util/code_workaround.py $@
+	python3 ../../util/code_workaround.py $@
 
-# $(OBJECTS): %.o : %.c ../raptor.h ../raptor_io.h
 $(OBJECTS): %.o : %.s ../raptor.h ../raptor_io.h
 	@echo ">> Compiling objects$<"
 	$(COMPILE) -o $@ $<
@@ -41,13 +40,9 @@ $(OBJECTS): %.o : %.s ../raptor.h ../raptor_io.h
 %.hex : $(OBJECTS) %.c ../raptor.h
 	$(ARMGNU)-as $(AOPS) -o $(STARTUP_OBJECT) $(STARTUP)
 	$(COMPILE) -S -fverbose-asm -o i2c.s i2c.c
-# 	python3 ../../util/code_workaround.py i2c.s
+	python3 ../../util/code_workaround.py i2c.s
 	$(COMPILE) -o i2c.o i2c.s
-# 	$(ARMGNU)-ld $(LDOPS) -T $(LINKSCRIPT) $(STARTUP_OBJECT) $(OBJECTS) i2c.o -o i2c.elf
 	$(ARMGNU)-ld $(LDOPS) -T $(LINKSCRIPT) $(STARTUP_OBJECT) ../sw/gpio_drv.o ../sw/i2c_drv.o ../raptor_io.o i2c.o -o i2c.elf
-# 	$(ARMGNU)-ld $(LDOPS) -T $(LINKSCRIPT) $(STARTUP_OBJECT) ../raptor_io.o ../sw/clkctrl.o ../sw/gpio_drv.o ../sw/i2c_drv.o i2c.o -o i2c.elf
-# 	$(ARMGNU)-ld $(LDOPS) -T $(LINKSCRIPT) $(STARTUP_OBJECT) ../sw/gpio_drv.o ../sw/i2c_drv.o i2c.o -o i2c.elf
-# 	$(ARMGNU)-objdump -d -S i2c.elf > i2c.lst
 	$(ARMGNU)-objdump -D i2c.elf > i2c.lst
 	$(ARMGNU)-objcopy i2c.elf -O verilog i2c.hex
 	grep 'push' i2c.lst
