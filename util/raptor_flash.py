@@ -72,8 +72,20 @@ def report_status(jedec):
         print("status reg_2 = {}".format(hex(int.from_bytes(status, byteorder='big'))))
         # print("status = {}".format(hex(from_bytes(slave.exchange([CMD_READ_STATUS], 2)[1], byteorder='big'))))
 
+
 def is_busy(device):
     return get_status(device) & SR_WIP
+
+
+class Led:
+    def __init__(self, gpio):
+        self.gpio = gpio
+        self.led = 1
+
+    def toggle(self):
+        self.led = (self.led+1) & 0x1
+        output = 0b000100000000 | self.led << 11
+        self.gpio.write(output)
 
 
 if len(sys.argv) < 2:
@@ -92,12 +104,19 @@ spi.configure('ftdi://ftdi:232h:0/1')
 slave = spi.get_port(cs=0, freq=12E6, mode=0)  # Chip select is 0 -- corresponds to D3
 
 gpio = spi.get_gpio()
-gpio.set_direction(0x0100, 0x0100)
-gpio.write(0x0000)
+# gpio.set_direction(0x0100, 0x0100)  # (mask, dir)
+gpio.set_direction(0b110100000000, 0b110100000000)  # (mask, dir)
+gpio.write(0b000100000000)
+led = Led(gpio)
 
-# time.sleep(1.0)
+time.sleep(1.0)
 
-slave.write([CMD_RESET_CHIP])
+led.toggle()
+# slave.write([CMD_RESET_CHIP])
+# while (is_busy(slave)):
+#     time.sleep(0.5)
+#     led.toggle()
+# led.toggle()
 
 jedec = slave.exchange([CMD_JEDEC_DATA], 3)
 print("JEDEC = {}".format(binascii.hexlify(jedec)))
@@ -113,12 +132,16 @@ if jedec[0] == int('bf', 16):
 report_status(jedec)
 
 print("Erasing chip...")
+led.toggle()
 slave.write([CMD_WRITE_ENABLE])
 slave.write([CMD_ERASE_CHIP])
+led.toggle()
 
 while (is_busy(slave)):
     time.sleep(0.5)
+    led.toggle()
 
+led.toggle()
 print("done")
 print("status = {}".format(hex(get_status(slave))))
 
@@ -154,9 +177,12 @@ with open(file_path, mode='r') as f:
             # wcmd.extend(buf[0:255])
             wcmd.extend(buf)
             slave.exchange(wcmd)
+            led.toggle()
             while (is_busy(slave)):
                 time.sleep(0.1)
+                led.toggle()
 
+            led.toggle()
             print("addr {}: flash page write successful".format(hex(addr)))
 
             if nbytes > 256:
@@ -179,19 +205,24 @@ with open(file_path, mode='r') as f:
         wcmd = bytearray((CMD_PROGRAM_PAGE, (addr >> 16) & 0xff, (addr >> 8) & 0xff, addr & 0xff))
         wcmd.extend(buf)
         slave.exchange(wcmd)
+        led.toggle()
         while (is_busy(slave)):
             time.sleep(0.1)
+            led.toggle()
 
+        led.toggle()
         print("addr {}: flash page write successful".format(hex(addr)))
 
 print("\ntotal_bytes = {}".format(total_bytes))
 
 if jedec[0] != int('bf', 16):
+    led.toggle()
     print("locking registers...")
     slave.write([0xaa])
     slave.write([0x55])
     slave.write([0x06])
     slave.write([0x31, 0x01])
+    led.toggle()
 
 report_status(jedec)
 
@@ -206,6 +237,7 @@ total_bytes = 0
 
 while (is_busy(slave)):
     time.sleep(0.5)
+    led.toggle()
 
 report_status(jedec)
 
@@ -233,6 +265,7 @@ with open(file_path, mode='r') as f:
             read_cmd = bytearray((CMD_READ_LO_SPEED,(addr >> 16) & 0xff, (addr >> 8) & 0xff, addr & 0xff))
             # print(binascii.hexlify(read_cmd))
             buf2 = slave.exchange(read_cmd, nbytes)
+            led.toggle()
             if buf == buf2:
                 print("addr {}: read compare successful".format(hex(addr)))
             else:
@@ -260,6 +293,7 @@ with open(file_path, mode='r') as f:
         read_cmd = bytearray((CMD_READ_LO_SPEED, (addr >> 16) & 0xff, (addr >> 8) & 0xff, addr & 0xff))
         # print(binascii.hexlify(read_cmd))
         buf2 = slave.exchange(read_cmd, nbytes)
+        led.toggle()
         if buf == buf2:
             print("addr {}: read compare successful".format(hex(addr)))
         else:
