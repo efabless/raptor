@@ -36,7 +36,7 @@ $(OBJECTS): %.o : %.c ../raptor.h
 	$(ARMGNU)-ld $(LDOPS) -T $(LINKSCRIPT) $(STARTUP_OBJECT) ../sw/gpio_drv.o ../sw/spi_drv.o spi.o -o spi.elf
 	$(ARMGNU)-objdump -D spi.elf > spi.lst
 	$(ARMGNU)-objcopy spi.elf -O verilog spi.hex
-    python3 ../../util/check_bug.py spi.lst
+	python3 ../../util/check_bug.py spi.lst
 
 
 clean :
