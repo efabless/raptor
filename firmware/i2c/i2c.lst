@@ -66,7 +66,7 @@ Disassembly of section .text:
  148:	00000738 	andeq	r0, r0, r8, lsr r7
  14c:	20000000 	andcs	r0, r0, r0
  150:	20000000 	andcs	r0, r0, r0
- 154:	00000625 	andeq	r0, r0, r5, lsr #12
+ 154:	00000669 	andeq	r0, r0, r9, ror #12
  158:	80000004 	andhi	r0, r0, r4
  15c:	80000000 	andhi	r0, r0, r0
  160:	00000009 	andeq	r0, r0, r9
@@ -430,11 +430,11 @@ Disassembly of section .text:
  382:	4770      	bx	lr
 
 00000384 <i2c_init>:
- 384:	2200      	movs	r2, #0
+ 384:	b2c0      	uxtb	r0, r0
  386:	4b04      	ldr	r3, [pc, #16]	; (398 <i2c_init+0x14>)
- 388:	b2c0      	uxtb	r0, r0
- 38a:	7018      	strb	r0, [r3, #0]
- 38c:	4b03      	ldr	r3, [pc, #12]	; (39c <i2c_init+0x18>)
+ 388:	7018      	strb	r0, [r3, #0]
+ 38a:	4b04      	ldr	r3, [pc, #16]	; (39c <i2c_init+0x18>)
+ 38c:	2200      	movs	r2, #0
  38e:	701a      	strb	r2, [r3, #0]
  390:	4b03      	ldr	r3, [pc, #12]	; (3a0 <i2c_init+0x1c>)
  392:	3280      	adds	r2, #128	; 0x80
@@ -445,351 +445,385 @@ Disassembly of section .text:
  3a0:	40100008 	andsmi	r0, r0, r8
 
 000003a4 <i2c_send_byte>:
- 3a4:	4b0d      	ldr	r3, [pc, #52]	; (3dc <i2c_send_byte+0x38>)
- 3a6:	2290      	movs	r2, #144	; 0x90
- 3a8:	7018      	strb	r0, [r3, #0]
- 3aa:	2002      	movs	r0, #2
- 3ac:	4b0c      	ldr	r3, [pc, #48]	; (3e0 <i2c_send_byte+0x3c>)
- 3ae:	701a      	strb	r2, [r3, #0]
- 3b0:	4a0c      	ldr	r2, [pc, #48]	; (3e4 <i2c_send_byte+0x40>)
- 3b2:	7813      	ldrb	r3, [r2, #0]
- 3b4:	4218      	tst	r0, r3
+ 3a4:	4b0e      	ldr	r3, [pc, #56]	; (3e0 <i2c_send_byte+0x3c>)
+ 3a6:	7018      	strb	r0, [r3, #0]
+ 3a8:	4b0e      	ldr	r3, [pc, #56]	; (3e4 <i2c_send_byte+0x40>)
+ 3aa:	2290      	movs	r2, #144	; 0x90
+ 3ac:	701a      	strb	r2, [r3, #0]
+ 3ae:	480e      	ldr	r0, [pc, #56]	; (3e8 <i2c_send_byte+0x44>)
+ 3b0:	3a8e      	subs	r2, #142	; 0x8e
+ 3b2:	7803      	ldrb	r3, [r0, #0]
+ 3b4:	4213      	tst	r3, r2
  3b6:	d1fc      	bne.n	3b2 <i2c_send_byte+0xe>
- 3b8:	7813      	ldrb	r3, [r2, #0]
- 3ba:	4b08      	ldr	r3, [pc, #32]	; (3dc <i2c_send_byte+0x38>)
- 3bc:	2210      	movs	r2, #16
+ 3b8:	4b0b      	ldr	r3, [pc, #44]	; (3e8 <i2c_send_byte+0x44>)
+ 3ba:	781b      	ldrb	r3, [r3, #0]
+ 3bc:	4b08      	ldr	r3, [pc, #32]	; (3e0 <i2c_send_byte+0x3c>)
  3be:	7019      	strb	r1, [r3, #0]
- 3c0:	2102      	movs	r1, #2
- 3c2:	4b07      	ldr	r3, [pc, #28]	; (3e0 <i2c_send_byte+0x3c>)
+ 3c0:	4b08      	ldr	r3, [pc, #32]	; (3e4 <i2c_send_byte+0x40>)
+ 3c2:	2210      	movs	r2, #16
  3c4:	701a      	strb	r2, [r3, #0]
- 3c6:	4a07      	ldr	r2, [pc, #28]	; (3e4 <i2c_send_byte+0x40>)
- 3c8:	7813      	ldrb	r3, [r2, #0]
- 3ca:	4219      	tst	r1, r3
- 3cc:	d1fc      	bne.n	3c8 <i2c_send_byte+0x24>
- 3ce:	2140      	movs	r1, #64	; 0x40
- 3d0:	4b03      	ldr	r3, [pc, #12]	; (3e0 <i2c_send_byte+0x3c>)
- 3d2:	2001      	movs	r0, #1
- 3d4:	7019      	strb	r1, [r3, #0]
- 3d6:	7813      	ldrb	r3, [r2, #0]
- 3d8:	4770      	bx	lr
- 3da:	46c0      	nop			; (mov r8, r8)
- 3dc:	4010000c 	andsmi	r0, r0, ip
- 3e0:	40100014 	andsmi	r0, r0, r4, lsl r0
- 3e4:	40100018 	andsmi	r0, r0, r8, lsl r0
+ 3c6:	4908      	ldr	r1, [pc, #32]	; (3e8 <i2c_send_byte+0x44>)
+ 3c8:	3a0e      	subs	r2, #14
+ 3ca:	780b      	ldrb	r3, [r1, #0]
+ 3cc:	4213      	tst	r3, r2
+ 3ce:	d1fc      	bne.n	3ca <i2c_send_byte+0x26>
+ 3d0:	4b04      	ldr	r3, [pc, #16]	; (3e4 <i2c_send_byte+0x40>)
+ 3d2:	2240      	movs	r2, #64	; 0x40
+ 3d4:	701a      	strb	r2, [r3, #0]
+ 3d6:	4b04      	ldr	r3, [pc, #16]	; (3e8 <i2c_send_byte+0x44>)
+ 3d8:	781b      	ldrb	r3, [r3, #0]
+ 3da:	2001      	movs	r0, #1
+ 3dc:	4770      	bx	lr
+ 3de:	46c0      	nop			; (mov r8, r8)
+ 3e0:	4010000c 	andsmi	r0, r0, ip
+ 3e4:	40100014 	andsmi	r0, r0, r4, lsl r0
+ 3e8:	40100018 	andsmi	r0, r0, r8, lsl r0
 
-000003e8 <i2c_read_bytes>:
- 3e8:	b5f0      	push	{r4, r5, r6, r7, lr}
- 3ea:	4646      	mov	r6, r8
- 3ec:	46d6      	mov	lr, sl
- 3ee:	464f      	mov	r7, r9
- 3f0:	b5c0      	push	{r6, r7, lr}
- 3f2:	2680      	movs	r6, #128	; 0x80
- 3f4:	2401      	movs	r4, #1
- 3f6:	2590      	movs	r5, #144	; 0x90
- 3f8:	0636      	lsls	r6, r6, #24
- 3fa:	6034      	str	r4, [r6, #0]
- 3fc:	4c29      	ldr	r4, [pc, #164]	; (4a4 <i2c_read_bytes+0xbc>)
- 3fe:	468c      	mov	ip, r1
- 400:	7020      	strb	r0, [r4, #0]
- 402:	4c29      	ldr	r4, [pc, #164]	; (4a8 <i2c_read_bytes+0xc0>)
- 404:	7025      	strb	r5, [r4, #0]
- 406:	4d29      	ldr	r5, [pc, #164]	; (4ac <i2c_read_bytes+0xc4>)
- 408:	782c      	ldrb	r4, [r5, #0]
- 40a:	07a1      	lsls	r1, r4, #30
- 40c:	d505      	bpl.n	41a <i2c_read_bytes+0x32>
- 40e:	2102      	movs	r1, #2
- 410:	2702      	movs	r7, #2
- 412:	6037      	str	r7, [r6, #0]
- 414:	782c      	ldrb	r4, [r5, #0]
- 416:	4221      	tst	r1, r4
- 418:	d1fb      	bne.n	412 <i2c_read_bytes+0x2a>
- 41a:	4661      	mov	r1, ip
- 41c:	4c23      	ldr	r4, [pc, #140]	; (4ac <i2c_read_bytes+0xc4>)
- 41e:	7825      	ldrb	r5, [r4, #0]
- 420:	4d20      	ldr	r5, [pc, #128]	; (4a4 <i2c_read_bytes+0xbc>)
- 422:	7029      	strb	r1, [r5, #0]
- 424:	2510      	movs	r5, #16
- 426:	4920      	ldr	r1, [pc, #128]	; (4a8 <i2c_read_bytes+0xc0>)
- 428:	700d      	strb	r5, [r1, #0]
- 42a:	3d0e      	subs	r5, #14
- 42c:	7821      	ldrb	r1, [r4, #0]
- 42e:	420d      	tst	r5, r1
- 430:	d1fc      	bne.n	42c <i2c_read_bytes+0x44>
- 432:	7821      	ldrb	r1, [r4, #0]
- 434:	2101      	movs	r1, #1
- 436:	4308      	orrs	r0, r1
- 438:	491a      	ldr	r1, [pc, #104]	; (4a4 <i2c_read_bytes+0xbc>)
- 43a:	2402      	movs	r4, #2
- 43c:	7008      	strb	r0, [r1, #0]
- 43e:	2090      	movs	r0, #144	; 0x90
- 440:	4919      	ldr	r1, [pc, #100]	; (4a8 <i2c_read_bytes+0xc0>)
- 442:	7008      	strb	r0, [r1, #0]
- 444:	4819      	ldr	r0, [pc, #100]	; (4ac <i2c_read_bytes+0xc4>)
- 446:	7801      	ldrb	r1, [r0, #0]
- 448:	420c      	tst	r4, r1
- 44a:	d1fc      	bne.n	446 <i2c_read_bytes+0x5e>
- 44c:	7801      	ldrb	r1, [r0, #0]
- 44e:	1e5e      	subs	r6, r3, #1
- 450:	2500      	movs	r5, #0
- 452:	2b00      	cmp	r3, #0
- 454:	dd18      	ble.n	488 <i2c_read_bytes+0xa0>
- 456:	4914      	ldr	r1, [pc, #80]	; (4a8 <i2c_read_bytes+0xc0>)
- 458:	2402      	movs	r4, #2
- 45a:	468c      	mov	ip, r1
- 45c:	2160      	movs	r1, #96	; 0x60
- 45e:	4689      	mov	r9, r1
- 460:	3940      	subs	r1, #64	; 0x40
- 462:	4688      	mov	r8, r1
- 464:	4912      	ldr	r1, [pc, #72]	; (4b0 <i2c_read_bytes+0xc8>)
- 466:	4811      	ldr	r0, [pc, #68]	; (4ac <i2c_read_bytes+0xc4>)
- 468:	468a      	mov	sl, r1
- 46a:	4661      	mov	r1, ip
- 46c:	42ae      	cmp	r6, r5
- 46e:	dd15      	ble.n	49c <i2c_read_bytes+0xb4>
- 470:	4647      	mov	r7, r8
- 472:	700f      	strb	r7, [r1, #0]
- 474:	7801      	ldrb	r1, [r0, #0]
- 476:	420c      	tst	r4, r1
- 478:	d1fc      	bne.n	474 <i2c_read_bytes+0x8c>
- 47a:	7801      	ldrb	r1, [r0, #0]
- 47c:	4651      	mov	r1, sl
- 47e:	7809      	ldrb	r1, [r1, #0]
- 480:	5551      	strb	r1, [r2, r5]
- 482:	3501      	adds	r5, #1
- 484:	42ab      	cmp	r3, r5
- 486:	d1f0      	bne.n	46a <i2c_read_bytes+0x82>
- 488:	2380      	movs	r3, #128	; 0x80
- 48a:	220e      	movs	r2, #14
- 48c:	061b      	lsls	r3, r3, #24
- 48e:	2001      	movs	r0, #1
- 490:	601a      	str	r2, [r3, #0]
- 492:	bc1c      	pop	{r2, r3, r4}
- 494:	4690      	mov	r8, r2
- 496:	4699      	mov	r9, r3
- 498:	46a2      	mov	sl, r4
- 49a:	bdf0      	pop	{r4, r5, r6, r7, pc}
- 49c:	464f      	mov	r7, r9
- 49e:	700f      	strb	r7, [r1, #0]
- 4a0:	e7e8      	b.n	474 <i2c_read_bytes+0x8c>
- 4a2:	46c0      	nop			; (mov r8, r8)
- 4a4:	4010000c 	andsmi	r0, r0, ip
- 4a8:	40100014 	andsmi	r0, r0, r4, lsl r0
- 4ac:	40100018 	andsmi	r0, r0, r8, lsl r0
- 4b0:	40100010 	andsmi	r0, r0, r0, lsl r0
+000003ec <i2c_read_bytes>:
+ 3ec:	b580      	push	{r7, lr}
+ 3ee:	46c0      	nop			; (mov r8, r8)
+ 3f0:	b470      	push	{r4, r5, r6}
+ 3f2:	46d6      	mov	lr, sl
+ 3f4:	464f      	mov	r7, r9
+ 3f6:	4646      	mov	r6, r8
+ 3f8:	b5c0      	push	{r6, r7, lr}
+ 3fa:	468c      	mov	ip, r1
+ 3fc:	2180      	movs	r1, #128	; 0x80
+ 3fe:	0609      	lsls	r1, r1, #24
+ 400:	2401      	movs	r4, #1
+ 402:	600c      	str	r4, [r1, #0]
+ 404:	492e      	ldr	r1, [pc, #184]	; (4c0 <i2c_read_bytes+0xd4>)
+ 406:	7008      	strb	r0, [r1, #0]
+ 408:	492e      	ldr	r1, [pc, #184]	; (4c4 <i2c_read_bytes+0xd8>)
+ 40a:	348f      	adds	r4, #143	; 0x8f
+ 40c:	700c      	strb	r4, [r1, #0]
+ 40e:	492e      	ldr	r1, [pc, #184]	; (4c8 <i2c_read_bytes+0xdc>)
+ 410:	7809      	ldrb	r1, [r1, #0]
+ 412:	0789      	lsls	r1, r1, #30
+ 414:	d508      	bpl.n	428 <i2c_read_bytes+0x3c>
+ 416:	2180      	movs	r1, #128	; 0x80
+ 418:	0609      	lsls	r1, r1, #24
+ 41a:	2502      	movs	r5, #2
+ 41c:	002f      	movs	r7, r5
+ 41e:	4e2a      	ldr	r6, [pc, #168]	; (4c8 <i2c_read_bytes+0xdc>)
+ 420:	600f      	str	r7, [r1, #0]
+ 422:	7834      	ldrb	r4, [r6, #0]
+ 424:	422c      	tst	r4, r5
+ 426:	d1fb      	bne.n	420 <i2c_read_bytes+0x34>
+ 428:	4927      	ldr	r1, [pc, #156]	; (4c8 <i2c_read_bytes+0xdc>)
+ 42a:	7809      	ldrb	r1, [r1, #0]
+ 42c:	4c24      	ldr	r4, [pc, #144]	; (4c0 <i2c_read_bytes+0xd4>)
+ 42e:	4661      	mov	r1, ip
+ 430:	7021      	strb	r1, [r4, #0]
+ 432:	4924      	ldr	r1, [pc, #144]	; (4c4 <i2c_read_bytes+0xd8>)
+ 434:	2410      	movs	r4, #16
+ 436:	700c      	strb	r4, [r1, #0]
+ 438:	4d23      	ldr	r5, [pc, #140]	; (4c8 <i2c_read_bytes+0xdc>)
+ 43a:	3c0e      	subs	r4, #14
+ 43c:	7829      	ldrb	r1, [r5, #0]
+ 43e:	4221      	tst	r1, r4
+ 440:	d1fc      	bne.n	43c <i2c_read_bytes+0x50>
+ 442:	4921      	ldr	r1, [pc, #132]	; (4c8 <i2c_read_bytes+0xdc>)
+ 444:	7809      	ldrb	r1, [r1, #0]
+ 446:	2101      	movs	r1, #1
+ 448:	4308      	orrs	r0, r1
+ 44a:	491d      	ldr	r1, [pc, #116]	; (4c0 <i2c_read_bytes+0xd4>)
+ 44c:	7008      	strb	r0, [r1, #0]
+ 44e:	491d      	ldr	r1, [pc, #116]	; (4c4 <i2c_read_bytes+0xd8>)
+ 450:	2090      	movs	r0, #144	; 0x90
+ 452:	7008      	strb	r0, [r1, #0]
+ 454:	4c1c      	ldr	r4, [pc, #112]	; (4c8 <i2c_read_bytes+0xdc>)
+ 456:	388e      	subs	r0, #142	; 0x8e
+ 458:	7821      	ldrb	r1, [r4, #0]
+ 45a:	4201      	tst	r1, r0
+ 45c:	d1fc      	bne.n	458 <i2c_read_bytes+0x6c>
+ 45e:	491a      	ldr	r1, [pc, #104]	; (4c8 <i2c_read_bytes+0xdc>)
+ 460:	7809      	ldrb	r1, [r1, #0]
+ 462:	2b00      	cmp	r3, #0
+ 464:	dd1f      	ble.n	4a6 <i2c_read_bytes+0xba>
+ 466:	2500      	movs	r5, #0
+ 468:	1e5f      	subs	r7, r3, #1
+ 46a:	4916      	ldr	r1, [pc, #88]	; (4c4 <i2c_read_bytes+0xd8>)
+ 46c:	468c      	mov	ip, r1
+ 46e:	2160      	movs	r1, #96	; 0x60
+ 470:	4689      	mov	r9, r1
+ 472:	3940      	subs	r1, #64	; 0x40
+ 474:	4688      	mov	r8, r1
+ 476:	4814      	ldr	r0, [pc, #80]	; (4c8 <i2c_read_bytes+0xdc>)
+ 478:	2402      	movs	r4, #2
+ 47a:	4914      	ldr	r1, [pc, #80]	; (4cc <i2c_read_bytes+0xe0>)
+ 47c:	468a      	mov	sl, r1
+ 47e:	e00c      	b.n	49a <i2c_read_bytes+0xae>
+ 480:	4661      	mov	r1, ip
+ 482:	464e      	mov	r6, r9
+ 484:	700e      	strb	r6, [r1, #0]
+ 486:	7801      	ldrb	r1, [r0, #0]
+ 488:	4221      	tst	r1, r4
+ 48a:	d1fc      	bne.n	486 <i2c_read_bytes+0x9a>
+ 48c:	7801      	ldrb	r1, [r0, #0]
+ 48e:	4651      	mov	r1, sl
+ 490:	7809      	ldrb	r1, [r1, #0]
+ 492:	5551      	strb	r1, [r2, r5]
+ 494:	3501      	adds	r5, #1
+ 496:	42ab      	cmp	r3, r5
+ 498:	d005      	beq.n	4a6 <i2c_read_bytes+0xba>
+ 49a:	42af      	cmp	r7, r5
+ 49c:	ddf0      	ble.n	480 <i2c_read_bytes+0x94>
+ 49e:	4661      	mov	r1, ip
+ 4a0:	4646      	mov	r6, r8
+ 4a2:	700e      	strb	r6, [r1, #0]
+ 4a4:	e7ef      	b.n	486 <i2c_read_bytes+0x9a>
+ 4a6:	2380      	movs	r3, #128	; 0x80
+ 4a8:	061b      	lsls	r3, r3, #24
+ 4aa:	220e      	movs	r2, #14
+ 4ac:	601a      	str	r2, [r3, #0]
+ 4ae:	2001      	movs	r0, #1
+ 4b0:	bc1c      	pop	{r2, r3, r4}
+ 4b2:	4690      	mov	r8, r2
+ 4b4:	4699      	mov	r9, r3
+ 4b6:	46a2      	mov	sl, r4
+ 4b8:	bc70      	pop	{r4, r5, r6}
+ 4ba:	46c0      	nop			; (mov r8, r8)
+ 4bc:	bd80      	pop	{r7, pc}
+ 4be:	46c0      	nop			; (mov r8, r8)
+ 4c0:	4010000c 	andsmi	r0, r0, ip
+ 4c4:	40100014 	andsmi	r0, r0, r4, lsl r0
+ 4c8:	40100018 	andsmi	r0, r0, r8, lsl r0
+ 4cc:	40100010 	andsmi	r0, r0, r0, lsl r0
 
-000004b4 <i2c_read_byte>:
- 4b4:	2290      	movs	r2, #144	; 0x90
- 4b6:	b510      	push	{r4, lr}
- 4b8:	2402      	movs	r4, #2
- 4ba:	4b17      	ldr	r3, [pc, #92]	; (518 <i2c_read_byte+0x64>)
- 4bc:	7018      	strb	r0, [r3, #0]
- 4be:	4b17      	ldr	r3, [pc, #92]	; (51c <i2c_read_byte+0x68>)
- 4c0:	701a      	strb	r2, [r3, #0]
- 4c2:	4a17      	ldr	r2, [pc, #92]	; (520 <i2c_read_byte+0x6c>)
- 4c4:	7813      	ldrb	r3, [r2, #0]
- 4c6:	421c      	tst	r4, r3
- 4c8:	d1fc      	bne.n	4c4 <i2c_read_byte+0x10>
- 4ca:	7813      	ldrb	r3, [r2, #0]
- 4cc:	4b12      	ldr	r3, [pc, #72]	; (518 <i2c_read_byte+0x64>)
- 4ce:	2210      	movs	r2, #16
- 4d0:	7019      	strb	r1, [r3, #0]
- 4d2:	2102      	movs	r1, #2
- 4d4:	4b11      	ldr	r3, [pc, #68]	; (51c <i2c_read_byte+0x68>)
- 4d6:	701a      	strb	r2, [r3, #0]
- 4d8:	4a11      	ldr	r2, [pc, #68]	; (520 <i2c_read_byte+0x6c>)
- 4da:	7813      	ldrb	r3, [r2, #0]
- 4dc:	4219      	tst	r1, r3
- 4de:	d1fc      	bne.n	4da <i2c_read_byte+0x26>
- 4e0:	7813      	ldrb	r3, [r2, #0]
- 4e2:	2301      	movs	r3, #1
- 4e4:	2290      	movs	r2, #144	; 0x90
- 4e6:	2102      	movs	r1, #2
- 4e8:	4318      	orrs	r0, r3
- 4ea:	4b0b      	ldr	r3, [pc, #44]	; (518 <i2c_read_byte+0x64>)
- 4ec:	7018      	strb	r0, [r3, #0]
- 4ee:	4b0b      	ldr	r3, [pc, #44]	; (51c <i2c_read_byte+0x68>)
- 4f0:	701a      	strb	r2, [r3, #0]
- 4f2:	4a0b      	ldr	r2, [pc, #44]	; (520 <i2c_read_byte+0x6c>)
- 4f4:	7813      	ldrb	r3, [r2, #0]
- 4f6:	4219      	tst	r1, r3
- 4f8:	d1fc      	bne.n	4f4 <i2c_read_byte+0x40>
- 4fa:	7813      	ldrb	r3, [r2, #0]
- 4fc:	2260      	movs	r2, #96	; 0x60
- 4fe:	2102      	movs	r1, #2
- 500:	4b06      	ldr	r3, [pc, #24]	; (51c <i2c_read_byte+0x68>)
- 502:	701a      	strb	r2, [r3, #0]
- 504:	4a06      	ldr	r2, [pc, #24]	; (520 <i2c_read_byte+0x6c>)
- 506:	7813      	ldrb	r3, [r2, #0]
- 508:	4219      	tst	r1, r3
- 50a:	d1fc      	bne.n	506 <i2c_read_byte+0x52>
- 50c:	7813      	ldrb	r3, [r2, #0]
- 50e:	4b05      	ldr	r3, [pc, #20]	; (524 <i2c_read_byte+0x70>)
- 510:	7818      	ldrb	r0, [r3, #0]
- 512:	b2c0      	uxtb	r0, r0
- 514:	bd10      	pop	{r4, pc}
- 516:	46c0      	nop			; (mov r8, r8)
- 518:	4010000c 	andsmi	r0, r0, ip
- 51c:	40100014 	andsmi	r0, r0, r4, lsl r0
- 520:	40100018 	andsmi	r0, r0, r8, lsl r0
- 524:	40100010 	andsmi	r0, r0, r0, lsl r0
+000004d0 <i2c_read_byte>:
+ 4d0:	b510      	push	{r4, lr}
+ 4d2:	4b1a      	ldr	r3, [pc, #104]	; (53c <i2c_read_byte+0x6c>)
+ 4d4:	7018      	strb	r0, [r3, #0]
+ 4d6:	4b1a      	ldr	r3, [pc, #104]	; (540 <i2c_read_byte+0x70>)
+ 4d8:	2290      	movs	r2, #144	; 0x90
+ 4da:	701a      	strb	r2, [r3, #0]
+ 4dc:	4c19      	ldr	r4, [pc, #100]	; (544 <i2c_read_byte+0x74>)
+ 4de:	3a8e      	subs	r2, #142	; 0x8e
+ 4e0:	7823      	ldrb	r3, [r4, #0]
+ 4e2:	4213      	tst	r3, r2
+ 4e4:	d1fc      	bne.n	4e0 <i2c_read_byte+0x10>
+ 4e6:	4b17      	ldr	r3, [pc, #92]	; (544 <i2c_read_byte+0x74>)
+ 4e8:	781b      	ldrb	r3, [r3, #0]
+ 4ea:	4b14      	ldr	r3, [pc, #80]	; (53c <i2c_read_byte+0x6c>)
+ 4ec:	7019      	strb	r1, [r3, #0]
+ 4ee:	4b14      	ldr	r3, [pc, #80]	; (540 <i2c_read_byte+0x70>)
+ 4f0:	2210      	movs	r2, #16
+ 4f2:	701a      	strb	r2, [r3, #0]
+ 4f4:	4913      	ldr	r1, [pc, #76]	; (544 <i2c_read_byte+0x74>)
+ 4f6:	3a0e      	subs	r2, #14
+ 4f8:	780b      	ldrb	r3, [r1, #0]
+ 4fa:	4213      	tst	r3, r2
+ 4fc:	d1fc      	bne.n	4f8 <i2c_read_byte+0x28>
+ 4fe:	4b11      	ldr	r3, [pc, #68]	; (544 <i2c_read_byte+0x74>)
+ 500:	781b      	ldrb	r3, [r3, #0]
+ 502:	2301      	movs	r3, #1
+ 504:	4318      	orrs	r0, r3
+ 506:	4b0d      	ldr	r3, [pc, #52]	; (53c <i2c_read_byte+0x6c>)
+ 508:	7018      	strb	r0, [r3, #0]
+ 50a:	4b0d      	ldr	r3, [pc, #52]	; (540 <i2c_read_byte+0x70>)
+ 50c:	2290      	movs	r2, #144	; 0x90
+ 50e:	701a      	strb	r2, [r3, #0]
+ 510:	490c      	ldr	r1, [pc, #48]	; (544 <i2c_read_byte+0x74>)
+ 512:	3a8e      	subs	r2, #142	; 0x8e
+ 514:	780b      	ldrb	r3, [r1, #0]
+ 516:	4213      	tst	r3, r2
+ 518:	d1fc      	bne.n	514 <i2c_read_byte+0x44>
+ 51a:	4b0a      	ldr	r3, [pc, #40]	; (544 <i2c_read_byte+0x74>)
+ 51c:	781b      	ldrb	r3, [r3, #0]
+ 51e:	4b08      	ldr	r3, [pc, #32]	; (540 <i2c_read_byte+0x70>)
+ 520:	2260      	movs	r2, #96	; 0x60
+ 522:	701a      	strb	r2, [r3, #0]
+ 524:	4907      	ldr	r1, [pc, #28]	; (544 <i2c_read_byte+0x74>)
+ 526:	3a5e      	subs	r2, #94	; 0x5e
+ 528:	780b      	ldrb	r3, [r1, #0]
+ 52a:	4213      	tst	r3, r2
+ 52c:	d1fc      	bne.n	528 <i2c_read_byte+0x58>
+ 52e:	4b05      	ldr	r3, [pc, #20]	; (544 <i2c_read_byte+0x74>)
+ 530:	781b      	ldrb	r3, [r3, #0]
+ 532:	4b05      	ldr	r3, [pc, #20]	; (548 <i2c_read_byte+0x78>)
+ 534:	7818      	ldrb	r0, [r3, #0]
+ 536:	b2c0      	uxtb	r0, r0
+ 538:	bd10      	pop	{r4, pc}
+ 53a:	46c0      	nop			; (mov r8, r8)
+ 53c:	4010000c 	andsmi	r0, r0, ip
+ 540:	40100014 	andsmi	r0, r0, r4, lsl r0
+ 544:	40100018 	andsmi	r0, r0, r8, lsl r0
+ 548:	40100010 	andsmi	r0, r0, r0, lsl r0
 
-00000528 <putchar>:
- 528:	4b01      	ldr	r3, [pc, #4]	; (530 <putchar+0x8>)
- 52a:	b2c0      	uxtb	r0, r0
- 52c:	7018      	strb	r0, [r3, #0]
- 52e:	4770      	bx	lr
- 530:	40300000 	eorsmi	r0, r0, r0
+0000054c <putchar>:
+ 54c:	b2c0      	uxtb	r0, r0
+ 54e:	4b01      	ldr	r3, [pc, #4]	; (554 <putchar+0x8>)
+ 550:	7018      	strb	r0, [r3, #0]
+ 552:	4770      	bx	lr
+ 554:	40300000 	eorsmi	r0, r0, r0
 
-00000534 <print>:
- 534:	7803      	ldrb	r3, [r0, #0]
- 536:	2b00      	cmp	r3, #0
- 538:	d005      	beq.n	546 <print+0x12>
- 53a:	4a03      	ldr	r2, [pc, #12]	; (548 <print+0x14>)
- 53c:	3001      	adds	r0, #1
- 53e:	7013      	strb	r3, [r2, #0]
- 540:	7803      	ldrb	r3, [r0, #0]
- 542:	2b00      	cmp	r3, #0
- 544:	d1fa      	bne.n	53c <print+0x8>
- 546:	4770      	bx	lr
- 548:	40300000 	eorsmi	r0, r0, r0
+00000558 <print>:
+ 558:	7803      	ldrb	r3, [r0, #0]
+ 55a:	2b00      	cmp	r3, #0
+ 55c:	d005      	beq.n	56a <print+0x12>
+ 55e:	4a03      	ldr	r2, [pc, #12]	; (56c <print+0x14>)
+ 560:	3001      	adds	r0, #1
+ 562:	7013      	strb	r3, [r2, #0]
+ 564:	7803      	ldrb	r3, [r0, #0]
+ 566:	2b00      	cmp	r3, #0
+ 568:	d1fa      	bne.n	560 <print+0x8>
+ 56a:	4770      	bx	lr
+ 56c:	40300000 	eorsmi	r0, r0, r0
 
-0000054c <print_hex>:
- 54c:	b530      	push	{r4, r5, lr}
- 54e:	3901      	subs	r1, #1
- 550:	d40b      	bmi.n	56a <print_hex+0x1e>
- 552:	240f      	movs	r4, #15
- 554:	4d05      	ldr	r5, [pc, #20]	; (56c <print_hex+0x20>)
- 556:	4a06      	ldr	r2, [pc, #24]	; (570 <print_hex+0x24>)
- 558:	0089      	lsls	r1, r1, #2
- 55a:	0003      	movs	r3, r0
- 55c:	40cb      	lsrs	r3, r1
- 55e:	4023      	ands	r3, r4
- 560:	5ceb      	ldrb	r3, [r5, r3]
- 562:	3904      	subs	r1, #4
- 564:	7013      	strb	r3, [r2, #0]
- 566:	1d0b      	adds	r3, r1, #4
- 568:	d1f7      	bne.n	55a <print_hex+0xe>
- 56a:	bd30      	pop	{r4, r5, pc}
- 56c:	00000724 	andeq	r0, r0, r4, lsr #14
- 570:	40300000 	eorsmi	r0, r0, r0
+00000570 <print_hex>:
+ 570:	b530      	push	{r4, r5, lr}
+ 572:	3901      	subs	r1, #1
+ 574:	d40b      	bmi.n	58e <print_hex+0x1e>
+ 576:	0089      	lsls	r1, r1, #2
+ 578:	4d05      	ldr	r5, [pc, #20]	; (590 <print_hex+0x20>)
+ 57a:	240f      	movs	r4, #15
+ 57c:	4a05      	ldr	r2, [pc, #20]	; (594 <print_hex+0x24>)
+ 57e:	0003      	movs	r3, r0
+ 580:	40cb      	lsrs	r3, r1
+ 582:	4023      	ands	r3, r4
+ 584:	5ceb      	ldrb	r3, [r5, r3]
+ 586:	7013      	strb	r3, [r2, #0]
+ 588:	3904      	subs	r1, #4
+ 58a:	1d0b      	adds	r3, r1, #4
+ 58c:	d1f7      	bne.n	57e <print_hex+0xe>
+ 58e:	bd30      	pop	{r4, r5, pc}
+ 590:	00000724 	andeq	r0, r0, r4, lsr #14
+ 594:	40300000 	eorsmi	r0, r0, r0
 
-00000574 <print_digit>:
- 574:	230f      	movs	r3, #15
- 576:	4018      	ands	r0, r3
- 578:	4b29      	ldr	r3, [pc, #164]	; (620 <print_digit+0xac>)
- 57a:	2809      	cmp	r0, #9
- 57c:	d017      	beq.n	5ae <print_digit+0x3a>
- 57e:	2808      	cmp	r0, #8
- 580:	d012      	beq.n	5a8 <print_digit+0x34>
- 582:	2807      	cmp	r0, #7
- 584:	d019      	beq.n	5ba <print_digit+0x46>
- 586:	2806      	cmp	r0, #6
- 588:	d014      	beq.n	5b4 <print_digit+0x40>
- 58a:	2805      	cmp	r0, #5
- 58c:	d018      	beq.n	5c0 <print_digit+0x4c>
- 58e:	2804      	cmp	r0, #4
- 590:	d01c      	beq.n	5cc <print_digit+0x58>
- 592:	2803      	cmp	r0, #3
- 594:	d01d      	beq.n	5d2 <print_digit+0x5e>
- 596:	2802      	cmp	r0, #2
- 598:	d015      	beq.n	5c6 <print_digit+0x52>
- 59a:	2801      	cmp	r0, #1
- 59c:	d01c      	beq.n	5d8 <print_digit+0x64>
- 59e:	2800      	cmp	r0, #0
- 5a0:	d11d      	bne.n	5de <print_digit+0x6a>
- 5a2:	2230      	movs	r2, #48	; 0x30
- 5a4:	701a      	strb	r2, [r3, #0]
- 5a6:	e001      	b.n	5ac <print_digit+0x38>
- 5a8:	2238      	movs	r2, #56	; 0x38
- 5aa:	701a      	strb	r2, [r3, #0]
- 5ac:	4770      	bx	lr
- 5ae:	2239      	movs	r2, #57	; 0x39
- 5b0:	701a      	strb	r2, [r3, #0]
- 5b2:	e7fb      	b.n	5ac <print_digit+0x38>
- 5b4:	2236      	movs	r2, #54	; 0x36
- 5b6:	701a      	strb	r2, [r3, #0]
- 5b8:	e7f8      	b.n	5ac <print_digit+0x38>
- 5ba:	2237      	movs	r2, #55	; 0x37
- 5bc:	701a      	strb	r2, [r3, #0]
- 5be:	e7f5      	b.n	5ac <print_digit+0x38>
- 5c0:	2235      	movs	r2, #53	; 0x35
- 5c2:	701a      	strb	r2, [r3, #0]
- 5c4:	e7f2      	b.n	5ac <print_digit+0x38>
- 5c6:	2232      	movs	r2, #50	; 0x32
- 5c8:	701a      	strb	r2, [r3, #0]
- 5ca:	e7ef      	b.n	5ac <print_digit+0x38>
- 5cc:	2234      	movs	r2, #52	; 0x34
- 5ce:	701a      	strb	r2, [r3, #0]
- 5d0:	e7ec      	b.n	5ac <print_digit+0x38>
- 5d2:	2233      	movs	r2, #51	; 0x33
- 5d4:	701a      	strb	r2, [r3, #0]
- 5d6:	e7e9      	b.n	5ac <print_digit+0x38>
- 5d8:	2231      	movs	r2, #49	; 0x31
- 5da:	701a      	strb	r2, [r3, #0]
- 5dc:	e7e6      	b.n	5ac <print_digit+0x38>
- 5de:	280a      	cmp	r0, #10
- 5e0:	d00c      	beq.n	5fc <print_digit+0x88>
- 5e2:	280b      	cmp	r0, #11
- 5e4:	d00d      	beq.n	602 <print_digit+0x8e>
- 5e6:	280c      	cmp	r0, #12
- 5e8:	d00e      	beq.n	608 <print_digit+0x94>
- 5ea:	280d      	cmp	r0, #13
- 5ec:	d00f      	beq.n	60e <print_digit+0x9a>
- 5ee:	280e      	cmp	r0, #14
- 5f0:	d010      	beq.n	614 <print_digit+0xa0>
- 5f2:	280f      	cmp	r0, #15
- 5f4:	d011      	beq.n	61a <print_digit+0xa6>
- 5f6:	222a      	movs	r2, #42	; 0x2a
+00000598 <print_digit>:
+ 598:	230f      	movs	r3, #15
+ 59a:	4018      	ands	r0, r3
+ 59c:	2809      	cmp	r0, #9
+ 59e:	d021      	beq.n	5e4 <print_digit+0x4c>
+ 5a0:	2808      	cmp	r0, #8
+ 5a2:	d023      	beq.n	5ec <print_digit+0x54>
+ 5a4:	2807      	cmp	r0, #7
+ 5a6:	d025      	beq.n	5f4 <print_digit+0x5c>
+ 5a8:	2806      	cmp	r0, #6
+ 5aa:	d027      	beq.n	5fc <print_digit+0x64>
+ 5ac:	2805      	cmp	r0, #5
+ 5ae:	d029      	beq.n	604 <print_digit+0x6c>
+ 5b0:	2804      	cmp	r0, #4
+ 5b2:	d02b      	beq.n	60c <print_digit+0x74>
+ 5b4:	2803      	cmp	r0, #3
+ 5b6:	d02d      	beq.n	614 <print_digit+0x7c>
+ 5b8:	2802      	cmp	r0, #2
+ 5ba:	d02f      	beq.n	61c <print_digit+0x84>
+ 5bc:	2801      	cmp	r0, #1
+ 5be:	d031      	beq.n	624 <print_digit+0x8c>
+ 5c0:	2800      	cmp	r0, #0
+ 5c2:	d033      	beq.n	62c <print_digit+0x94>
+ 5c4:	280a      	cmp	r0, #10
+ 5c6:	d035      	beq.n	634 <print_digit+0x9c>
+ 5c8:	280b      	cmp	r0, #11
+ 5ca:	d037      	beq.n	63c <print_digit+0xa4>
+ 5cc:	280c      	cmp	r0, #12
+ 5ce:	d039      	beq.n	644 <print_digit+0xac>
+ 5d0:	280d      	cmp	r0, #13
+ 5d2:	d03b      	beq.n	64c <print_digit+0xb4>
+ 5d4:	280e      	cmp	r0, #14
+ 5d6:	d03d      	beq.n	654 <print_digit+0xbc>
+ 5d8:	280f      	cmp	r0, #15
+ 5da:	d03f      	beq.n	65c <print_digit+0xc4>
+ 5dc:	4b21      	ldr	r3, [pc, #132]	; (664 <print_digit+0xcc>)
+ 5de:	222a      	movs	r2, #42	; 0x2a
+ 5e0:	701a      	strb	r2, [r3, #0]
+ 5e2:	e002      	b.n	5ea <print_digit+0x52>
+ 5e4:	4b1f      	ldr	r3, [pc, #124]	; (664 <print_digit+0xcc>)
+ 5e6:	2239      	movs	r2, #57	; 0x39
+ 5e8:	701a      	strb	r2, [r3, #0]
+ 5ea:	4770      	bx	lr
+ 5ec:	4b1d      	ldr	r3, [pc, #116]	; (664 <print_digit+0xcc>)
+ 5ee:	2238      	movs	r2, #56	; 0x38
+ 5f0:	701a      	strb	r2, [r3, #0]
+ 5f2:	e7fa      	b.n	5ea <print_digit+0x52>
+ 5f4:	4b1b      	ldr	r3, [pc, #108]	; (664 <print_digit+0xcc>)
+ 5f6:	2237      	movs	r2, #55	; 0x37
  5f8:	701a      	strb	r2, [r3, #0]
- 5fa:	e7d7      	b.n	5ac <print_digit+0x38>
- 5fc:	2261      	movs	r2, #97	; 0x61
- 5fe:	701a      	strb	r2, [r3, #0]
- 600:	e7d4      	b.n	5ac <print_digit+0x38>
- 602:	2262      	movs	r2, #98	; 0x62
- 604:	701a      	strb	r2, [r3, #0]
- 606:	e7d1      	b.n	5ac <print_digit+0x38>
- 608:	2263      	movs	r2, #99	; 0x63
- 60a:	701a      	strb	r2, [r3, #0]
- 60c:	e7ce      	b.n	5ac <print_digit+0x38>
- 60e:	2264      	movs	r2, #100	; 0x64
+ 5fa:	e7f6      	b.n	5ea <print_digit+0x52>
+ 5fc:	4b19      	ldr	r3, [pc, #100]	; (664 <print_digit+0xcc>)
+ 5fe:	2236      	movs	r2, #54	; 0x36
+ 600:	701a      	strb	r2, [r3, #0]
+ 602:	e7f2      	b.n	5ea <print_digit+0x52>
+ 604:	4b17      	ldr	r3, [pc, #92]	; (664 <print_digit+0xcc>)
+ 606:	2235      	movs	r2, #53	; 0x35
+ 608:	701a      	strb	r2, [r3, #0]
+ 60a:	e7ee      	b.n	5ea <print_digit+0x52>
+ 60c:	4b15      	ldr	r3, [pc, #84]	; (664 <print_digit+0xcc>)
+ 60e:	2234      	movs	r2, #52	; 0x34
  610:	701a      	strb	r2, [r3, #0]
- 612:	e7cb      	b.n	5ac <print_digit+0x38>
- 614:	2265      	movs	r2, #101	; 0x65
- 616:	701a      	strb	r2, [r3, #0]
- 618:	e7c8      	b.n	5ac <print_digit+0x38>
- 61a:	2266      	movs	r2, #102	; 0x66
- 61c:	701a      	strb	r2, [r3, #0]
- 61e:	e7c5      	b.n	5ac <print_digit+0x38>
- 620:	40300000 	eorsmi	r0, r0, r0
+ 612:	e7ea      	b.n	5ea <print_digit+0x52>
+ 614:	4b13      	ldr	r3, [pc, #76]	; (664 <print_digit+0xcc>)
+ 616:	2233      	movs	r2, #51	; 0x33
+ 618:	701a      	strb	r2, [r3, #0]
+ 61a:	e7e6      	b.n	5ea <print_digit+0x52>
+ 61c:	4b11      	ldr	r3, [pc, #68]	; (664 <print_digit+0xcc>)
+ 61e:	2232      	movs	r2, #50	; 0x32
+ 620:	701a      	strb	r2, [r3, #0]
+ 622:	e7e2      	b.n	5ea <print_digit+0x52>
+ 624:	4b0f      	ldr	r3, [pc, #60]	; (664 <print_digit+0xcc>)
+ 626:	2231      	movs	r2, #49	; 0x31
+ 628:	701a      	strb	r2, [r3, #0]
+ 62a:	e7de      	b.n	5ea <print_digit+0x52>
+ 62c:	4b0d      	ldr	r3, [pc, #52]	; (664 <print_digit+0xcc>)
+ 62e:	2230      	movs	r2, #48	; 0x30
+ 630:	701a      	strb	r2, [r3, #0]
+ 632:	e7da      	b.n	5ea <print_digit+0x52>
+ 634:	4b0b      	ldr	r3, [pc, #44]	; (664 <print_digit+0xcc>)
+ 636:	2261      	movs	r2, #97	; 0x61
+ 638:	701a      	strb	r2, [r3, #0]
+ 63a:	e7d6      	b.n	5ea <print_digit+0x52>
+ 63c:	4b09      	ldr	r3, [pc, #36]	; (664 <print_digit+0xcc>)
+ 63e:	2262      	movs	r2, #98	; 0x62
+ 640:	701a      	strb	r2, [r3, #0]
+ 642:	e7d2      	b.n	5ea <print_digit+0x52>
+ 644:	4b07      	ldr	r3, [pc, #28]	; (664 <print_digit+0xcc>)
+ 646:	2263      	movs	r2, #99	; 0x63
+ 648:	701a      	strb	r2, [r3, #0]
+ 64a:	e7ce      	b.n	5ea <print_digit+0x52>
+ 64c:	4b05      	ldr	r3, [pc, #20]	; (664 <print_digit+0xcc>)
+ 64e:	2264      	movs	r2, #100	; 0x64
+ 650:	701a      	strb	r2, [r3, #0]
+ 652:	e7ca      	b.n	5ea <print_digit+0x52>
+ 654:	4b03      	ldr	r3, [pc, #12]	; (664 <print_digit+0xcc>)
+ 656:	2265      	movs	r2, #101	; 0x65
+ 658:	701a      	strb	r2, [r3, #0]
+ 65a:	e7c6      	b.n	5ea <print_digit+0x52>
+ 65c:	4b01      	ldr	r3, [pc, #4]	; (664 <print_digit+0xcc>)
+ 65e:	2266      	movs	r2, #102	; 0x66
+ 660:	701a      	strb	r2, [r3, #0]
+ 662:	e7c2      	b.n	5ea <print_digit+0x52>
+ 664:	40300000 	eorsmi	r0, r0, r0
 
-00000624 <main>:
- 624:	2200      	movs	r2, #0
- 626:	4b0d      	ldr	r3, [pc, #52]	; (65c <main+0x38>)
- 628:	b510      	push	{r4, lr}
- 62a:	2480      	movs	r4, #128	; 0x80
- 62c:	601a      	str	r2, [r3, #0]
- 62e:	230f      	movs	r3, #15
- 630:	0624      	lsls	r4, r4, #24
- 632:	b082      	sub	sp, #8
- 634:	6023      	str	r3, [r4, #0]
- 636:	2013      	movs	r0, #19
- 638:	f7ff fea4 	bl	384 <i2c_init>
- 63c:	2303      	movs	r3, #3
- 63e:	aa01      	add	r2, sp, #4
- 640:	2102      	movs	r1, #2
- 642:	20a2      	movs	r0, #162	; 0xa2
- 644:	f7ff fed0 	bl	3e8 <i2c_read_bytes>
- 648:	2800      	cmp	r0, #0
- 64a:	d101      	bne.n	650 <main+0x2c>
- 64c:	2309      	movs	r3, #9
- 64e:	6023      	str	r3, [r4, #0]
- 650:	2380      	movs	r3, #128	; 0x80
- 652:	2205      	movs	r2, #5
- 654:	061b      	lsls	r3, r3, #24
- 656:	601a      	str	r2, [r3, #0]
- 658:	e7fe      	b.n	658 <main+0x34>
- 65a:	46c0      	nop			; (mov r8, r8)
- 65c:	80000004 	andhi	r0, r0, r4
+00000668 <main>:
+ 668:	b500      	push	{lr}
+ 66a:	b083      	sub	sp, #12
+ 66c:	4b0c      	ldr	r3, [pc, #48]	; (6a0 <main+0x38>)
+ 66e:	2200      	movs	r2, #0
+ 670:	601a      	str	r2, [r3, #0]
+ 672:	3b04      	subs	r3, #4
+ 674:	320f      	adds	r2, #15
+ 676:	601a      	str	r2, [r3, #0]
+ 678:	2013      	movs	r0, #19
+ 67a:	f7ff fe83 	bl	384 <i2c_init>
+ 67e:	2303      	movs	r3, #3
+ 680:	aa01      	add	r2, sp, #4
+ 682:	2102      	movs	r1, #2
+ 684:	20a2      	movs	r0, #162	; 0xa2
+ 686:	f7ff feb1 	bl	3ec <i2c_read_bytes>
+ 68a:	2800      	cmp	r0, #0
+ 68c:	d103      	bne.n	696 <main+0x2e>
+ 68e:	2380      	movs	r3, #128	; 0x80
+ 690:	061b      	lsls	r3, r3, #24
+ 692:	2209      	movs	r2, #9
+ 694:	601a      	str	r2, [r3, #0]
+ 696:	2380      	movs	r3, #128	; 0x80
+ 698:	061b      	lsls	r3, r3, #24
+ 69a:	2205      	movs	r2, #5
+ 69c:	601a      	str	r2, [r3, #0]
+ 69e:	e7fe      	b.n	69e <main+0x36>
+ 6a0:	80000004 	andhi	r0, r0, r4
 	...
 
 00000700 <GPIO_DIR>:

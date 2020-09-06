@@ -8,8 +8,10 @@ COMPILE := $(ARMGNU)-gcc $(GCCOPS) -O1 -c
 
 SRC_PREFIX := ../sw
 
-SOURCES = $(shell find $(SRC_PREFIX) | grep _drv.c)
+SOURCES = $(shell find $(SRC_PREFIX) | grep _drv.c) ../raptor_io.c
 OBJECTS = $(patsubst %.c,%.o,$(SOURCES))
+ASMBYS = $(patsubst %.c,%.s,$(SOURCES))
+ORIG = $(patsubst %.c,%.s.orig,$(SOURCES))
 
 STARTUP := $(SRC_PREFIX)/cm0_startup.s
 STARTUP_OBJECT := $(SRC_PREFIX)/start.o
@@ -24,24 +26,36 @@ hex:  ${PATTERN:=.hex}
 
 .PHONY: clean flash hex all bin
 
-$(OBJECTS): %.o : %.c ../raptor.h
-	@echo ">> Compiling $<"
+$(ASMBYS): %.s : %.c ../raptor.h ../raptor_io.h
+	@echo ">> Compiling assembly $<"
+	$(COMPILE) -S -fverbose-asm -o $@ $<
+	python3 ../../util/code_workaround.py $@
+
+$(OBJECTS): %.o : %.s ../raptor.h ../raptor_io.h
+	@echo ">> Compiling objects$<"
 	$(COMPILE) -o $@ $<
 
 #.SILENT:
 %.hex : $(OBJECTS) %.c ../raptor.h
 	$(ARMGNU)-as $(AOPS) -o $(STARTUP_OBJECT) $(STARTUP)
-	$(COMPILE) -o spi.o spi.c
+    $(COMPILE) -S -fverbose-asm -o spi.s spi.c
+	python3 ../../util/code_workaround.py spi.s
+	$(COMPILE) -o spi.o spi.s
 # 	$(ARMGNU)-ld $(LDOPS) -T $(LINKSCRIPT) $(STARTUP_OBJECT) $(OBJECTS) spi.o -o spi.elf
 	$(ARMGNU)-ld $(LDOPS) -T $(LINKSCRIPT) $(STARTUP_OBJECT) ../sw/gpio_drv.o ../sw/spi_drv.o spi.o -o spi.elf
 	$(ARMGNU)-objdump -D spi.elf > spi.lst
 	$(ARMGNU)-objcopy spi.elf -O verilog spi.hex
+    grep 'push' spi.lst
+	grep 'pop' spi.lst
 	python3 ../../util/check_bug.py spi.lst
 
 
 clean :
 	rm -rf Dumps
 	rm -f $(OBJECTS)
+	rm -f $(ASMBYS)
+	rm -f $(ORIG)
+	rm -f *.s
 	rm -f *.bin
 	rm -f *.elf
 	rm -f *.lst
@@ -49,6 +63,7 @@ clean :
 	rm -f *.vvp
 	rm -f *.vcd
 	rm -f *.out
+	rm -f *.o
 
 flash: spi.hex
 	python3 ../../util/raptor_flash.py spi.hex
