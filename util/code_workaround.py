@@ -8,10 +8,9 @@ if len(sys.argv) < 2:
 input_file_path = sys.argv[1]
 copy_file_path = sys.argv[1] + ".orig"
 
-first_pass = True
+bug_detected = False
 
-while first_pass:
-    first_pass = False
+while bug_detected:
     bug_detected = False
     # check if bug trigger exists.  if yes, copy original file
     with open(input_file_path, mode='r') as fin:
@@ -23,10 +22,7 @@ while first_pass:
                 r = p[2][1:len(p[2]) - 1].split(",")
                 if len(r) > 3:
                     bug_detected = True
-                    if first_pass:
-                        print("****  BUG TRIGGER DETECTED - modifying code")
-                    else:
-                        print("****  BUG TRIGGER DETECTED - second pass check")
+                    print("****  BUG TRIGGER DETECTED - modifying code")
                     fin.seek(0)
                     fout = open(copy_file_path, mode='w')
                     # fin.close()
