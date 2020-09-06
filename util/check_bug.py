@@ -26,7 +26,9 @@ with open(file_path, mode='r') as f:
         x = f.readline()
 
 if bug_detected:
+    print("**** check_bug.py FAILED ****")
     exit(-1)
 else:
+    print("**** check_bug.py PASSED ****")
     exit(0)
 
