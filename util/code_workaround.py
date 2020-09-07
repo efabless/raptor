@@ -8,7 +8,7 @@ if len(sys.argv) < 2:
 input_file_path = sys.argv[1]
 copy_file_path = sys.argv[1] + ".orig"
 
-bug_detected = False
+bug_detected = True
 
 while bug_detected:
     bug_detected = False
@@ -22,7 +22,8 @@ while bug_detected:
                 r = p[2][1:len(p[2]) - 1].split(",")
                 if len(r) > 3:
                     bug_detected = True
-                    print("****  BUG TRIGGER DETECTED - modifying code")
+                    print("\n****  BUG TRIGGER DETECTED - modifying code")
+                    print("{}".format(line))
                     fin.seek(0)
                     fout = open(copy_file_path, mode='w')
                     # fin.close()
@@ -55,9 +56,9 @@ while bug_detected:
                         new_line_1 += "{}".format(r[len(r)-3]) + "}"
                         new_line_2 = "\t"+p[1]+" {"
                         new_line_2 += "{}, {}".format(r[len(r)-2], r[len(r)-1]) + " }"
-                        print("**** modified code for workaround\n")
+                        print("**** modified code for workaround")
                         fout.write("@ **** modified code for workaround\n")
-                        fout.write("@ " + line)
+                        # fout.write("@ " + line)
                         fout.write(new_line_1 + '\n')
                         fout.write("\tnop\n")
                         # print(new_line_1 + '\n')
@@ -77,9 +78,9 @@ while bug_detected:
                         new_line_1 += "{}".format(r[len(r) - 3]) + "}"
                         new_line_2 = "\t" + p[1] + " {"
                         new_line_2 += "{}, {}".format(r[len(r) - 2], r[len(r) - 1]) + " }"
-                        print("**** modified code for workaround\n")
+                        print("**** modified code for workaround")
                         fout.write("@ **** modified code for workaround\n")
-                        fout.write("@ " + line)
+                        # fout.write("@ " + line)
                         fout.write(new_line_2 + '\n')
                         fout.write("\tnop\n")
                         # print(new_line_1 + '\n')
