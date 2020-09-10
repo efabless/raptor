@@ -50,11 +50,11 @@ while bug_detected:
                     r = r.split(",")
                     if len(r) > 3:
                         # new_line_1 = "\tpop {"
-                        new_line_1 = "\t"+p[1]+" {"
+                        new_line_1 = "\t" + p[1] + "\t{"
                         for i in range(0, len(r)-3):
                             new_line_1 += "{}, ".format(r[i])
                         new_line_1 += "{}".format(r[len(r)-3]) + "}"
-                        new_line_2 = "\t"+p[1]+" {"
+                        new_line_2 = "\t" + p[1] + "\t{"
                         new_line_2 += "{}, {}".format(r[len(r)-2], r[len(r)-1]) + " }"
                         print("**** modified code for workaround")
                         fout.write("@ **** modified code for workaround\n")
@@ -72,11 +72,11 @@ while bug_detected:
                     r = r.split(",")
                     if len(r) > 3:
                         # new_line_1 = "\tpop {"
-                        new_line_1 = "\t" + p[1] + " {"
+                        new_line_1 = "\t" + p[1] + "\t{"
                         for i in range(0, len(r) - 3):
                             new_line_1 += "{}, ".format(r[i])
                         new_line_1 += "{}".format(r[len(r) - 3]) + "}"
-                        new_line_2 = "\t" + p[1] + " {"
+                        new_line_2 = "\t" + p[1] + "\t{"
                         new_line_2 += "{}, {}".format(r[len(r) - 2], r[len(r) - 1]) + " }"
                         print("**** modified code for workaround")
                         fout.write("@ **** modified code for workaround\n")
