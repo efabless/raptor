@@ -8,7 +8,7 @@
 #include "tmr_drv.h"
 #include "pwm_drv.h"
 #include "cmp_drv.h"
-#include "clkctrl_regs.h"
+#include "clkctrl.h"
 
 
 

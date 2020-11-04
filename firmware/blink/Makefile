@@ -8,7 +8,7 @@ COMPILE := $(ARMGNU)-gcc $(GCCOPS) -O1 -c
 
 SRC_PREFIX := ../sw
 
-SOURCES = $(shell find $(SRC_PREFIX) | grep _drv.c)
+SOURCES = $(shell find $(SRC_PREFIX) | grep _drv.c) ../raptor.c
 OBJECTS = $(patsubst %.c,%.o,$(SOURCES))
 ASMBYS = $(patsubst %.c,%.s,$(SOURCES))
 ORIG = $(patsubst %.c,%.s.orig,$(SOURCES))
@@ -20,7 +20,7 @@ LINKSCRIPT := $(SRC_PREFIX)/sections.ld
 
 PATTERN = blink
 
-all:  ${PATTERN:=.hex}
+all:  hex
 
 hex:  ${PATTERN:=.hex}
 
@@ -32,15 +32,17 @@ $(ASMBYS): %.s : %.c ../raptor.h
 	python3 ../../util/code_workaround.py $@
 
 $(OBJECTS): %.o : %.s ../raptor.h
-	@echo ">> Compiling $<"
+	@echo ">> Compiling objects $<"
 	$(COMPILE) -o $@ $<
 
 #.SILENT:
 %.hex : $(OBJECTS) blink.c ../raptor.h
 	$(ARMGNU)-as $(AOPS) -o $(STARTUP_OBJECT) $(STARTUP)
 	$(COMPILE) -S -fverbose-asm -o blink.s blink.c
-# 	python3 ../../util/code_workaround.py i2c.s
+	python3 ../../util/code_workaround.py blink.s
 	$(COMPILE) -o blink.o blink.s
+
+#	$(ARMGNU)-ld $(LDOPS) -T $(LINKSCRIPT) $(STARTUP_OBJECT) $(OBJECTS) ../raptor.o blink.o -o blink.elf
 	$(ARMGNU)-ld $(LDOPS) -T $(LINKSCRIPT) $(STARTUP_OBJECT) $(OBJECTS) blink.o -o blink.elf
 # 	$(ARMGNU)-objdump -d -S blink.elf > blink.lst
 	$(ARMGNU)-objdump -D blink.elf > blink.lst

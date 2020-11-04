@@ -1,4 +1,4 @@
-#include "clk_ctrl_regs.h"
+#include "clk_ctrl.h"
 
 unsigned int volatile * const CLKCTRL_PLLCR = (unsigned int *) (CLK_CTRL_BASE_ADDR_0 + CLKCTRL_PLLCR_REG);
 unsigned int volatile * const CLKCTRL_PLLTR = (unsigned int *) (CLK_CTRL_BASE_ADDR_0 + CLKCTRL_PLLTR_REG);

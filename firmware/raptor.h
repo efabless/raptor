@@ -95,4 +95,19 @@ extern uint32_t sram;
 //#define reg_overtemp_out_dest (*(volatile uint32_t*)0x030000e8)
 
 // --------------------------------------------------------
+
+void putchar(uint32_t c);
+void print(const char *p);
+void print_hex(uint32_t v, int digits);
+void print_dec(uint32_t v);
+void print_digit(uint32_t v);
+char getchar_prompt(char *prompt);
+uint32_t getchar();
+void cmd_echo();
+
+// -----------------
+
+void set_clock_50MHz_ext();
+void set_clock_int(int pll_div);
+
 #endif

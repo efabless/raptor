@@ -3,6 +3,15 @@
 void main()
 {
 	int j;
+
+	//    set_clock_50MHz_ext();
+	//    set_clock_40MHz_int();
+    //    set_clock_80MHz_int();
+
+    set_clock_int(1);  // set internal clk (10MHz) with PLL (x8) plus divider
+                       // 0 = div 2, 1 = div 4, 2 = div 8, 3 = div 16,
+                       // >3 = no div (80 MHz)
+
 	while(1)
 	{
 		gpio_set_dir(0x0000);
